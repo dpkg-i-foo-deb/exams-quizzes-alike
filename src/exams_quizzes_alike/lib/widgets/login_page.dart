@@ -13,6 +13,7 @@ class LoginPage extends StatelessWidget {
         child: Container(
           height: MediaQuery.of(context).size.height,
           width: MediaQuery.of(context).size.width,
+          padding: const EdgeInsets.all(25),
           decoration: const BoxDecoration(
               gradient: LinearGradient(
                   begin: Alignment.topLeft,
@@ -46,12 +47,12 @@ class LoginPage extends StatelessWidget {
                 height: 30,
               ),
               Container(
-                height: 480,
-                width: 325,
+                constraints: const BoxConstraints(
+                    maxHeight: double.infinity, maxWidth: double.infinity),
                 decoration: BoxDecoration(
                     color: Colors.white,
                     borderRadius: BorderRadius.circular(20)),
-                padding: const EdgeInsets.all(15),
+                padding: const EdgeInsets.only(left: 20, right: 20),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
@@ -84,7 +85,7 @@ class LoginPage extends StatelessWidget {
                             },
                             validator: (value) {
                               if (value == null || value.isEmpty) {
-                                return "Este campo es obligatorio";
+                                return "This field is mandatory";
                               }
                               return null;
                             },
@@ -97,11 +98,32 @@ class LoginPage extends StatelessWidget {
                             },
                             validator: (value) {
                               if (value == null || value.isEmpty) {
-                                return "Este campo es obligatorio";
+                                return "This field is mandatory";
                               }
                               return null;
                             },
                           ),
+                          Padding(
+                            padding: const EdgeInsets.all(15),
+                            child: ElevatedButton(
+                              onPressed: () {
+                                // Validate returns true if the form is valid, or false otherwise.
+                                if (_formKey.currentState!.validate()) {
+                                  // If the form is valid, display a snackbar. In the real world,
+                                  // you'd often call a server or save the information in a database.
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                    const SnackBar(
+                                        content: Text('Processing Data')),
+                                  );
+                                }
+                              },
+                              style: ElevatedButton.styleFrom(
+                                  primary: Colors.blueAccent,
+                                  shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(10))),
+                              child: const Text('Log in'),
+                            ),
+                          )
                         ],
                       ),
                     )
