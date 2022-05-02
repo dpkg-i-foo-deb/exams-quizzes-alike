@@ -1,3 +1,4 @@
+import 'package:exams_quizzes_alike/database/person_queries.dart';
 import 'package:postgres/postgres.dart';
 
 //Initial database connection, here's where you set your username, password and
@@ -25,5 +26,10 @@ class AppDatabase {
             isUnixSocket: false,
           )
         : connection);
+  }
+
+  Future<String> createPerson(
+      String login, String password, String name) async {
+    return PersonQueries(connection!).createPerson(login, password, name);
   }
 }

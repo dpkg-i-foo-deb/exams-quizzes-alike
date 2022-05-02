@@ -1,6 +1,10 @@
+import 'package:exams_quizzes_alike/models/person_model.dart';
 import 'package:flutter/material.dart';
 
 void main() {
+  PersonModel personModel = PersonModel();
+
+  personModel.createPerson("hey", "hey", "hey");
   runApp(const MyApp());
 }
 
