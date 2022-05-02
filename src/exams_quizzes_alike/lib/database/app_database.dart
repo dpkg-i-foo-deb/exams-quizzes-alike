@@ -25,6 +25,5 @@ class AppDatabase {
             isUnixSocket: false,
           )
         : connection);
-    //
   }
 }
