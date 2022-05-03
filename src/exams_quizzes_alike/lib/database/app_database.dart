@@ -32,4 +32,9 @@ class AppDatabase {
       String login, String password, String name) async {
     return PersonQueries(connection!).createPerson(login, password, name);
   }
+
+  Future<List<Map<String, Map<String, dynamic>>>> login(
+      String username, String password) async {
+    return PersonQueries(connection!).login(username, password);
+  }
 }

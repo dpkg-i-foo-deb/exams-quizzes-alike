@@ -26,4 +26,22 @@ class PersonQueries {
 
     return (result!.affectedRowCount > 0 ? 'reg' : 'nop');
   }
+
+  Future<List<Map<String, Map<String, dynamic>>>> login(
+      String username, String password) async {
+    await connection.open();
+
+    List<Map<String, Map<String, dynamic>>> results =
+        await connection.mappedResultsQuery(
+      'select nombre, password, login from persona where login = @login and "password" = @password',
+      substitutionValues: {
+        'login': username,
+        'password': password,
+      },
+      allowReuse: true,
+      timeoutInSeconds: 30,
+    );
+
+    return results;
+  }
 }

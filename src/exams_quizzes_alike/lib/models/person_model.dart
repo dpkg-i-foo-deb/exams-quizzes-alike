@@ -10,4 +10,13 @@ class PersonModel {
     result = await AppDatabase().createPerson(login, password, name);
     return result;
   }
+
+  //Login
+  Future<List<Map<String, Map<String, dynamic>>>> login(
+      String username, String password) async {
+    List<Map<String, Map<String, dynamic>>> result =
+        await AppDatabase().login(username, password);
+
+    return result;
+  }
 }

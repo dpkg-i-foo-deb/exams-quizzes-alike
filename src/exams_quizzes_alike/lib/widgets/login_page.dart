@@ -1,3 +1,4 @@
+import 'package:exams_quizzes_alike/models/person_model.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
@@ -5,6 +6,9 @@ class LoginPage extends StatelessWidget {
   LoginPage({Key? key}) : super(key: key);
 
   final _formKey = GlobalKey<FormState>();
+
+  String user_value = '';
+  String password_value = '';
 
   @override
   Widget build(BuildContext context) {
@@ -37,7 +41,7 @@ class LoginPage extends StatelessWidget {
                 height: 15,
               ),
               const Text(
-                'Exams and Quizzes Alike',
+                'Exams And Quizzes Alike',
                 style: TextStyle(
                     color: Colors.black,
                     fontSize: 20,
@@ -135,5 +139,16 @@ class LoginPage extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  void validateAndSave() {
+    final form = _formKey.currentState;
+
+    if (form!.validate()) {
+      form.save();
+
+      //TODO login
+
+    }
   }
 }
