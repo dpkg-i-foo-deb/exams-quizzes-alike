@@ -3,7 +3,6 @@ import 'package:exams_quizzes_alike/database/app_database.dart';
 //This class is used to access the database class
 class PersonModel {
   String result = '';
-
   //Create
   Future<String> createPerson(
       String login, String password, String name) async {
@@ -12,11 +11,15 @@ class PersonModel {
   }
 
   //Login
-  Future<List<Map<String, Map<String, dynamic>>>> login(
-      String username, String password) async {
-    List<Map<String, Map<String, dynamic>>> result =
+  Future<String> login(String username, String password) async {
+    String personName = '';
+    List<Map<String, Map<String, dynamic>>> queryResult =
         await AppDatabase().login(username, password);
 
-    return result;
+    for (final row in queryResult) {
+      personName = row["persona"]!["nombre"];
+    }
+
+    return personName;
   }
 }

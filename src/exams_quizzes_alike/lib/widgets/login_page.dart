@@ -1,14 +1,14 @@
 import 'package:exams_quizzes_alike/models/person_model.dart';
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class LoginPage extends StatelessWidget {
   LoginPage({Key? key}) : super(key: key);
 
   final _formKey = GlobalKey<FormState>();
 
-  String user_value = '';
-  String password_value = '';
+  String userValue = '';
+  String passwordValue = '';
+  String personName = '';
 
   @override
   Widget build(BuildContext context) {
@@ -85,7 +85,7 @@ class LoginPage extends StatelessWidget {
                                 const InputDecoration(labelText: "Username"),
                             keyboardType: TextInputType.number,
                             onSaved: (value) {
-                              //idValue = value!;
+                              userValue = value!;
                             },
                             validator: (value) {
                               if (value == null || value.isEmpty) {
@@ -97,8 +97,11 @@ class LoginPage extends StatelessWidget {
                           TextFormField(
                             decoration:
                                 const InputDecoration(labelText: "Password"),
+                            obscureText: true,
+                            enableSuggestions: false,
+                            autocorrect: false,
                             onSaved: (value) {
-                              // usernameValue = value!;
+                              passwordValue = value!;
                             },
                             validator: (value) {
                               if (value == null || value.isEmpty) {
@@ -110,14 +113,22 @@ class LoginPage extends StatelessWidget {
                           Padding(
                             padding: const EdgeInsets.all(15),
                             child: ElevatedButton(
-                              onPressed: () {
+                              onPressed: () async {
+                                personName = await validateAndLogin();
                                 // Validate returns true if the form is valid, or false otherwise.
-                                if (_formKey.currentState!.validate()) {
+                                if (!(personName == '')) {
                                   // If the form is valid, display a snackbar. In the real world,
                                   // you'd often call a server or save the information in a database.
                                   ScaffoldMessenger.of(context).showSnackBar(
+                                    SnackBar(
+                                        content:
+                                            Text('Welcome back ' + personName)),
+                                  );
+                                } else {
+                                  ScaffoldMessenger.of(context).showSnackBar(
                                     const SnackBar(
-                                        content: Text('Processing Data')),
+                                        content:
+                                            Text('Wrong user or password')),
                                   );
                                 }
                               },
@@ -141,14 +152,18 @@ class LoginPage extends StatelessWidget {
     );
   }
 
-  void validateAndSave() {
+  Future<String> validateAndLogin() async {
     final form = _formKey.currentState;
+    var personName = '';
 
     if (form!.validate()) {
       form.save();
 
-      //TODO login
+      personName = await PersonModel().login(userValue, passwordValue);
 
+      return personName;
+    } else {
+      return '';
     }
   }
 }

@@ -33,7 +33,7 @@ class PersonQueries {
 
     List<Map<String, Map<String, dynamic>>> results =
         await connection.mappedResultsQuery(
-      'select nombre, password, login from persona where login = @login and "password" = @password',
+      'select nombre from persona where login = @login and password = @password',
       substitutionValues: {
         'login': username,
         'password': password,
