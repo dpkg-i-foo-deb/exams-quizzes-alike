@@ -1,0 +1,8 @@
+What would you need before setting this up?
+
+npm i express
+npm i pg
+
+How do I even run this thing?
+
+node src/server.js
