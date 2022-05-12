@@ -9,3 +9,11 @@
 ## flutter config --enable-linux-desktop
 
 ### Debe usar el que su plataforma requiera
+
+# ¿Cómo ejecuto este proyecto?
+
+## flutter run -d linux
+## flutter run -d windows
+## flutter run -d macos
+
+### Ejecute el que su plataforma requiera
