@@ -1,4 +1,3 @@
-import 'package:exams_quizzes_alike/models/person_model.dart';
 import 'package:flutter/material.dart';
 
 class LoginPage extends StatelessWidget {
@@ -159,7 +158,8 @@ class LoginPage extends StatelessWidget {
     if (form!.validate()) {
       form.save();
 
-      personName = await PersonModel().login(userValue, passwordValue);
+      //TODO fix login
+      //personName = await PersonModel().login(userValue, passwordValue);
 
       return personName;
     } else {
