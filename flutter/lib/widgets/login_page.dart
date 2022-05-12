@@ -7,10 +7,11 @@ class LoginPage extends StatelessWidget {
   LoginPage({Key? key}) : super(key: key);
 
   final _formKey = GlobalKey<FormState>();
+  final _scaffoldKey = GlobalKey<ScaffoldState>();
 
   String userValue = '';
   String passwordValue = '';
-  String fullName = '';
+  String message = '';
   Person? user;
 
   @override
@@ -117,15 +118,13 @@ class LoginPage extends StatelessWidget {
                             padding: const EdgeInsets.all(15),
                             child: ElevatedButton(
                               onPressed: () async {
-                                fullName = await validateAndLogin();
+                                message = await validateAndLogin();
                                 // Validate returns true if the form is valid, or false otherwise.
 
                                 // If the form is valid, display a snackbar. In the real world,
                                 // you'd often call a server or save the information in a database.
                                 ScaffoldMessenger.of(context).showSnackBar(
-                                    SnackBar(
-                                        content:
-                                            Text('Welcome back ' + fullName)));
+                                    SnackBar(content: Text(message)));
                               },
                               style: ElevatedButton.styleFrom(
                                   primary: Colors.blueAccent,
@@ -162,15 +161,12 @@ class LoginPage extends StatelessWidget {
       try {
         user = await PersonRequests().login(user!);
       } on Exception {
-        //TODO actually show an error message when login fails
-        onLoginError();
+        return 'Login or password incorrect';
       }
 
-      return user!.fullName;
+      return "Welcome back! " + user!.fullName;
     } else {
       return '';
     }
   }
-
-  void onLoginError() {}
 }
