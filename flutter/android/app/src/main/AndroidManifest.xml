@@ -1,6 +1,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.exams_quizzes_alike">
    <application
+        <!-- Required to fetch data from the internet. -->
+        <uses-permission android:name="android.permission.INTERNET" />
         android:label="exams_quizzes_alike"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
