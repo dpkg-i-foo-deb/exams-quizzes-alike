@@ -1,4 +1,7 @@
+import 'package:exams_quizzes_alike/network/person_requests.dart';
 import 'package:flutter/material.dart';
+
+import '../models/person.dart';
 
 class LoginPage extends StatelessWidget {
   LoginPage({Key? key}) : super(key: key);
@@ -7,7 +10,8 @@ class LoginPage extends StatelessWidget {
 
   String userValue = '';
   String passwordValue = '';
-  String personName = '';
+  String fullName = '';
+  Person? user;
 
   @override
   Widget build(BuildContext context) {
@@ -113,23 +117,15 @@ class LoginPage extends StatelessWidget {
                             padding: const EdgeInsets.all(15),
                             child: ElevatedButton(
                               onPressed: () async {
-                                personName = await validateAndLogin();
+                                fullName = await validateAndLogin();
                                 // Validate returns true if the form is valid, or false otherwise.
-                                if (!(personName == '')) {
-                                  // If the form is valid, display a snackbar. In the real world,
-                                  // you'd often call a server or save the information in a database.
-                                  ScaffoldMessenger.of(context).showSnackBar(
+
+                                // If the form is valid, display a snackbar. In the real world,
+                                // you'd often call a server or save the information in a database.
+                                ScaffoldMessenger.of(context).showSnackBar(
                                     SnackBar(
                                         content:
-                                            Text('Welcome back ' + personName)),
-                                  );
-                                } else {
-                                  ScaffoldMessenger.of(context).showSnackBar(
-                                    const SnackBar(
-                                        content:
-                                            Text('Wrong user or password')),
-                                  );
-                                }
+                                            Text('Welcome back ' + fullName)));
                               },
                               style: ElevatedButton.styleFrom(
                                   primary: Colors.blueAccent,
@@ -153,17 +149,28 @@ class LoginPage extends StatelessWidget {
 
   Future<String> validateAndLogin() async {
     final form = _formKey.currentState;
-    var personName = '';
 
     if (form!.validate()) {
       form.save();
 
-      //TODO fix login
-      //personName = await PersonModel().login(userValue, passwordValue);
+      user = Person(
+        fullName: ' ',
+        login: userValue,
+        password: passwordValue,
+      );
 
-      return personName;
+      try {
+        user = await PersonRequests().login(user!);
+      } on Exception {
+        //TODO actually show an error message when login fails
+        onLoginError();
+      }
+
+      return user!.fullName;
     } else {
       return '';
     }
   }
+
+  void onLoginError() {}
 }
