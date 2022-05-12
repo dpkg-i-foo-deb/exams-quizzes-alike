@@ -2,13 +2,15 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 import '../models/person.dart';
 
-class Person_Requests {
+class PersonRequests {
   Future<Person> login(Person person) async {
-    final response = await http.post(Uri.parse('localhost:3000/login'),
+    final response = await http.post(Uri.parse('http://localhost:3000/login'),
         body: person.toJson());
+    String full_name;
 
     if (response.statusCode == 200) {
-      return Person.fromJson(jsonDecode(response.body));
+      final data = jsonDecode(response.body);
+      return Person.fromJson(data[0]);
     } else {
       throw Exception("Login failed");
     }
