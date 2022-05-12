@@ -1,14 +1,14 @@
-#¿Qué necesito para ejecutar este proyecto?
+# ¿Qué necesito para ejecutar este proyecto?
 
 ## Node JS
 
-#Módulos de node requeridos: Express, pg
+# Módulos de node requeridos: Express, pg
 
-##¿Cómo se instalan?
+## ¿Cómo se instalan?
 
 ### npm i express
 ### npm i pg
 
-##¿Cómo ejecuto la aplicación servidor?
+## ¿Cómo ejecuto la aplicación servidor?
 
-###node src/server.js
+### node src/server.js
