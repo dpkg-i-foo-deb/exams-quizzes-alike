@@ -6,7 +6,16 @@ const getUsers = async (req, res) =>
     res.status(200).json(response.rows);
 }
 
+const login = async (req, res) =>
+{
+    const { username,password } = req.body;
+    
+    const response = await connectionPool.query('SELECT nombre FROM persona WHERE login = $1 AND password = $2', [username,password]);
+    res.status(200).json(response.rows);
+}
+
 module.exports=
 {
-    getUsers
+    getUsers,
+    login
 }
