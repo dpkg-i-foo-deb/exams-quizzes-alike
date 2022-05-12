@@ -1,8 +1,14 @@
-What would you need before setting this up?
+#¿Qué necesito para ejecutar este proyecto?
 
-npm i express
-npm i pg
+## Node JS
 
-How do I even run this thing?
+#Módulos de node requeridos: Express, pg
 
-node src/server.js
+##¿Cómo se instalan?
+
+### npm i express
+### npm i pg
+
+##¿Cómo ejecuto la aplicación servidor?
+
+###node src/server.js
