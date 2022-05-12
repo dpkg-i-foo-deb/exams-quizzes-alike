@@ -2,6 +2,11 @@
 -- Please log an issue at https://redmine.postgresql.org/projects/pgadmin4/issues/new if you find any bugs, including reproduction steps.
 BEGIN;
 
+CREATE USER institucion WITH ENCRYPTED PASSWORD 'institucion'
+
+CREATE DATABASE institucion
+
+GRANT ALL PRIVILEGES ON DATABASE institucion TO institucion
 
 CREATE TABLE IF NOT EXISTS public.administrador
 (
