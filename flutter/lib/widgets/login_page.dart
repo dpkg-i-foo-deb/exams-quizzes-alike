@@ -7,7 +7,6 @@ class LoginPage extends StatelessWidget {
   LoginPage({Key? key}) : super(key: key);
 
   final _formKey = GlobalKey<FormState>();
-  final _scaffoldKey = GlobalKey<ScaffoldState>();
 
   String userValue = '';
   String passwordValue = '';
