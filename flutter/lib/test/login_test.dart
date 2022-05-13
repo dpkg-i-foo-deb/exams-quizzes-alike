@@ -1,5 +1,5 @@
 import 'package:exams_quizzes_alike/network/person_requests.dart';
-import 'package:test/test.dart';
+import 'package:flutter_test/flutter_test.dart';
 import 'package:exams_quizzes_alike/models/person.dart';
 
 void main() {
