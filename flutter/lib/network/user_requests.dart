@@ -1,9 +1,9 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
-import '../models/person.dart';
+import '../models/user.dart';
 
-class PersonRequests {
-  Future<Person> login(Person person) async {
+class UserRequests {
+  Future<User> login(User person) async {
     final response = await http.post(Uri.parse('http://localhost:3000/login'),
         body: person.toJson());
 
@@ -14,18 +14,18 @@ class PersonRequests {
         throw Exception("Username or password incorrect");
       }
 
-      return Person.fromJson(data[0]);
+      return User.fromJson(data[0]);
     } else {
       throw Exception("Login failed");
     }
   }
 
-  Future<List<Person>> getUsers() async {
+  Future<List<User>> getUsers() async {
     final response = await http.get(Uri.parse('http://localhost:3000/users'));
 
     if (response.statusCode == 200) {
-      List<Person> users = (json.decode(response.body) as List)
-          .map((data) => Person.fromJson(data))
+      List<User> users = (json.decode(response.body) as List)
+          .map((data) => User.fromJson(data))
           .toList();
 
       return users;
