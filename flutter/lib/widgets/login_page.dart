@@ -118,18 +118,20 @@ class LoginPage extends StatelessWidget {
                             padding: const EdgeInsets.all(15),
                             child: ElevatedButton(
                               onPressed: () async {
-                                try {
-                                  user = await validateAndLogin();
-                                  message = 'Welcome back! ' + user!.fullName;
-                                } on LoginException catch (e) {
-                                  message = e.cause;
-                                }
-                                // Validate returns true if the form is valid, or false otherwise.
+                                if (_formKey.currentState!.validate()) {
+                                  try {
+                                    user = await validateAndLogin();
+                                    message = 'Welcome back! ' + user!.fullName;
+                                  } on LoginException catch (e) {
+                                    message = e.cause;
+                                  }
+                                  // Validate returns true if the form is valid, or false otherwise.
 
-                                // If the form is valid, display a snackbar. In the real world,
-                                // you'd often call a server or save the information in a database.
-                                ScaffoldMessenger.of(context).showSnackBar(
-                                    SnackBar(content: Text(message)));
+                                  // If the form is valid, display a snackbar. In the real world,
+                                  // you'd often call a server or save the information in a database.
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                      SnackBar(content: Text(message)));
+                                }
                               },
                               style: ElevatedButton.styleFrom(
                                   primary: Colors.blueAccent,
