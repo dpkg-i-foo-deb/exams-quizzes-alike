@@ -15,7 +15,8 @@ const isTeacher = async (req,res) =>
 
     if(response.rows.length < 1)
     {
-        return res.send('No such teacher found').status(404);
+        res.status(204)
+        return res.send('No such teacher found');
     }
 
     res.json(response.rows).status(200);

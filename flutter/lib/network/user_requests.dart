@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:exams_quizzes_alike/exceptions/login_excepcion.dart';
 import 'package:http/http.dart' as http;
 import '../models/user.dart';
 
@@ -7,17 +8,17 @@ class UserRequests {
     final response = await http.post(Uri.parse('http://localhost:3000/login'),
         body: person.toJson());
 
+    if (response.statusCode == 204) {
+      throw LoginException('Username or Password Incorrect');
+    }
+
     if (response.statusCode == 200) {
       List data = jsonDecode(response.body);
 
-      if (data.isEmpty) {
-        throw Exception("Username or password incorrect");
-      }
-
       return User.fromJson(data[0]);
-    } else {
-      throw Exception("Login failed");
     }
+
+    throw LoginException('Something went wrong');
   }
 
   Future<List<User>> getUsers() async {
