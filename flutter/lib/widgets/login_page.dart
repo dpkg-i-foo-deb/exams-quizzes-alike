@@ -1,3 +1,4 @@
+import 'package:exams_quizzes_alike/exceptions/login_excepcion.dart';
 import 'package:exams_quizzes_alike/network/user_requests.dart';
 import 'package:flutter/material.dart';
 
@@ -117,7 +118,12 @@ class LoginPage extends StatelessWidget {
                             padding: const EdgeInsets.all(15),
                             child: ElevatedButton(
                               onPressed: () async {
-                                message = await validateAndLogin();
+                                try {
+                                  user = await validateAndLogin();
+                                  message = 'Welcome back! ' + user!.fullName;
+                                } on LoginException catch (e) {
+                                  message = e.cause;
+                                }
                                 // Validate returns true if the form is valid, or false otherwise.
 
                                 // If the form is valid, display a snackbar. In the real world,
@@ -145,7 +151,7 @@ class LoginPage extends StatelessWidget {
     );
   }
 
-  Future<String> validateAndLogin() async {
+  Future<User?> validateAndLogin() async {
     final form = _formKey.currentState;
 
     if (form!.validate()) {
@@ -159,13 +165,13 @@ class LoginPage extends StatelessWidget {
 
       try {
         user = await UserRequests().login(user!);
-      } on Exception {
-        return 'Login or password incorrect';
+      } on LoginException {
+        rethrow;
       }
 
-      return "Welcome back! " + user!.fullName;
+      return user;
     } else {
-      return '';
+      throw LoginException('Something went wrong');
     }
   }
 }
