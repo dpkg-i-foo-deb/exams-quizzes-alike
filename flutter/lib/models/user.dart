@@ -1,16 +1,16 @@
-class Person {
+class User {
   final String? login;
   final String? password;
   final String fullName;
 
-  const Person({
+  const User({
     this.login,
     this.password,
     required this.fullName,
   });
 
-  factory Person.fromJson(Map<String, dynamic> json) {
-    return Person(
+  factory User.fromJson(Map<String, dynamic> json) {
+    return User(
       login: json['login'],
       fullName: json['nombre'],
       password: json['password'],

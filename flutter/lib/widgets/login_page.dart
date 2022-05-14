@@ -1,7 +1,7 @@
-import 'package:exams_quizzes_alike/network/person_requests.dart';
+import 'package:exams_quizzes_alike/network/user_requests.dart';
 import 'package:flutter/material.dart';
 
-import '../models/person.dart';
+import '../models/user.dart';
 
 class LoginPage extends StatelessWidget {
   LoginPage({Key? key}) : super(key: key);
@@ -11,7 +11,7 @@ class LoginPage extends StatelessWidget {
   String userValue = '';
   String passwordValue = '';
   String message = '';
-  Person? user;
+  User? user;
 
   @override
   Widget build(BuildContext context) {
@@ -151,14 +151,14 @@ class LoginPage extends StatelessWidget {
     if (form!.validate()) {
       form.save();
 
-      user = Person(
+      user = User(
         fullName: ' ',
         login: userValue,
         password: passwordValue,
       );
 
       try {
-        user = await PersonRequests().login(user!);
+        user = await UserRequests().login(user!);
       } on Exception {
         return 'Login or password incorrect';
       }
