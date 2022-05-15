@@ -2,6 +2,7 @@ import 'package:exams_quizzes_alike/exceptions/login_excepcion.dart';
 import 'package:exams_quizzes_alike/exceptions/teacher_exception.dart';
 import 'package:exams_quizzes_alike/network/teacher_requests.dart';
 import 'package:exams_quizzes_alike/network/user_requests.dart';
+import 'package:exams_quizzes_alike/screens/teacher/teacher_page.dart';
 import 'package:flutter/material.dart';
 
 import '../../models/teacher.dart';
@@ -151,7 +152,11 @@ class _LoginPageState extends State<LoginPage> {
 
                                   //If this user is a teacher...
                                   if (isTeacher) {
-                                    Navigator.pushNamed(context, '/teacher');
+                                    Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: ((context) => TeacherPage(
+                                                teacher: teacher!))));
                                   }
 
                                   isTeacher = true;

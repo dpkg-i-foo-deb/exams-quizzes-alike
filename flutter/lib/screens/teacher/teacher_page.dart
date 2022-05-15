@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
+
+import '../../models/teacher.dart';
 
 class TeacherPage extends StatefulWidget {
-  const TeacherPage({Key? key}) : super(key: key);
+  const TeacherPage({Key? key, required this.teacher}) : super(key: key);
+  final Teacher teacher;
 
   @override
   State<TeacherPage> createState() => _TeacherPageState();
