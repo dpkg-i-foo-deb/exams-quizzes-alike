@@ -4,14 +4,22 @@ import 'package:flutter/material.dart';
 
 import '../models/user.dart';
 
-class LoginPage extends StatelessWidget {
-  LoginPage({Key? key}) : super(key: key);
+class LoginPage extends StatefulWidget {
+  const LoginPage({Key? key}) : super(key: key);
 
+  @override
+  State<LoginPage> createState() => _LoginPageState();
+}
+
+class _LoginPageState extends State<LoginPage> {
   final _formKey = GlobalKey<FormState>();
 
   String userValue = '';
+
   String passwordValue = '';
+
   String message = '';
+
   User? user;
 
   @override

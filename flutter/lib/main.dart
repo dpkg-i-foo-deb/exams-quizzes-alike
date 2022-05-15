@@ -6,6 +6,6 @@ void main() {
   runApp(MaterialApp(
     theme: ThemeData(primaryColor: Colors.green),
     debugShowCheckedModeBanner: false,
-    home: LoginPage(),
+    home: const LoginPage(),
   ));
 }
