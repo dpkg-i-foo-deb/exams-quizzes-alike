@@ -4,7 +4,7 @@ const getCoursesByTeacher = async (req,res) =>
 {
     const { login } = req.body;
 
-    const response = await connectionPool.query('SELECT descripcion FROM curso WHERE codigo_docente = $1',[login]);
+    const response = await connectionPool.query('SELECT codigo_curso, descripcion, codigo_docente FROM curso WHERE codigo_docente = $1',[login]);
 
     if(response.rows.length <1)
     {

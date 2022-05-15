@@ -24,5 +24,5 @@ const isTeacher = async (req,res) =>
 module.exports=
 {
     getTeachers,
-    isTeacher
+    isTeacher,
 }
