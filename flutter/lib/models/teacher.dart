@@ -9,5 +9,5 @@ class Teacher {
     return Teacher(login: json['login_persona']);
   }
 
-  Map<String, dynamic> toJson() => {'login_persona': login};
+  Map<String, dynamic> toJson() => {'login': login};
 }
