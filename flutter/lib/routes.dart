@@ -6,4 +6,5 @@ import 'package:flutter/widgets.dart';
 //We use this file to define out app's routes
 final Map<String, WidgetBuilder> routes = {
   '/': (context) => const LoginPage(),
+  '/teacher': (context) => const TeacherPage(),
 };
