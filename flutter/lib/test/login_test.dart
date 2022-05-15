@@ -4,31 +4,31 @@ import 'package:exams_quizzes_alike/models/user.dart';
 
 void main() {
   test('Login should be correct', (() async {
-    User person = const User(
+    User user = const User(
       login: 'dpkg',
       password: 'michi',
       fullName: '',
     );
 
-    person = await UserRequests().login(person);
+    user = await UserRequests().login(user);
 
-    expect(person.fullName, "Mateo Estrada");
+    expect(user.fullName, "Mateo Estrada");
   }));
 
   test('Login should not be correct', (() async {
-    User person = const User(
+    User user = const User(
       login: 'dpk',
       password: 'michi',
       fullName: '',
     );
 
-    expect(() async => person = await UserRequests().login(person),
-        throwsException);
+    expect(
+        () async => user = await UserRequests().login(user), throwsException);
   }));
 
-  test('We should get people', (() async {
-    List<User> people = await UserRequests().getUsers();
+  test('We should get users', (() async {
+    List<User> user = await UserRequests().getUsers();
 
-    expect(people.isNotEmpty, true);
+    expect(user.isNotEmpty, true);
   }));
 }
