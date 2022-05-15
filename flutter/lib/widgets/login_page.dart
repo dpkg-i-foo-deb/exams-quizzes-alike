@@ -1,7 +1,10 @@
 import 'package:exams_quizzes_alike/exceptions/login_excepcion.dart';
+import 'package:exams_quizzes_alike/exceptions/teacher_exception.dart';
+import 'package:exams_quizzes_alike/network/teacher_requests.dart';
 import 'package:exams_quizzes_alike/network/user_requests.dart';
 import 'package:flutter/material.dart';
 
+import '../models/teacher.dart';
 import '../models/user.dart';
 
 class LoginPage extends StatefulWidget {
@@ -21,6 +24,12 @@ class _LoginPageState extends State<LoginPage> {
   String message = '';
 
   User? user;
+
+  Teacher? teacher;
+
+  bool isTeacher = true;
+
+  bool isStudent = true;
 
   @override
   Widget build(BuildContext context) {
@@ -139,6 +148,13 @@ class _LoginPageState extends State<LoginPage> {
                                   // you'd often call a server or save the information in a database.
                                   ScaffoldMessenger.of(context).showSnackBar(
                                       SnackBar(content: Text(message)));
+
+                                  //If this user is a teacher...
+                                  if (isTeacher) {
+                                    Navigator.pushNamed(context, '/teacher');
+                                  }
+
+                                  isTeacher = true;
                                 }
                               },
                               style: ElevatedButton.styleFrom(
@@ -173,10 +189,20 @@ class _LoginPageState extends State<LoginPage> {
         password: passwordValue,
       );
 
+      //Step 1, does this user exist? Are credentials valid?
       try {
         user = await UserRequests().login(user!);
       } on LoginException {
         rethrow;
+      }
+
+      //Step 2, is this user a teacher?
+      teacher = Teacher(login: user!.login);
+
+      try {
+        teacher = await TeacherRequests().isTeacher(teacher!);
+      } on TeacherException {
+        isTeacher = !isTeacher;
       }
 
       return user;
