@@ -11,6 +11,7 @@ app.use(express.urlencoded({extended: false}));
 //Here you define the routes you want for your API
 app.use(require('./routes/userRoutes'));
 app.use(require('./routes/teacherRoutes'));
+app.use(require('./routes/courseRoutes'));
 
 app.listen(3000);
 console.log('Server is running on port 3000')

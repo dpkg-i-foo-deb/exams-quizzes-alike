@@ -1,4 +1,3 @@
-const { response } = require('express');
 const connectionPool = require ('../database/databaseConnect');
 
 const getTeachers = async (req, res) =>
