@@ -4,8 +4,8 @@ import 'package:exams_quizzes_alike/network/teacher_requests.dart';
 import 'package:exams_quizzes_alike/network/user_requests.dart';
 import 'package:flutter/material.dart';
 
-import '../models/teacher.dart';
-import '../models/user.dart';
+import '../../models/teacher.dart';
+import '../../models/user.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({Key? key}) : super(key: key);

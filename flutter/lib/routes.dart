@@ -1,6 +1,6 @@
-import 'package:exams_quizzes_alike/widgets/login_page.dart';
-import 'package:exams_quizzes_alike/widgets/teacher_page.dart';
-import 'package:exams_quizzes_alike/widgets/student_page.dart';
+import 'package:exams_quizzes_alike/screens/login/login_page.dart';
+import 'package:exams_quizzes_alike/screens/teacher/teacher_page.dart';
+import 'package:exams_quizzes_alike/screens/student/student_page.dart';
 import 'package:flutter/widgets.dart';
 
 //We use this file to define out app's routes
