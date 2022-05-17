@@ -152,7 +152,7 @@ CREATE TABLE IF NOT EXISTS public.pregunta_presentacion
 (
     codigo_presentacion integer NOT NULL,
     codigo_pregunta_examen integer NOT NULL,
-    codigo_pregunta_presentacion integer NOT NULL,
+    codigo_pregunta_presentacion integer NOT NULL GENERATED ALWAYS AS IDENTITY ( INCREMENT 1 START 1 MINVALUE 1 MAXVALUE 2147483647 CACHE 1 ),
     codigo_opcion integer,
     respuesta character varying,
     CONSTRAINT pregunta_presentacion_pkey PRIMARY KEY (codigo_pregunta_presentacion)
