@@ -144,7 +144,7 @@ CREATE TABLE IF NOT EXISTS public.pregunta_examen
 (
     codigo_pregunta integer NOT NULL,
     codigo_examen integer NOT NULL,
-    codigo_pregunta_examen integer NOT NULL,
+    codigo_pregunta_examen integer NOT NULL GENERATED ALWAYS AS IDENTITY ( INCREMENT 1 START 1 MINVALUE 1 MAXVALUE 2147483647 CACHE 1 ),
     CONSTRAINT pregunta_examen_pkey PRIMARY KEY (codigo_pregunta_examen)
 );
 
