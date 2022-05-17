@@ -1,10 +1,10 @@
 class User {
-  final String? login;
+  final String login;
   final String? password;
   final String fullName;
 
   const User({
-    this.login,
+    required this.login,
     this.password,
     required this.fullName,
   });

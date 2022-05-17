@@ -1,18 +1,36 @@
 import 'package:exams_quizzes_alike/exceptions/login_excepcion.dart';
+import 'package:exams_quizzes_alike/exceptions/teacher_exception.dart';
+import 'package:exams_quizzes_alike/network/teacher_requests.dart';
 import 'package:exams_quizzes_alike/network/user_requests.dart';
+import 'package:exams_quizzes_alike/screens/teacher/teacher_page.dart';
 import 'package:flutter/material.dart';
 
-import '../models/user.dart';
+import '../../models/teacher.dart';
+import '../../models/user.dart';
 
-class LoginPage extends StatelessWidget {
-  LoginPage({Key? key}) : super(key: key);
+class LoginPage extends StatefulWidget {
+  const LoginPage({Key? key}) : super(key: key);
 
+  @override
+  State<LoginPage> createState() => _LoginPageState();
+}
+
+class _LoginPageState extends State<LoginPage> {
   final _formKey = GlobalKey<FormState>();
 
   String userValue = '';
+
   String passwordValue = '';
+
   String message = '';
+
   User? user;
+
+  Teacher? teacher;
+
+  bool isTeacher = true;
+
+  bool isStudent = true;
 
   @override
   Widget build(BuildContext context) {
@@ -131,6 +149,17 @@ class LoginPage extends StatelessWidget {
                                   // you'd often call a server or save the information in a database.
                                   ScaffoldMessenger.of(context).showSnackBar(
                                       SnackBar(content: Text(message)));
+
+                                  //If this user is a teacher...
+                                  if (isTeacher) {
+                                    Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: ((context) => TeacherPage(
+                                                teacher: teacher!))));
+                                  }
+
+                                  isTeacher = true;
                                 }
                               },
                               style: ElevatedButton.styleFrom(
@@ -165,10 +194,20 @@ class LoginPage extends StatelessWidget {
         password: passwordValue,
       );
 
+      //Step 1, does this user exist? Are credentials valid?
       try {
         user = await UserRequests().login(user!);
       } on LoginException {
         rethrow;
+      }
+
+      //Step 2, is this user a teacher?
+      teacher = Teacher(login: user!.login);
+
+      try {
+        teacher = await TeacherRequests().isTeacher(teacher!);
+      } on TeacherException {
+        isTeacher = !isTeacher;
       }
 
       return user;

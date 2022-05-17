@@ -4,9 +4,9 @@ import 'package:http/http.dart' as http;
 import '../models/user.dart';
 
 class UserRequests {
-  Future<User> login(User person) async {
+  Future<User> login(User user) async {
     final response = await http.post(Uri.parse('http://localhost:3000/login'),
-        body: person.toJson());
+        body: user.toJson());
 
     if (response.statusCode == 204) {
       throw LoginException('Username or Password Incorrect');

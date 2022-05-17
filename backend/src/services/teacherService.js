@@ -1,4 +1,3 @@
-const { response } = require('express');
 const connectionPool = require ('../database/databaseConnect');
 
 const getTeachers = async (req, res) =>
@@ -25,5 +24,5 @@ const isTeacher = async (req,res) =>
 module.exports=
 {
     getTeachers,
-    isTeacher
+    isTeacher,
 }
