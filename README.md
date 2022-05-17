@@ -2,6 +2,10 @@
 
 # Este proyecto está licenciado bajo GPLv3, puedes hacer lo que quieras con él desde que respetes los términos del software libre
 
+# Modelo Entidad Relación
+
+![Alt text](/backend/EER.png?raw=true)
+
 ## ¿Qué utiliza este proyecto?
 
 ### Node JS para el backend
