@@ -30,7 +30,7 @@ CREATE TABLE IF NOT EXISTS public.curso_estudiante
 (
     codigo_estudiante character varying COLLATE pg_catalog."default" NOT NULL,
     codigo_curso integer NOT NULL,
-    codigo_matricula integer NOT NULL,
+    codigo_matricula integer NOT NULL GENERATED ALWAYS AS IDENTITY ( INCREMENT 1 START 1 MINVALUE 1 MAXVALUE 2147483647 CACHE 1 ),
     CONSTRAINT curso_estudiante_pkey PRIMARY KEY (codigo_matricula)
 );
 
