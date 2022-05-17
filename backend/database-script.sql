@@ -49,7 +49,7 @@ COMMENT ON TABLE public.docente
 CREATE TABLE IF NOT EXISTS public.espacio_academico
 (
     codigo_espacio integer NOT NULL GENERATED ALWAYS AS IDENTITY ( INCREMENT 1 START 1 MINVALUE 1 MAXVALUE 2147483647 CACHE 1 ),
-    descripcion character varying[200] COLLATE pg_catalog."default" NOT NULL,
+    descripcion character varying(200) COLLATE pg_catalog."default" NOT NULL,
     codigo_plan integer NOT NULL,
     CONSTRAINT espacio_academico_pkey PRIMARY KEY (codigo_espacio),
     CONSTRAINT plan_estudio_unique UNIQUE (codigo_plan)
