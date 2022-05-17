@@ -128,7 +128,7 @@ CREATE TABLE IF NOT EXISTS public.plan_estudio
 
 CREATE TABLE IF NOT EXISTS public.pregunta
 (
-    codigo_pregunta integer NOT NULL,
+    codigo_pregunta integer NOT NULL GENERATED ALWAYS AS IDENTITY ( INCREMENT 1 START 1 MINVALUE 1 MAXVALUE 2147483647 CACHE 1 ),
     "isPublic" boolean NOT NULL,
     tipo character varying COLLATE pg_catalog."default" NOT NULL,
     "isFather" boolean NOT NULL,
