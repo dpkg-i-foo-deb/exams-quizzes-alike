@@ -42,13 +42,7 @@ class _TeacherPageState extends State<TeacherPage> {
                     width: MediaQuery.of(context).size.width,
                     padding: const EdgeInsets.all(25),
                     decoration: const BoxDecoration(
-                        gradient: LinearGradient(
-                            begin: Alignment.topLeft,
-                            end: Alignment.bottomRight,
-                            colors: [
-                          Color.fromARGB(255, 191, 238, 183),
-                          Color.fromARGB(255, 215, 244, 210),
-                        ])),
+                        color: Color.fromARGB(255, 170, 182, 254)),
                     child: GridView.builder(
                       gridDelegate:
                           const SliverGridDelegateWithFixedCrossAxisCount(

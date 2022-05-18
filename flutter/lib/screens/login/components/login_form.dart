@@ -100,7 +100,7 @@ class _LoginFormState extends State<LoginForm> {
                 }
               },
               style: ElevatedButton.styleFrom(
-                  primary: Colors.blueAccent,
+                  primary: Color.fromARGB(255, 73, 89, 154),
                   shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(10))),
               child: const Text('Log in'),

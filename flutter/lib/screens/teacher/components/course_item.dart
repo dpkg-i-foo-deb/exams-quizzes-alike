@@ -11,7 +11,7 @@ class CourseItem implements GridItem {
   @override
   Widget buildItem(BuildContext context) {
     return Card(
-      color: Colors.blue,
+      color: Color.fromARGB(255, 73, 89, 154),
       child: InkWell(
         splashColor: Colors.white,
         //TODO do something when clicking the course
@@ -20,9 +20,7 @@ class CourseItem implements GridItem {
             child: Text(
           courseName,
           style: const TextStyle(
-            fontWeight: FontWeight.bold,
-            fontSize: 15,
-          ),
+              fontWeight: FontWeight.bold, fontSize: 15, color: Colors.white),
         )),
       ),
     );

@@ -16,14 +16,8 @@ class _LoginBodyState extends State<LoginBody> {
         height: MediaQuery.of(context).size.height,
         width: MediaQuery.of(context).size.width,
         padding: const EdgeInsets.all(25),
-        decoration: const BoxDecoration(
-            gradient: LinearGradient(
-                begin: Alignment.topLeft,
-                end: Alignment.bottomRight,
-                colors: [
-              Color.fromARGB(255, 191, 238, 183),
-              Color.fromARGB(255, 215, 244, 210),
-            ])),
+        decoration:
+            const BoxDecoration(color: Color.fromARGB(255, 170, 182, 254)),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
