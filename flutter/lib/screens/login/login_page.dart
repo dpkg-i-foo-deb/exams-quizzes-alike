@@ -140,6 +140,18 @@ class _LoginPageState extends State<LoginPage> {
                                   try {
                                     user = await validateAndLogin();
                                     message = 'Welcome back! ' + user!.fullName;
+
+                                    //If this user is a teacher...
+                                    if (isTeacher) {
+                                      Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: ((context) =>
+                                                  TeacherPage(
+                                                      teacher: teacher!))));
+                                    }
+
+                                    isTeacher = true;
                                   } on LoginException catch (e) {
                                     message = e.cause;
                                   }
@@ -149,17 +161,6 @@ class _LoginPageState extends State<LoginPage> {
                                   // you'd often call a server or save the information in a database.
                                   ScaffoldMessenger.of(context).showSnackBar(
                                       SnackBar(content: Text(message)));
-
-                                  //If this user is a teacher...
-                                  if (isTeacher) {
-                                    Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                            builder: ((context) => TeacherPage(
-                                                teacher: teacher!))));
-                                  }
-
-                                  isTeacher = true;
                                 }
                               },
                               style: ElevatedButton.styleFrom(
