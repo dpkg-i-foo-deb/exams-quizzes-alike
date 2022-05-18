@@ -70,6 +70,10 @@ class _LoginFormState extends State<LoginForm> {
             child: ElevatedButton(
               onPressed: () async {
                 if (_formKey.currentState!.validate()) {
+                  ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                    content: Text('Please wait...'),
+                    duration: Duration(seconds: 1),
+                  ));
                   try {
                     user = await validateAndLogin();
                     message = 'Welcome back! ' + user!.fullName;
