@@ -10,11 +10,21 @@ class CourseItem implements GridItem {
 
   @override
   Widget buildItem(BuildContext context) {
-    return Container(
-      height: MediaQuery.of(context).size.height,
-      width: MediaQuery.of(context).size.width,
-      padding: const EdgeInsets.all(25),
-      decoration: const BoxDecoration(color: Colors.teal),
+    return Card(
+      color: Colors.blue,
+      child: InkWell(
+        splashColor: Colors.white,
+        //TODO do something when clicking the course
+        onTap: () => null,
+        child: Center(
+            child: Text(
+          courseName,
+          style: const TextStyle(
+            fontWeight: FontWeight.bold,
+            fontSize: 15,
+          ),
+        )),
+      ),
     );
   }
 }
