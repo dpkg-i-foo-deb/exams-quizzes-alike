@@ -8,8 +8,6 @@ import '../models/teacher.dart';
 
 class CourseRequests {
   Future<List<Course>> getCoursesByTeacher(Teacher teacher) async {
-    List<Course> courses = List.empty();
-
     final response = await http.post(
         Uri.parse('http://localhost:3000/courses-by-teacher'),
         body: teacher.toJson());
@@ -19,11 +17,9 @@ class CourseRequests {
     }
 
     if (response.statusCode == 200) {
-      List data = jsonDecode(response.body);
-
-      for (var element in data) {
-        courses.add(Course.fromJson(element));
-      }
+      List<Course> courses = (jsonDecode(response.body) as List)
+          .map((data) => Course.fromJson(data))
+          .toList();
 
       return courses;
     }
