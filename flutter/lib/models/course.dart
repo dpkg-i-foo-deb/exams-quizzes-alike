@@ -20,6 +20,6 @@ class Course {
   Map<String, dynamic> toJson() => {
         'codigo_curso': courseCode,
         'descripcion': courseDescription,
-        teacherLogin: teacherLogin,
+        'codigo_docente': teacherLogin,
       };
 }
