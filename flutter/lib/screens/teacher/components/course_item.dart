@@ -11,7 +11,7 @@ class CourseItem implements GridItem {
   @override
   Widget buildItem(BuildContext context) {
     return Card(
-      color: Color.fromARGB(255, 73, 89, 154),
+      color: const Color.fromARGB(255, 73, 89, 154),
       child: InkWell(
         splashColor: Colors.white,
         //TODO do something when clicking the course
