@@ -1,5 +1,6 @@
 //You need this file to start your server
-const express = require ('express')
+const express = require ('express');
+const { route } = require('./routes/examRoutes');
 const app = express();
 
 //You need this to parse json stuff, middlewares
@@ -12,6 +13,7 @@ app.use(express.urlencoded({extended: false}));
 app.use(require('./routes/userRoutes'));
 app.use(require('./routes/teacherRoutes'));
 app.use(require('./routes/courseRoutes'));
+app.use(require('./routes/examRoutes'));
 
 app.listen(3000);
 console.log('Server is running on port 3000')
