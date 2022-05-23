@@ -1,3 +1,4 @@
+import 'package:exams_quizzes_alike/screens/course/course_page.dart';
 import 'package:exams_quizzes_alike/widgets/grid_item.dart';
 import 'package:flutter/material.dart';
 
@@ -15,7 +16,14 @@ class CourseItem implements GridItem {
       child: InkWell(
         splashColor: Colors.white,
         //TODO do something when clicking the course
-        onTap: () => null,
+        onTap: () => Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: ((context) => CoursePage(
+                      courseName: courseName,
+                      courseCode: courseCode,
+                      courseTeacher: courseTeacher,
+                    )))),
         child: Center(
             child: Text(
           courseName,
