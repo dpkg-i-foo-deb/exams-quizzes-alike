@@ -21,27 +21,23 @@ class _CoursePageState extends State<CoursePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: const MainAppBar(),
-        body: Container(
-          height: MediaQuery.of(context).size.height,
-          width: MediaQuery.of(context).size.width,
-          child: Column(children: [
-            Padding(
-              padding: const EdgeInsets.only(top: 30, left: 20, right: 20),
-              child: Container(
-                  constraints: const BoxConstraints(
-                      maxHeight: 250, maxWidth: double.infinity),
-                  decoration: BoxDecoration(
-                      color: const Color.fromARGB(255, 237, 231, 246),
-                      borderRadius: BorderRadius.circular(20)),
-                  padding: const EdgeInsets.only(top: 20, left: 20, right: 20),
-                  child: Expanded(
-                    child: Column(
-                        //crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [Text(widget.courseName)]),
-                  )),
-            )
-          ]),
-        ));
+      appBar: const MainAppBar(),
+      body: SingleChildScrollView(
+          child: Padding(
+        padding: const EdgeInsets.all(20),
+        child: Column(children: [
+          Container(
+              constraints: const BoxConstraints(
+                  maxHeight: 250, maxWidth: double.infinity),
+              decoration: BoxDecoration(
+                  color: const Color.fromARGB(255, 237, 231, 246),
+                  borderRadius: BorderRadius.circular(20)),
+              child: Align(
+                child: Text(widget.courseName),
+                alignment: Alignment.center,
+              )),
+        ]),
+      )),
+    );
   }
 }
