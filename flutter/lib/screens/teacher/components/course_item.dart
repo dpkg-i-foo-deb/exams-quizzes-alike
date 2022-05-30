@@ -15,7 +15,6 @@ class CourseItem implements GridItem {
       color: const Color.fromARGB(255, 73, 89, 154),
       child: InkWell(
         splashColor: Colors.white,
-        //TODO do something when clicking the course
         onTap: () => Navigator.push(
             context,
             MaterialPageRoute(

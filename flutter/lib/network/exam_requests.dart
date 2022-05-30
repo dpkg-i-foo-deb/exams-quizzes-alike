@@ -1,5 +1,4 @@
 import 'dart:convert';
-import 'dart:ffi';
 
 import 'package:exams_quizzes_alike/exceptions/exam_exception.dart';
 import 'package:exams_quizzes_alike/models/exam.dart';

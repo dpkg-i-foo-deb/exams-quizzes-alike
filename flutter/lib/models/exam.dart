@@ -1,5 +1,3 @@
-import 'dart:ffi';
-
 class Exam {
   final int maxGrade;
   final int minGrade;

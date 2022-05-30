@@ -1,8 +1,5 @@
-import 'dart:ui';
-
 import 'package:exams_quizzes_alike/widgets/main_app_bar.dart';
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 class CoursePage extends StatefulWidget {
   const CoursePage(
