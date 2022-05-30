@@ -53,11 +53,7 @@ class _TeacherPageState extends State<TeacherPage> {
                       itemCount: courses.length,
                       padding: const EdgeInsets.all(1),
                       itemBuilder: (BuildContext context, int index) {
-                        return CourseItem(
-                                courses[index].courseCode!,
-                                courses[index].courseDescription!,
-                                courses[index].teacherLogin)
-                            .buildItem(context);
+                        return CourseItem(courses[index]).buildItem(context);
                       },
                     ));
               }),
