@@ -66,7 +66,7 @@ COMMENT ON TABLE public.estudiante
 
 CREATE TABLE IF NOT EXISTS public.examen
 (
-    codigo_examen integer NOT NULL,
+    codigo_examen integer NOT NULL GENERATED ALWAYS AS IDENTITY (INCREMENT 1 START 1 MINVALUE 1  MAXVALUE 2147483647 CACHE 1 ),
     nota_maxima numeric NOT NULL,
     nota_minima numeric NOT NULL,
     hora time without time zone NOT NULL,
