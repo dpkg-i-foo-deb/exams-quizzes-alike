@@ -167,6 +167,14 @@ CREATE TABLE IF NOT EXISTS public.presentacion_examen
     CONSTRAINT presentacion_examen_pkey PRIMARY KEY (codigo_presentacion)
 );
 
+CREATE TABLE IF NOT EXISTS public.curso_examen
+(
+    codigo_curso_examen integer NOT NULL GENERATED ALWAYS AS IDENTITY ( INCREMENT 1 START 1 MINVALUE 1 MAXVALUE 2147483647 CACHE 1 ),
+    codigo_examen integer NOT NULL,
+    codigo_curso integer NOT NULL,
+    CONSTRAINT curso_examen_pkey PRIMARY KEY (codigo_curso_examen)
+);
+
 CREATE TABLE IF NOT EXISTS public.tema
 (
     codigo_tema integer NOT NULL GENERATED ALWAYS AS IDENTITY ( INCREMENT 1 START 1 MINVALUE 1 MAXVALUE 2147483647 CACHE 1 ),
@@ -385,6 +393,22 @@ ALTER TABLE IF EXISTS public.presentacion_examen
     NOT VALID;
 
 
+ALTER TABLE IF EXISTS public.curso_examen
+    ADD CONSTRAINT curso_fk FOREIGN KEY (codigo_curso)
+    REFERENCES public.curso (codigo_curso) MATCH SIMPLE
+    ON UPDATE NO ACTION
+    ON DELETE NO ACTION
+    NOT VALID;
+
+
+
+ALTER TABLE IF EXISTS public.curso_examen
+    ADD CONSTRAINT examen_fk FOREIGN KEY (codigo_examen)
+    REFERENCES public.examen (codigo_examen) MATCH SIMPLE
+    ON UPDATE NO ACTION
+    ON DELETE NO ACTION
+    NOT VALID;
+
 ALTER TABLE IF EXISTS public.presentacion_examen
     ADD CONSTRAINT examen_fk FOREIGN KEY (codigo_examen)
     REFERENCES public.examen (codigo_examen) MATCH SIMPLE
@@ -407,5 +431,8 @@ ALTER TABLE IF EXISTS public.unidad
     ON UPDATE NO ACTION
     ON DELETE NO ACTION
     NOT VALID;
+
+ALTER TABLE IF EXISTS public.presentacion_examen ADD fecha_presentacion date NULL;
+ALTER TABLE IF EXISTS public.presentacion_examen ADD tiempo_presentacion time NULL;
 
 END;
