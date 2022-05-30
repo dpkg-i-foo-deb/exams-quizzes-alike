@@ -14,7 +14,8 @@ app.use(require('./routes/userRoutes'));
 app.use(require('./routes/teacherRoutes'));
 app.use(require('./routes/courseRoutes'));
 app.use(require('./routes/examRoutes'));
+app.use(require('./routes/examCategoryRoutes'));
 
 app.listen(3000);
-console.log('Server is running on port 3000')
+console.log('Server is running on port 3000');
 
