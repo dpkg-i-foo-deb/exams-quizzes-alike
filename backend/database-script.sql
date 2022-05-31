@@ -69,7 +69,6 @@ CREATE TABLE IF NOT EXISTS public.examen
     codigo_examen integer NOT NULL GENERATED ALWAYS AS IDENTITY (INCREMENT 1 START 1 MINVALUE 1  MAXVALUE 2147483647 CACHE 1 ),
     nota_maxima numeric NOT NULL,
     nota_minima numeric NOT NULL,
-    hora time without time zone NOT NULL,
     peso_examen integer NOT NULL,
     cantidad_preguntas integer,
     nombre character varying COLLATE pg_catalog."default" NOT NULL,
@@ -172,6 +171,7 @@ CREATE TABLE IF NOT EXISTS public.curso_examen
     codigo_curso_examen integer NOT NULL GENERATED ALWAYS AS IDENTITY ( INCREMENT 1 START 1 MINVALUE 1 MAXVALUE 2147483647 CACHE 1 ),
     codigo_examen integer NOT NULL,
     codigo_curso integer NOT NULL,
+    fecha_presentacion timestamp without time zone NOT NULL,
     CONSTRAINT curso_examen_pkey PRIMARY KEY (codigo_curso_examen)
 );
 
