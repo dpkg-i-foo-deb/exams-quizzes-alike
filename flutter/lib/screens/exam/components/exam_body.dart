@@ -44,23 +44,23 @@ class _ExamBodyState extends State<ExamBody> {
             padding: const EdgeInsets.only(left: 20, right: 20),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
-              children: const [
-                SizedBox(
+              children: [
+                const SizedBox(
                   height: 30,
                 ),
-                Text(
+                const Text(
                   'Creating a New Exam',
                   style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
                 ),
-                SizedBox(height: 10),
-                Text(
+                const SizedBox(height: 10),
+                const Text(
                   'Please Fill in the Form',
                   style: TextStyle(fontSize: 15, color: Colors.grey),
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 20,
                 ),
-                ExamForm(),
+                ExamForm(course: widget.course),
               ],
             ),
           ),
