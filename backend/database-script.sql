@@ -436,4 +436,9 @@ ALTER TABLE IF EXISTS public.presentacion_examen ADD fecha_presentacion date NUL
 ALTER TABLE IF EXISTS public.presentacion_examen ADD tiempo_presentacion time NULL;
 ALTER TABLE IF EXISTS public.presentacion_examen ADD ip varchar NULL;
 
+CREATE OR REPLACE VIEW examen_por_estudiante as (select pe.fecha_presentacion, pe.nota_examen, pe.tiempo_presentacion,pe.ip, p.nombre from presentacion_examen pe 
+join curso_estudiante ce on ce.codigo_matricula = pe.codigo_matricula 
+join estudiante e on e.login_persona = ce.codigo_estudiante 
+join persona p on p.login = e.login_persona);
+
 END;
