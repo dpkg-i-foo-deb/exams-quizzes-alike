@@ -38,7 +38,10 @@ class _LoginFormState extends State<LoginForm> {
       child: Column(
         children: <Widget>[
           TextFormField(
-            decoration: const InputDecoration(labelText: "Username"),
+            decoration: const InputDecoration(
+                labelText: "Username",
+                hintText: "someone@example.com",
+                prefixIcon: Icon(Icons.person)),
             keyboardType: TextInputType.number,
             onSaved: (value) {
               userValue = value!;
@@ -51,7 +54,10 @@ class _LoginFormState extends State<LoginForm> {
             },
           ),
           TextFormField(
-            decoration: const InputDecoration(labelText: "Password"),
+            decoration: const InputDecoration(
+                labelText: "Password",
+                hintText: "My amazing password",
+                prefixIcon: Icon(Icons.key)),
             obscureText: true,
             enableSuggestions: false,
             autocorrect: false,
