@@ -20,8 +20,9 @@ class _ExamPageState extends State<ExamPage> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: const MainAppBar(),
-        body: ExamBody(
+        body: SingleChildScrollView(
+            child: ExamBody(
           course: widget.course,
-        ));
+        )));
   }
 }
