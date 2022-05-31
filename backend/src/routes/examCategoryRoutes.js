@@ -3,6 +3,6 @@ const router = Router();
 
 const {getCategories} = require('../services/examCategoryService');
 
-router.get('/exams/categories',getCategories);
+router.get('/exam-categories',getCategories);
 
 module.exports=router;
