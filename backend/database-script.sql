@@ -434,5 +434,6 @@ ALTER TABLE IF EXISTS public.unidad
 
 ALTER TABLE IF EXISTS public.presentacion_examen ADD fecha_presentacion date NULL;
 ALTER TABLE IF EXISTS public.presentacion_examen ADD tiempo_presentacion time NULL;
+ALTER TABLE IF EXISTS public.presentacion_examen ADD ip varchar NULL;
 
 END;
