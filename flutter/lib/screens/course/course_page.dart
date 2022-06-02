@@ -1,5 +1,5 @@
 import 'package:exams_quizzes_alike/models/course.dart';
-import 'package:exams_quizzes_alike/screens/exam/exam_page.dart';
+import 'package:exams_quizzes_alike/screens/exam/create_exam_page.dart';
 import 'package:exams_quizzes_alike/widgets/main_app_bar.dart';
 import 'package:flutter/material.dart';
 
@@ -57,7 +57,7 @@ class _CoursePageState extends State<CoursePage> {
                       onPressed: () => Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: (context) => ExamPage(
+                            builder: (context) => CreateExamPage(
                               course: widget.course,
                             ),
                           )),

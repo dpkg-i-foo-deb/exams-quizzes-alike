@@ -1,10 +1,10 @@
 import 'package:exams_quizzes_alike/models/course.dart';
-import 'package:exams_quizzes_alike/screens/exam/components/exam_body.dart';
+import 'package:exams_quizzes_alike/screens/exam/components/create/create_exam_body.dart';
 import 'package:exams_quizzes_alike/widgets/main_app_bar.dart';
 import 'package:flutter/material.dart';
 
-class ExamPage extends StatefulWidget {
-  const ExamPage({
+class CreateExamPage extends StatefulWidget {
+  const CreateExamPage({
     Key? key,
     required this.course,
   }) : super(key: key);
@@ -12,16 +12,16 @@ class ExamPage extends StatefulWidget {
   final Course course;
 
   @override
-  State<ExamPage> createState() => _ExamPageState();
+  State<CreateExamPage> createState() => _CreateExamPageState();
 }
 
-class _ExamPageState extends State<ExamPage> {
+class _CreateExamPageState extends State<CreateExamPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: const MainAppBar(),
         body: SingleChildScrollView(
-            child: ExamBody(
+            child: CreateExamBody(
           course: widget.course,
         )));
   }

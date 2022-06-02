@@ -1,17 +1,17 @@
 import 'package:exams_quizzes_alike/models/course.dart';
-import 'package:exams_quizzes_alike/screens/exam/components/exam_form.dart';
+import 'package:exams_quizzes_alike/screens/exam/components/create/exam_form.dart';
 import 'package:flutter/material.dart';
 
-class ExamBody extends StatefulWidget {
-  const ExamBody({Key? key, required this.course}) : super(key: key);
+class CreateExamBody extends StatefulWidget {
+  const CreateExamBody({Key? key, required this.course}) : super(key: key);
 
   final Course course;
 
   @override
-  State<ExamBody> createState() => _ExamBodyState();
+  State<CreateExamBody> createState() => _CreateExamBodyState();
 }
 
-class _ExamBodyState extends State<ExamBody> {
+class _CreateExamBodyState extends State<CreateExamBody> {
   @override
   Widget build(BuildContext context) {
     return Padding(
