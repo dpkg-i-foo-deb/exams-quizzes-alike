@@ -66,6 +66,41 @@ class _CoursePageState extends State<CoursePage> {
                     ),
                   ],
                 )),
+            const SizedBox(
+              height: 20,
+            ),
+            Container(
+              constraints: const BoxConstraints(
+                  maxHeight: 200, maxWidth: double.infinity),
+              decoration: BoxDecoration(
+                  color: const Color.fromARGB(255, 237, 231, 246),
+                  borderRadius: BorderRadius.circular(20)),
+              child: Align(
+                  child: Column(
+                children: const [
+                  SizedBox(
+                    height: 20,
+                  ),
+                  Text('Coming soon...',
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        fontFamily: 'ZenLoop',
+                        fontSize: 70,
+                        color: Colors.black,
+                      )),
+                  SizedBox(
+                    height: 20,
+                  ),
+                  Text('Cannot see anything? Schedule a new one!',
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        fontFamily: 'ZenLoop',
+                        fontSize: 40,
+                        color: Colors.grey,
+                      )),
+                ],
+              )),
+            ),
           ]),
         )));
   }

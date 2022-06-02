@@ -45,7 +45,7 @@ class _ScheduleExamBodyState extends State<ScheduleExamBody> {
             'Please Fill in the Form',
             style: TextStyle(fontSize: 15, color: Colors.grey),
           ),
-          SizedBox(
+          const SizedBox(
             height: 20,
           ),
           ScheduleExamForm(course: widget.course),
