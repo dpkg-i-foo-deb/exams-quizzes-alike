@@ -28,6 +28,19 @@ const setExamTopic = async (req, res) =>
     res.send('topic set successfully');
 }
 
+const scheduleExam = async (req,res) =>
+{
+    var {exam_code, course_code, date} = req.body;
+
+    exam_code = parseInt(exam_code);
+    course_code = parseInt(course_code);
+
+    const response = await connectionPool.query('INSERT INTO curso_examen (codigo_examen, codigo_curso, fecha_presentacion) VALUES ($1,$2,$3)',[exam_code,course_code,date]);
+
+    res.status(200);
+    res.send('Exam scheduled successfully');
+}
+
 const getExam = async (req,res) =>
 {
     var{ exam_code } = req.body;
@@ -54,4 +67,5 @@ module.exports=
     setExamTopic,
     getExam,
     getExams,
+    scheduleExam,
 }
