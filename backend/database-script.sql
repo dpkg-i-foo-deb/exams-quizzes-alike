@@ -104,7 +104,7 @@ CREATE TABLE IF NOT EXISTS public.opcion
     palabra_faltante character varying COLLATE pg_catalog."default",
     orden integer,
     pareja character varying COLLATE pg_catalog."default",
-    CONSTRAINT opcion_pkey PRIMARY KEY (codigo_opcion)
+    CONSTRAINT opcion_pkey PRIMARY KEY (codigo_opcion, descripcion)
 );
 
 CREATE TABLE IF NOT EXISTS public.persona
@@ -153,7 +153,8 @@ CREATE TABLE IF NOT EXISTS public.pregunta_presentacion
     codigo_pregunta_examen integer NOT NULL,
     codigo_pregunta_presentacion integer NOT NULL GENERATED ALWAYS AS IDENTITY ( INCREMENT 1 START 1 MINVALUE 1 MAXVALUE 2147483647 CACHE 1 ),
     codigo_opcion integer,
-    respuesta character varying,
+    respuesta character varying COLLATE pg_catalog."default",
+    descripcion_opcion character varying,
     CONSTRAINT pregunta_presentacion_pkey PRIMARY KEY (codigo_pregunta_presentacion)
 );
 
@@ -362,8 +363,8 @@ ALTER TABLE IF EXISTS public.pregunta_examen
 
 
 ALTER TABLE IF EXISTS public.pregunta_presentacion
-    ADD CONSTRAINT opcion_fk FOREIGN KEY (codigo_opcion)
-    REFERENCES public.opcion (codigo_opcion) MATCH SIMPLE
+    ADD CONSTRAINT opcion_fk FOREIGN KEY (codigo_opcion, descripcion_opcion)
+    REFERENCES public.opcion (codigo_opcion, descripcion) MATCH SIMPLE
     ON UPDATE NO ACTION
     ON DELETE NO ACTION
     NOT VALID;
@@ -531,7 +532,7 @@ join presentacion_examen pe on pe.codigo_examen = e.codigo_examen
 join pregunta_presentacion pp on pp.codigo_presentacion = pe.codigo_presentacion 
 join pregunta_examen pex on pex.codigo_pregunta_examen = pp.codigo_pregunta_examen 
 join pregunta p on p.codigo_pregunta = pex.codigo_pregunta 
-join opcion o on o.codigo_opcion =p.codigo_pregunta 
+join opcion o on o.codigo_opcion =p.codigo_pregunta and o.descripcion = pp.descripcion_opcion
 where pp.respuesta != o.respuesta_correcta 
 group by pp.respuesta, ce.codigo_curso_examen) sq group by sq.codigo_examen);
 
@@ -559,7 +560,7 @@ join presentacion_examen pe on pe.codigo_examen = e.codigo_examen
 join pregunta_presentacion pp on pp.codigo_presentacion = pe.codigo_presentacion 
 join pregunta_examen pex on pex.codigo_pregunta_examen = pp.codigo_pregunta_examen 
 join pregunta p on p.codigo_pregunta = pex.codigo_pregunta 
-join opcion o on o.codigo_opcion =p.codigo_pregunta 
+join opcion o on o.codigo_opcion =p.codigo_pregunta and o.descripcion = pp.descripcion_opcion
 where pp.respuesta = o.respuesta_correcta 
 group by pp.respuesta, ce.codigo_curso_examen) sq group by sq.codigo_examen);
 
@@ -680,6 +681,21 @@ INSERT INTO public.examen (nota_maxima,nota_minima,peso_examen,cantidad_pregunta
 	VALUES (5,0,20,2,'Parcial 3 - Bases de Datos 1','Tercer Parcial del Curso','02:00:00',2,'jitrivino@uniquindio.edu.co');
 INSERT INTO public.examen (nota_maxima,nota_minima,peso_examen,cantidad_preguntas,nombre,descripcion,tiempo_limite,codigo_categoria,codigo_docente)
 	VALUES (5,0,20,2,'Parcial 4 - Bases de Datos 1','Último Parcial del Curso','02:00:00',1,'jitrivino@uniquindio.edu.co');
+
+
+-- Questions
+INSERT INTO public.pregunta ("isPublic",tipo,"isFather",peso,enunciado,codigo_docente,codigo_tema)
+	VALUES (true,'unica-respuesta',false,20,'¿Qué es una base de datos?','jitrivino@uniquindio.edu.co',1);
+
+
+
+--Choice
+INSERT INTO public.opcion (codigo_opcion,descripcion,respuesta_correcta)
+	VALUES (1,'Una comida','Algo donde puedo almacenar datos');
+INSERT INTO public.opcion (codigo_opcion,descripcion,respuesta_correcta)
+	VALUES (1,'Un animal','Algo donde puedo almacenar datos');
+INSERT INTO public.opcion (codigo_opcion,descripcion,respuesta_correcta)
+	VALUES (1,'Algo donde puedo almacenar datos','Algo donde puedo almacenar datos');
 
 
 
