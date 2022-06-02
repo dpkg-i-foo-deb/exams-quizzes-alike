@@ -17,7 +17,9 @@ class _ScheduleExamState extends State<ScheduleExamPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: const MainAppBar(),
-      body: ScheduleExamBody(course: widget.course),
+      body: SingleChildScrollView(
+        child: ScheduleExamBody(course: widget.course),
+      ),
     );
   }
 }
