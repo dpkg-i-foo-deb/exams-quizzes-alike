@@ -81,7 +81,7 @@ CREATE TABLE IF NOT EXISTS public.examen
 
 CREATE TABLE IF NOT EXISTS public.examen_tema
 (
-    codigo_examen integer NOT NULL GENERATED ALWAYS AS IDENTITY ( INCREMENT 1 START 1 MINVALUE 1 MAXVALUE 2147483647 CACHE 1 ),
+    codigo_examen integer NOT NULL,
     codigo_tema integer NOT NULL,
     CONSTRAINT examen_tema_pkey PRIMARY KEY (codigo_examen, codigo_tema)
 );
