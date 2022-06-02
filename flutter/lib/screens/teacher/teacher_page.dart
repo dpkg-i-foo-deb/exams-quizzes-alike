@@ -3,6 +3,7 @@ import 'package:exams_quizzes_alike/exceptions/exam_exception.dart';
 import 'package:exams_quizzes_alike/models/course.dart';
 import 'package:exams_quizzes_alike/network/course_requests.dart';
 import 'package:exams_quizzes_alike/network/exam_requests.dart';
+import 'package:exams_quizzes_alike/screens/exam/create_exam_page.dart';
 import 'package:exams_quizzes_alike/screens/teacher/components/course_item.dart';
 import 'package:exams_quizzes_alike/screens/teacher/components/exam_item.dart';
 import 'package:exams_quizzes_alike/widgets/main_app_bar.dart';
@@ -93,22 +94,23 @@ class _TeacherPageState extends State<TeacherPage> {
                             height: 20,
                           ),
                           Flexible(
+                              flex: 1,
                               child: GridView.builder(
-                            shrinkWrap: true,
-                            gridDelegate:
-                                SliverGridDelegateWithFixedCrossAxisCount(
-                              crossAxisCount: 3,
-                              childAspectRatio:
-                                  MediaQuery.of(context).size.height / 800,
-                              crossAxisSpacing: 15,
-                            ),
-                            itemCount: courses.length,
-                            padding: const EdgeInsets.all(1),
-                            itemBuilder: (BuildContext context, int index) {
-                              return CourseItem(courses[index])
-                                  .buildItem(context);
-                            },
-                          )),
+                                shrinkWrap: true,
+                                gridDelegate:
+                                    SliverGridDelegateWithFixedCrossAxisCount(
+                                  crossAxisCount: 3,
+                                  childAspectRatio:
+                                      MediaQuery.of(context).size.height / 800,
+                                  crossAxisSpacing: 15,
+                                ),
+                                itemCount: courses.length,
+                                padding: const EdgeInsets.all(1),
+                                itemBuilder: (BuildContext context, int index) {
+                                  return CourseItem(courses[index])
+                                      .buildItem(context);
+                                },
+                              )),
                           const SizedBox(
                             height: 20,
                           ),
@@ -148,22 +150,56 @@ class _TeacherPageState extends State<TeacherPage> {
                           const SizedBox(
                             height: 20,
                           ),
+                          Align(
+                              alignment: Alignment.bottomLeft,
+                              child: Row(
+                                children: [
+                                  ElevatedButton(
+                                    style: ElevatedButton.styleFrom(
+                                        maximumSize: const Size(225, 700),
+                                        shape: const CircleBorder(),
+                                        primary: const Color.fromARGB(
+                                            255, 73, 89, 154)),
+                                    child: const Icon(
+                                      Icons.add,
+                                      color: Colors.white,
+                                      size: 40,
+                                    ),
+                                    onPressed: () => Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                          builder: (context) =>
+                                              CreateExamPage(),
+                                        )),
+                                  ),
+                                  const Text(
+                                    'Create New Exam',
+                                    style:
+                                        TextStyle(fontWeight: FontWeight.bold),
+                                  ),
+                                ],
+                              )),
+                          const SizedBox(
+                            height: 20,
+                          ),
                           Flexible(
+                              flex: 2,
                               child: GridView.builder(
-                            shrinkWrap: true,
-                            gridDelegate:
-                                SliverGridDelegateWithFixedCrossAxisCount(
-                              crossAxisCount: 3,
-                              childAspectRatio:
-                                  MediaQuery.of(context).size.height / 800,
-                              crossAxisSpacing: 15,
-                            ),
-                            itemCount: exams.length,
-                            padding: const EdgeInsets.all(1),
-                            itemBuilder: (BuildContext context, int index) {
-                              return ExamItem(exams[index]).buildItem(context);
-                            },
-                          )),
+                                shrinkWrap: true,
+                                gridDelegate:
+                                    SliverGridDelegateWithFixedCrossAxisCount(
+                                  crossAxisCount: 3,
+                                  childAspectRatio:
+                                      MediaQuery.of(context).size.height / 800,
+                                  crossAxisSpacing: 15,
+                                ),
+                                itemCount: exams.length,
+                                padding: const EdgeInsets.all(1),
+                                itemBuilder: (BuildContext context, int index) {
+                                  return ExamItem(exams[index])
+                                      .buildItem(context);
+                                },
+                              )),
                         ],
                       ));
                 }),

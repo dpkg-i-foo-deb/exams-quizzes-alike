@@ -1,6 +1,5 @@
 import 'package:exams_quizzes_alike/exceptions/exam_category_exception.dart';
 import 'package:exams_quizzes_alike/exceptions/topic_exception.dart';
-import 'package:exams_quizzes_alike/models/course.dart';
 import 'package:exams_quizzes_alike/models/exam.dart';
 import 'package:exams_quizzes_alike/models/exam_category.dart';
 import 'package:exams_quizzes_alike/models/topic.dart';
@@ -12,8 +11,7 @@ import 'package:flutter/services.dart';
 import 'package:multiselect_formfield/multiselect_formfield.dart';
 
 class ExamForm extends StatefulWidget {
-  const ExamForm({Key? key, required this.course}) : super(key: key);
-  final Course course;
+  const ExamForm({Key? key}) : super(key: key);
   @override
   State<ExamForm> createState() => _ExamFormState();
 }
@@ -382,7 +380,8 @@ class _ExamFormState extends State<ExamForm> {
           description: examDescription,
           limitTime: formattedTime,
           categoryCode: examCategory,
-          teacherEmail: widget.course.teacherLogin);
+          //TODO get teacher email from somewhere else
+          teacherEmail: '');
 
       Exam createdExam = await ExamRequests().createExam(exam);
 

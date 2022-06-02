@@ -3,9 +3,7 @@ import 'package:exams_quizzes_alike/screens/exam/components/create/exam_form.dar
 import 'package:flutter/material.dart';
 
 class CreateExamBody extends StatefulWidget {
-  const CreateExamBody({Key? key, required this.course}) : super(key: key);
-
-  final Course course;
+  const CreateExamBody({Key? key}) : super(key: key);
 
   @override
   State<CreateExamBody> createState() => _CreateExamBodyState();
@@ -18,22 +16,6 @@ class _CreateExamBodyState extends State<CreateExamBody> {
       padding: const EdgeInsets.all(20),
       child: Column(
         children: [
-          Container(
-            constraints:
-                const BoxConstraints(maxHeight: 200, maxWidth: double.infinity),
-            decoration: BoxDecoration(
-                color: const Color.fromARGB(255, 237, 231, 246),
-                borderRadius: BorderRadius.circular(20)),
-            child: Align(
-              child: Text(widget.course.courseDescription!,
-                  textAlign: TextAlign.center,
-                  style: const TextStyle(
-                    fontFamily: 'ZenLoop',
-                    fontSize: 70,
-                    color: Colors.black,
-                  )),
-            ),
-          ),
           const SizedBox(height: 20),
           Container(
             constraints: const BoxConstraints(
@@ -59,7 +41,7 @@ class _CreateExamBodyState extends State<CreateExamBody> {
                 const SizedBox(
                   height: 20,
                 ),
-                ExamForm(course: widget.course),
+                ExamForm(),
               ],
             ),
           ),

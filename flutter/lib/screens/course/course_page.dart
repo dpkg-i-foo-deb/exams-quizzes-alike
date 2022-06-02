@@ -40,34 +40,6 @@ class _CoursePageState extends State<CoursePage> {
             const SizedBox(
               height: 20,
             ),
-            Align(
-                alignment: Alignment.bottomLeft,
-                child: Row(
-                  children: [
-                    ElevatedButton(
-                      style: ElevatedButton.styleFrom(
-                          maximumSize: const Size(225, 700),
-                          shape: const CircleBorder(),
-                          primary: const Color.fromARGB(255, 73, 89, 154)),
-                      child: const Icon(
-                        Icons.add,
-                        color: Colors.white,
-                        size: 40,
-                      ),
-                      onPressed: () => Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => CreateExamPage(
-                              course: widget.course,
-                            ),
-                          )),
-                    ),
-                    const Text(
-                      'Create New Exam',
-                      style: TextStyle(fontWeight: FontWeight.bold),
-                    ),
-                  ],
-                ))
           ]),
         )));
   }
