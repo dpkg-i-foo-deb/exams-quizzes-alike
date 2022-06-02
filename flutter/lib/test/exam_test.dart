@@ -4,7 +4,7 @@ import 'package:flutter_test/flutter_test.dart';
 
 void main() {
   test('An exam should be created', (() {
-    const Exam exam = Exam(
+    Exam exam = Exam(
       maxGrade: 5,
       minGrade: 0,
       weight: 20,

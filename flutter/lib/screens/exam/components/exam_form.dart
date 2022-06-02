@@ -6,7 +6,7 @@ import 'package:exams_quizzes_alike/models/exam_category.dart';
 import 'package:exams_quizzes_alike/models/topic.dart';
 import 'package:exams_quizzes_alike/network/exam_category_requests.dart';
 import 'package:exams_quizzes_alike/network/exam_requests.dart';
-import 'package:exams_quizzes_alike/network/topicRequests.dart';
+import 'package:exams_quizzes_alike/network/topic_requests.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:multiselect_formfield/multiselect_formfield.dart';
@@ -281,6 +281,13 @@ class _ExamFormState extends State<ExamForm> {
             keyboardType: TextInputType.number,
           ),
           MultiSelectFormField(
+            title: const Text('Exam Topics'),
+            validator: (value) {
+              if (value == null || value.length == 0) {
+                return 'Please select one or more options';
+              }
+              return null;
+            },
             autovalidate: AutovalidateMode.disabled,
             chipBackGroundColor: const Color.fromARGB(255, 115, 138, 230),
             chipLabelStyle: const TextStyle(
@@ -357,6 +364,7 @@ class _ExamFormState extends State<ExamForm> {
     final form = _formKey.currentState;
 
     if (form!.validate()) {
+      validForm = true;
       form.save();
 
       String formattedTime = "";
@@ -376,8 +384,12 @@ class _ExamFormState extends State<ExamForm> {
           categoryCode: examCategory,
           teacherEmail: widget.course.teacherLogin);
 
-      ExamRequests().createExam(exam);
-      validForm = true;
+      Exam createdExam = await ExamRequests().createExam(exam);
+
+      for (var count = 0; count < selectedTopics.length; count++) {
+        ExamRequests()
+            .setTopic(createdExam.code!, int.parse(selectedTopics[count]));
+      }
     } else {
       validForm = false;
     }

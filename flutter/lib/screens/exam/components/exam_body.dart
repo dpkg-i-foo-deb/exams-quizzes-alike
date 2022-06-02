@@ -1,7 +1,6 @@
 import 'package:exams_quizzes_alike/models/course.dart';
 import 'package:exams_quizzes_alike/screens/exam/components/exam_form.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 
 class ExamBody extends StatefulWidget {
   const ExamBody({Key? key, required this.course}) : super(key: key);
