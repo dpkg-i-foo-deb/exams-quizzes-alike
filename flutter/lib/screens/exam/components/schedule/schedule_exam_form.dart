@@ -15,6 +15,7 @@ class ScheduleExamForm extends StatefulWidget {
 
 class _ScheduleExamFormState extends State<ScheduleExamForm> {
   final _formKey = GlobalKey<FormState>();
+  var validForm = false;
   List<Exam> exams = List.empty();
   int selectedExam = 0;
   TextEditingController examScheduleTimeController = TextEditingController();
@@ -126,6 +127,34 @@ class _ScheduleExamFormState extends State<ScheduleExamForm> {
       exams = await ExamRequests().getExams(widget.course.teacherLogin);
     } on ExamException {
       //TODO something when we cannot get the exams
+    }
+  }
+
+  Future<void> validateAndSend() async {
+    final form = _formKey.currentState;
+
+    if (form!.validate()) {
+      validForm = true;
+      form.save();
+
+      String formattedDate = "";
+
+      formattedDate = "" + pickedDate.year.toString();
+      formattedDate += "-";
+      formattedDate += pickedDate.month.toString();
+      formattedDate += "-";
+      formattedDate += pickedDate.day.toString();
+      formattedDate += " ";
+      formattedDate += pickedTime.hour.toString();
+      formattedDate += ":";
+      formattedDate += pickedTime.minute.toString();
+
+      try {
+        ExamRequests().scheduleExam(
+            selectedExam, widget.course.courseCode!, formattedDate);
+      } on ExamException {
+        //TODO something when we fail to schedule the exam
+      }
     }
   }
 }
