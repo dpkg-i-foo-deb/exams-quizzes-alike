@@ -13,4 +13,14 @@ class ExamUtils {
     };
     return json;
   }
+
+  Map<String, dynamic> examCourseToJson(
+      int examCode, int courseCode, String date) {
+    Map<String, dynamic> json = {
+      'exam_code': examCode.toString(),
+      'course_code': courseCode.toString(),
+      'date': date,
+    };
+    return json;
+  }
 }

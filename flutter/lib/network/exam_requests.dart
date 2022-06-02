@@ -64,4 +64,16 @@ class ExamRequests {
     }
     throw ExamException('Something failed');
   }
+
+  Future<void> scheduleExam(int examCode, int courseCode, String date) async {
+    Map<String, dynamic> examCourse =
+        ExamUtils().examCourseToJson(examCode, courseCode, date);
+    final response = await http.post(
+        Uri.parse('http://localhost:3000/schedule-exam'),
+        body: examCourse);
+
+    if (response.statusCode != 200) {
+      throw ExamException('Something went wrong');
+    }
+  }
 }
