@@ -48,7 +48,7 @@ class _TeacherPageState extends State<TeacherPage> {
         child: Column(
           children: [
             FutureBuilder(
-                future: getCourses(),
+                future: Future.wait([getCourses(), getExams()]),
                 builder: (BuildContext context, AsyncSnapshot snapshot) {
                   return Container(
                       height: MediaQuery.of(context).size.height,
@@ -170,7 +170,9 @@ class _TeacherPageState extends State<TeacherPage> {
                                         MaterialPageRoute(
                                           builder: (context) => CreateExamPage(
                                               teacher: widget.teacher),
-                                        )),
+                                        )).then((value) {
+                                      setState(() {});
+                                    }),
                                   ),
                                   const Text(
                                     'Create New Exam',
