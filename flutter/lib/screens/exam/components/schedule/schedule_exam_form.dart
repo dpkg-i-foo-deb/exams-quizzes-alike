@@ -115,7 +115,7 @@ class _ScheduleExamFormState extends State<ScheduleExamForm> {
                 shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(10))),
             onPressed: () {
-              null!;
+              validateAndSend();
             },
             child: const Text('Schedule'))
       ]),
@@ -156,5 +156,6 @@ class _ScheduleExamFormState extends State<ScheduleExamForm> {
         //TODO something when we fail to schedule the exam
       }
     }
+    validForm = false;
   }
 }
