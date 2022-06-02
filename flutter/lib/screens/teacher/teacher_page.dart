@@ -145,6 +145,9 @@ class _TeacherPageState extends State<TeacherPage> {
                               ],
                             )),
                           ),
+                          const SizedBox(
+                            height: 20,
+                          ),
                           Flexible(
                               child: GridView.builder(
                             shrinkWrap: true,
@@ -155,7 +158,7 @@ class _TeacherPageState extends State<TeacherPage> {
                                   MediaQuery.of(context).size.height / 800,
                               crossAxisSpacing: 15,
                             ),
-                            itemCount: courses.length,
+                            itemCount: exams.length,
                             padding: const EdgeInsets.all(1),
                             itemBuilder: (BuildContext context, int index) {
                               return ExamItem(exams[index]).buildItem(context);

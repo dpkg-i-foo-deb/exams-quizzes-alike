@@ -24,7 +24,7 @@ class ExamItem implements GridItem {
             child: Padding(
           padding: const EdgeInsets.all(5),
           child: Text(
-            exam.description,
+            exam.name,
             style: const TextStyle(
                 fontWeight: FontWeight.bold, fontSize: 15, color: Colors.white),
             textAlign: TextAlign.center,
