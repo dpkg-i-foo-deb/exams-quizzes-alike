@@ -21,10 +21,14 @@ class ExamItem implements GridItem {
                       exam: exam,
                     )))),
         child: Center(
-            child: Text(
-          exam.description,
-          style: const TextStyle(
-              fontWeight: FontWeight.bold, fontSize: 15, color: Colors.white),
+            child: Padding(
+          padding: const EdgeInsets.all(5),
+          child: Text(
+            exam.description,
+            style: const TextStyle(
+                fontWeight: FontWeight.bold, fontSize: 15, color: Colors.white),
+            textAlign: TextAlign.center,
+          ),
         )),
       ),
     );

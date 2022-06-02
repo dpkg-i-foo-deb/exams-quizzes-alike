@@ -4,6 +4,7 @@ import 'package:exams_quizzes_alike/models/course.dart';
 import 'package:exams_quizzes_alike/network/course_requests.dart';
 import 'package:exams_quizzes_alike/network/exam_requests.dart';
 import 'package:exams_quizzes_alike/screens/teacher/components/course_item.dart';
+import 'package:exams_quizzes_alike/screens/teacher/components/exam_item.dart';
 import 'package:exams_quizzes_alike/widgets/main_app_bar.dart';
 import 'package:flutter/material.dart';
 
@@ -144,6 +145,22 @@ class _TeacherPageState extends State<TeacherPage> {
                               ],
                             )),
                           ),
+                          Flexible(
+                              child: GridView.builder(
+                            shrinkWrap: true,
+                            gridDelegate:
+                                SliverGridDelegateWithFixedCrossAxisCount(
+                              crossAxisCount: 3,
+                              childAspectRatio:
+                                  MediaQuery.of(context).size.height / 800,
+                              crossAxisSpacing: 15,
+                            ),
+                            itemCount: courses.length,
+                            padding: const EdgeInsets.all(1),
+                            itemBuilder: (BuildContext context, int index) {
+                              return ExamItem(exams[index]).buildItem(context);
+                            },
+                          )),
                         ],
                       ));
                 }),
