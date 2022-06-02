@@ -39,9 +39,19 @@ const getExam = async (req,res) =>
     res.status(200).json(response.rows);
 }
 
+const getExams = async (req,res) =>
+{
+    var {teacher_login} = req.body;
+
+    const response = await connectionPool.query('SELECT codigo_examen, nota_maxima, nota_minima, peso_examen, cantidad_preguntas, nombre, descripcion, tiempo_limite, codigo_categoria, codigo_docente FROM examen WHERE codigo_docente = $1',[teacher_login]);
+
+    res.status(200).json(response.rows);
+}
+
 module.exports=
 {
     createExam,
     setExamTopic,
     getExam,
+    getExams,
 }
