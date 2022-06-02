@@ -1,9 +1,12 @@
 import 'package:exams_quizzes_alike/models/course.dart';
+import 'package:exams_quizzes_alike/models/teacher.dart';
 import 'package:exams_quizzes_alike/screens/exam/components/create/exam_form.dart';
 import 'package:flutter/material.dart';
 
 class CreateExamBody extends StatefulWidget {
-  const CreateExamBody({Key? key}) : super(key: key);
+  const CreateExamBody({Key? key, required this.teacher}) : super(key: key);
+
+  final Teacher teacher;
 
   @override
   State<CreateExamBody> createState() => _CreateExamBodyState();
@@ -41,7 +44,9 @@ class _CreateExamBodyState extends State<CreateExamBody> {
                 const SizedBox(
                   height: 20,
                 ),
-                ExamForm(),
+                ExamForm(
+                  teacher: widget.teacher,
+                ),
               ],
             ),
           ),

@@ -168,8 +168,8 @@ class _TeacherPageState extends State<TeacherPage> {
                                     onPressed: () => Navigator.push(
                                         context,
                                         MaterialPageRoute(
-                                          builder: (context) =>
-                                              CreateExamPage(),
+                                          builder: (context) => CreateExamPage(
+                                              teacher: widget.teacher),
                                         )),
                                   ),
                                   const Text(
