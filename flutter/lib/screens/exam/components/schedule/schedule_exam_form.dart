@@ -15,7 +15,7 @@ class ScheduleExamForm extends StatefulWidget {
 
 class _ScheduleExamFormState extends State<ScheduleExamForm> {
   final _formKey = GlobalKey<FormState>();
-  var validForm = false;
+  bool validForm = false;
   List<Exam> exams = List.empty();
   int selectedExam = 0;
   TextEditingController examScheduleTimeController = TextEditingController();
@@ -116,6 +116,13 @@ class _ScheduleExamFormState extends State<ScheduleExamForm> {
                     borderRadius: BorderRadius.circular(10))),
             onPressed: () {
               validateAndSend();
+              if (validForm) {
+                ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                  content: Text('Done...'),
+                  duration: Duration(seconds: 1),
+                ));
+                Navigator.pop(context);
+              }
             },
             child: const Text('Schedule'))
       ]),
@@ -155,7 +162,8 @@ class _ScheduleExamFormState extends State<ScheduleExamForm> {
       } on ExamException {
         //TODO something when we fail to schedule the exam
       }
+    } else {
+      validForm = false;
     }
-    validForm = false;
   }
 }
