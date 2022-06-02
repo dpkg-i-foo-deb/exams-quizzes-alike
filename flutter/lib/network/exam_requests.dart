@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:exams_quizzes_alike/exceptions/exam_exception.dart';
 import 'package:exams_quizzes_alike/models/exam.dart';
 import 'package:exams_quizzes_alike/models/exam_utils.dart';
+import 'package:exams_quizzes_alike/models/teacher_utils.dart';
 
 import 'package:http/http.dart' as http;
 
@@ -36,9 +37,11 @@ class ExamRequests {
     }
   }
 
-  Future<List<Exam>> getExams() async {
-    final response =
-        await http.get(Uri.parse('http://localhost:3000/get-exams'));
+  Future<List<Exam>> getExams(String teacherLogin) async {
+    Map<String, dynamic> loginJson =
+        TeacherUtils().teacherLoginJson(teacherLogin);
+    final response = await http.post(Uri.parse('http://localhost:3000/exams'),
+        body: loginJson);
 
     if (response.statusCode == 200) {
       List<Exam> exams = (json.decode(response.body) as List)
@@ -46,7 +49,7 @@ class ExamRequests {
           .toList();
       return exams;
     } else {
-      throw Exception("Something failed");
+      throw ExamException("Something failed");
     }
   }
 
