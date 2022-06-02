@@ -39,6 +39,31 @@ class _CoursePageState extends State<CoursePage> {
             const SizedBox(
               height: 20,
             ),
+            Align(
+                alignment: Alignment.bottomLeft,
+                child: Row(
+                  children: [
+                    ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                            maximumSize: const Size(225, 700),
+                            shape: const CircleBorder(),
+                            primary: const Color.fromARGB(255, 73, 89, 154)),
+                        child: const Icon(
+                          Icons.add,
+                          color: Colors.white,
+                          size: 40,
+                        ),
+                        onPressed: () => Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => null!,
+                            ))),
+                    const Text(
+                      'Schedule an Exam for This Course',
+                      style: TextStyle(fontWeight: FontWeight.bold),
+                    ),
+                  ],
+                )),
           ]),
         )));
   }

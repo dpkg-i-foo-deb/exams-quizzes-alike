@@ -1,4 +1,5 @@
 import 'package:exams_quizzes_alike/models/exam.dart';
+import 'package:exams_quizzes_alike/widgets/main_app_bar.dart';
 import 'package:flutter/material.dart';
 
 class ExamPage extends StatefulWidget {
@@ -13,6 +14,8 @@ class ExamPage extends StatefulWidget {
 class _ExamPageState extends State<ExamPage> {
   @override
   Widget build(BuildContext context) {
-    return const Scaffold();
+    return const Scaffold(
+      appBar: MainAppBar(),
+    );
   }
 }
