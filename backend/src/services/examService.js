@@ -16,7 +16,21 @@ const createExam = async (req,res) =>
     res.send('the exam was created successfully');
 }
 
+const setExamTopic = async (req, res) =>
+{
+    var { exam_code, topic_code } = req.body;
+
+    exam_code = parseInt(exam_code);
+    topic_code = parseInt(topic_code);
+
+    const response = await connectionPool.query('INSERT INTO examen_tema (codigo_examen, codigo_tema) VALUES ($1,$2)',[exam_code,topic_code]);
+
+    res.status(200);
+    res.send('topic set successfully');
+}
+
 module.exports=
 {
-    createExam
+    createExam,
+    setExamTopic,
 }
