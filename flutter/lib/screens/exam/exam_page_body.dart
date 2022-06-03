@@ -42,21 +42,66 @@ class _ExamBodyState extends State<ExamPageBody> {
                   height: 25,
                 ),
                 Container(
-                  constraints: const BoxConstraints(
-                      maxHeight: 100, maxWidth: double.infinity),
-                  decoration: BoxDecoration(
-                      color: const Color.fromARGB(255, 237, 231, 246),
-                      borderRadius: BorderRadius.circular(20)),
-                  child: const Align(
-                    child: Text('Questions Added to This Exam',
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                          fontFamily: 'ZenLoop',
-                          fontSize: 40,
-                          color: Colors.black,
-                        )),
-                  ),
+                    constraints: const BoxConstraints(
+                        maxHeight: 125, maxWidth: double.infinity),
+                    decoration: BoxDecoration(
+                        color: const Color.fromARGB(255, 237, 231, 246),
+                        borderRadius: BorderRadius.circular(20)),
+                    child: Column(
+                      children: const [
+                        SizedBox(
+                          height: 10,
+                        ),
+                        Align(
+                          child: Text('Questions Added to This Exam',
+                              textAlign: TextAlign.center,
+                              style: TextStyle(
+                                fontFamily: 'ZenLoop',
+                                fontSize: 40,
+                                color: Colors.black,
+                              )),
+                        ),
+                        SizedBox(
+                          height: 6,
+                        ),
+                        Align(
+                          child: Text('Cannot see any?\nTry to add some!',
+                              textAlign: TextAlign.center,
+                              style: TextStyle(
+                                  fontFamily: 'ZenLoop',
+                                  fontSize: 25,
+                                  color: Colors.black,
+                                  fontWeight: FontWeight.bold)),
+                        ),
+                      ],
+                    )),
+                const SizedBox(
+                  height: 20,
                 ),
+                Align(
+                    alignment: Alignment.bottomLeft,
+                    child: Row(
+                      children: [
+                        ElevatedButton(
+                            style: ElevatedButton.styleFrom(
+                                maximumSize: const Size(225, 700),
+                                shape: const CircleBorder(),
+                                primary:
+                                    const Color.fromARGB(255, 73, 89, 154)),
+                            child: const Icon(
+                              Icons.add,
+                              color: Colors.white,
+                              size: 40,
+                            ),
+                            onPressed: () {
+                              debugPrint('oli');
+                            }),
+                        const Text(
+                          'Add questions',
+                          style: TextStyle(fontWeight: FontWeight.bold),
+                        ),
+                      ],
+                    )),
                 const SizedBox(
                   height: 20,
                 ),
@@ -73,7 +118,7 @@ class _ExamBodyState extends State<ExamPageBody> {
                           itemBuilder: (context, index) {
                             return QuestionWidget(question: questions[index]);
                           });
-                    })
+                    }),
               ],
             )));
   }
