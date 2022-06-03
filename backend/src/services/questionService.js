@@ -23,7 +23,25 @@ const getCompatibleQuestions = async (req,res) =>
     res.status(200).json(response.rows);
 }
 
+const getQuestion = async (req,res) =>
+{
+    var {question_code} = req.body;
+
+    question_code = parseInt(question_code);
+
+    const response = await connectionPool.query('SELECT codigo_pregunta, "isPublic", tipo, "isFather", peso, enunciado, codigo_subpregunta, codigo_docente, codigo_tema FROM pregunta WHERE codigo_pregunta = $1',[question_code]);
+
+    if(response.rows.length<1)
+    {
+        res.status(204);
+        return res.send('No such question found');
+    }
+
+    res.status(200).json(response.rows);
+}
+
 module.exports=
 {
     getCompatibleQuestions,
+    getQuestion,
 }
