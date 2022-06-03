@@ -16,8 +16,8 @@ class ScheduledExamItem implements GridItem {
       color: const Color.fromARGB(255, 73, 89, 154),
       child: InkWell(
         splashColor: Colors.white,
-        onTap: () => Navigator.push(
-            context, MaterialPageRoute(builder: ((context) => null!))),
+        //TODO enable this action
+        onTap: null,
         child: Center(
             child: Padding(
                 padding: const EdgeInsets.all(5),
