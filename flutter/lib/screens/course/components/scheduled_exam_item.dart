@@ -24,8 +24,11 @@ class ScheduledExamItem implements GridItem {
                 child: FutureBuilder(
                   future: getExam(),
                   builder: (BuildContext context, AsyncSnapshot snapshot) {
+                    if (snapshot.connectionState != ConnectionState.done) {
+                      return const CircularProgressIndicator();
+                    }
                     return Text(
-                      scheduledExam.date,
+                      exam!.name + "\n\n" + scheduledExam.date,
                       style: const TextStyle(
                           fontWeight: FontWeight.bold,
                           fontSize: 15,

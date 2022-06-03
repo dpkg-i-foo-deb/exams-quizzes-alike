@@ -1,4 +1,8 @@
+import 'package:exams_quizzes_alike/exceptions/exam_exception.dart';
 import 'package:exams_quizzes_alike/models/course.dart';
+import 'package:exams_quizzes_alike/models/scheduled_exam.dart';
+import 'package:exams_quizzes_alike/network/scheduled_exam_requests.dart';
+import 'package:exams_quizzes_alike/screens/course/components/scheduled_exam_item.dart';
 import 'package:exams_quizzes_alike/screens/exam/components/schedule/schedule_exam_page.dart';
 import 'package:exams_quizzes_alike/widgets/main_app_bar.dart';
 import 'package:flutter/material.dart';
@@ -13,6 +17,7 @@ class CoursePage extends StatefulWidget {
 }
 
 class _CoursePageState extends State<CoursePage> {
+  List<ScheduledExam> scheduledExams = List.empty();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -101,7 +106,36 @@ class _CoursePageState extends State<CoursePage> {
                 ],
               )),
             ),
+            const SizedBox(height: 20),
+            FutureBuilder(
+                future: getExams(),
+                builder: ((context, snapshot) {
+                  return GridView.builder(
+                    shrinkWrap: true,
+                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: 3,
+                      childAspectRatio:
+                          MediaQuery.of(context).size.height / 800,
+                      crossAxisSpacing: 15,
+                    ),
+                    itemCount: scheduledExams.length,
+                    padding: const EdgeInsets.all(1),
+                    itemBuilder: (BuildContext context, int index) {
+                      return ScheduledExamItem(scheduledExams[index])
+                          .buildItem(context);
+                    },
+                  );
+                }))
           ]),
         )));
+  }
+
+  Future<void> getExams() async {
+    try {
+      scheduledExams = await ScheduledExamRequests()
+          .getScheduledExams(widget.course.courseCode!);
+    } on ExamException {
+      //TODO something when we cannot get the exams
+    }
   }
 }
