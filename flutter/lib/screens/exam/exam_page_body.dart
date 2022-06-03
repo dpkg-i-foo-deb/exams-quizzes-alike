@@ -112,6 +112,10 @@ class _ExamBodyState extends State<ExamPageBody> {
                         return const CircularProgressIndicator();
                       }
                       return ListView.builder(
+                          padding: const EdgeInsets.only(
+                            top: 10,
+                            bottom: 10,
+                          ),
                           itemCount: questions.length,
                           scrollDirection: Axis.vertical,
                           shrinkWrap: true,

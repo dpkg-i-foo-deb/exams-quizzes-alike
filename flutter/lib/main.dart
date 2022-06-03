@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 void main() {
   runApp(MaterialApp(
     theme: ThemeData(primaryColor: Colors.green),
-    debugShowCheckedModeBanner: false,
+    debugShowCheckedModeBanner: true,
     home: const LoginPage(),
   ));
 }
