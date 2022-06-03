@@ -27,6 +27,20 @@ class _QuestionWidgetState extends State<QuestionWidget> {
                 style:
                     const TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
           ),
+          const SizedBox(
+            height: 10,
+          ),
+          Align(
+            alignment: Alignment.bottomLeft,
+            child: Text(getFormattedType(),
+                style: const TextStyle(
+                  fontSize: 15,
+                  fontWeight: FontWeight.w300,
+                )),
+          ),
+          const SizedBox(
+            height: 10,
+          ),
           FutureBuilder(
               future: getOptions(),
               builder: (context, snapshot) {
@@ -50,5 +64,15 @@ class _QuestionWidgetState extends State<QuestionWidget> {
   Future<void> getOptions() async {
     options =
         await OptionRequests().getOptions(int.parse(widget.question.code));
+  }
+
+  String getFormattedType() {
+    switch (widget.question.type) {
+      case ('unica-respuesta'):
+        return "Única Respuesta";
+
+      default:
+        return "";
+    }
   }
 }

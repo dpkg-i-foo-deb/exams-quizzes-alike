@@ -36,7 +36,7 @@ class _OptionWidgetState extends State<OptionWidget> {
             ));
 
       default:
-        return Text('otra cosa');
+        return const Text('otra cosa');
     }
   }
 }
