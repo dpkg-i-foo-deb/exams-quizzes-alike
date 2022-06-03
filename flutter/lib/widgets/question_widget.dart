@@ -10,11 +10,19 @@ class QuestionWidget extends StatefulWidget {
   final Question question;
 
   @override
-  State<QuestionWidget> createState() => _QuestionWidgetState();
+  State<QuestionWidget> createState() => QuestionWidgetState();
 }
 
-class _QuestionWidgetState extends State<QuestionWidget> {
+class QuestionWidgetState extends State<QuestionWidget> {
   List<Option> options = List.empty();
+  String literalValue = "";
+
+  @override
+  void initState() {
+    literalValue = widget.question.literal;
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Align(
@@ -23,7 +31,7 @@ class _QuestionWidgetState extends State<QuestionWidget> {
         children: [
           Align(
             alignment: Alignment.bottomLeft,
-            child: Text(widget.question.literal,
+            child: Text(literalValue,
                 style:
                     const TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
           ),
@@ -74,5 +82,10 @@ class _QuestionWidgetState extends State<QuestionWidget> {
       default:
         return "";
     }
+  }
+
+  //This is nothing but a test
+  void setNewQuestionLiteral(String literal) {
+    literalValue = literal;
   }
 }
