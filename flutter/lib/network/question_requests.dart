@@ -29,4 +29,27 @@ class QuestionRequests {
 
     throw QuestionException('Something went wrong');
   }
+
+  Future<List<Question>> getExamQuestions(
+      int examCode, String teacherLogin) async {
+    Map<String, dynamic> jsonObject =
+        QuestionUtils().buildCompatibleQuestionsJson(examCode, teacherLogin);
+    final response = await http.post(
+        Uri.parse('http://localhost:3000/get-exam-questions'),
+        body: jsonObject);
+
+    if (response.statusCode == 200) {
+      List<Question> questions = (jsonDecode(response.body) as List)
+          .map((data) => Question.fromJson(data))
+          .toList();
+
+      return questions;
+    }
+
+    if (response.statusCode == 204) {
+      throw QuestionException('This exam has no questions');
+    }
+
+    throw QuestionException('Something went wrong');
+  }
 }
