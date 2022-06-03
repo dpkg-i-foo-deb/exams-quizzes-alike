@@ -18,7 +18,7 @@ class Option {
   factory Option.fromJson(Map<String, dynamic> json) {
     return Option(
       code: json['codigo_opcion'].toString(),
-      description: json['description'],
+      description: json['descripcion'],
       correctAnswer: json['respuesta_correcta'],
       missingWord: json['palabra_faltante'],
       sortOrder: json['orden'].toString(),

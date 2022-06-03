@@ -57,6 +57,9 @@ class _ExamBodyState extends State<ExamPageBody> {
                         )),
                   ),
                 ),
+                const SizedBox(
+                  height: 20,
+                ),
                 FutureBuilder(
                     future: getQuestions(),
                     builder: (context, snapshot) {

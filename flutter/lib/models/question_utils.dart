@@ -8,4 +8,12 @@ class QuestionUtils {
 
     return json;
   }
+
+  Map<String, dynamic> buildOptionsJson(int questionCode) {
+    Map<String, dynamic> json = {
+      'question_code': questionCode.toString(),
+    };
+
+    return json;
+  }
 }
