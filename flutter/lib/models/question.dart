@@ -23,15 +23,15 @@ class Question {
 
   factory Question.fromJson(Map<String, dynamic> json) {
     return Question(
-      code: json['codigo_pregunta'],
-      isPublic: json['isPublic'],
-      isFather: json['isFather'],
+      code: json['codigo_pregunta'].toString(),
+      isPublic: json['isPublic'].toString(),
+      isFather: json['isFather'].toString(),
       type: json['tipo'],
       weight: json['peso'],
       literal: json['enunciado'],
-      subQuestionCode: json['codigo_subpregunta'],
+      subQuestionCode: json['codigo_subpregunta'].toString(),
       teacherLogin: json['codigo_docente'],
-      topicCode: json['codigo_tema'],
+      topicCode: json['codigo_tema'].toString(),
     );
   }
 }

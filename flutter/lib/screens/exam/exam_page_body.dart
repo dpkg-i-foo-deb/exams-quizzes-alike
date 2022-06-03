@@ -1,4 +1,7 @@
 import 'package:exams_quizzes_alike/models/exam.dart';
+import 'package:exams_quizzes_alike/models/question.dart';
+import 'package:exams_quizzes_alike/network/question_requests.dart';
+import 'package:exams_quizzes_alike/widgets/question_widget.dart';
 import 'package:flutter/material.dart';
 
 class ExamPageBody extends StatefulWidget {
@@ -11,6 +14,7 @@ class ExamPageBody extends StatefulWidget {
 }
 
 class _ExamBodyState extends State<ExamPageBody> {
+  List<Question> questions = List.empty();
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
@@ -35,9 +39,44 @@ class _ExamBodyState extends State<ExamPageBody> {
                   ),
                 ),
                 const SizedBox(
-                  height: 20,
-                )
+                  height: 25,
+                ),
+                Container(
+                  constraints: const BoxConstraints(
+                      maxHeight: 100, maxWidth: double.infinity),
+                  decoration: BoxDecoration(
+                      color: const Color.fromARGB(255, 237, 231, 246),
+                      borderRadius: BorderRadius.circular(20)),
+                  child: const Align(
+                    child: Text('Questions Added to This Exam',
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          fontFamily: 'ZenLoop',
+                          fontSize: 40,
+                          color: Colors.black,
+                        )),
+                  ),
+                ),
+                FutureBuilder(
+                    future: getQuestions(),
+                    builder: (context, snapshot) {
+                      if (snapshot.connectionState != ConnectionState.done) {
+                        return const CircularProgressIndicator();
+                      }
+                      return ListView.builder(
+                          itemCount: questions.length,
+                          scrollDirection: Axis.vertical,
+                          shrinkWrap: true,
+                          itemBuilder: (context, index) {
+                            return QuestionWidget(question: questions[index]);
+                          });
+                    })
               ],
             )));
+  }
+
+  Future<void> getQuestions() async {
+    questions = await QuestionRequests()
+        .getExamQuestions(widget.exam.code!, widget.exam.teacherEmail);
   }
 }
