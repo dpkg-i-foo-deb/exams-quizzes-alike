@@ -40,8 +40,29 @@ const getQuestion = async (req,res) =>
     res.status(200).json(response.rows);
 }
 
+const getExamQuestions = async (req,res) =>
+{
+    var {teacher_login, exam_code} = req.body;
+
+    exam_code = parseInt(exam_code);
+
+    const response = await connectionPool.query(`select p.codigo_pregunta, p."isPublic" , p."isFather" , p.peso, p.enunciado, p.codigo_subpregunta , p.codigo_docente, p.codigo_tema  from pregunta p
+	join (select d.login_persona from docente d where login_persona = $1) d on p.codigo_docente = d.login_persona
+	join (select e.codigo_examen , e.codigo_docente  from examen e where $2) e on e.codigo_docente = d.login_persona
+	join pregunta_examen pe on pe.codigo_pregunta = p.codigo_pregunta and pe.codigo_examen = e.codigo_examen`,[teacher_login,exam_code]);
+
+    if(response.rows.length<1)
+    {
+        res.status(204);
+        return res.send('This exam has no questions');
+    }
+
+    res.status(200).json(response.rows);
+}
+
 module.exports=
 {
     getCompatibleQuestions,
     getQuestion,
+    getExamQuestions
 }
