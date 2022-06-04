@@ -1,4 +1,6 @@
 import 'package:exams_quizzes_alike/models/option.dart';
+import 'package:exams_quizzes_alike/network/option_requests.dart';
+import 'package:exams_quizzes_alike/network/question_requests.dart';
 import 'package:exams_quizzes_alike/utils/callbacks/option_callback.dart';
 import 'package:flutter/material.dart';
 
@@ -20,6 +22,8 @@ class OptionWidget extends StatefulWidget {
 
 class OptionWidgetState extends State<OptionWidget> {
   bool checkboxValue = false;
+  List<Option> pairs = List.empty();
+  String selectedPair = " ";
   @override
   Widget build(BuildContext context) {
     switch (widget.type) {
@@ -78,6 +82,46 @@ class OptionWidgetState extends State<OptionWidget> {
                 )),
               ],
             ));
+
+      case 'emparejar':
+        return Align(
+            alignment: Alignment.bottomLeft,
+            child: Column(
+              children: [
+                Row(
+                  children: [
+                    Expanded(flex: 1, child: Text(widget.option.description)),
+                    FutureBuilder(
+                        future: getPairs(),
+                        builder: (context, snapshot) {
+                          return Expanded(
+                            flex: 1,
+                            child: DropdownButtonFormField<String>(
+                              isExpanded: true,
+                              icon: (const Icon(Icons.category)),
+                              items: pairs.map((data) {
+                                return DropdownMenuItem(
+                                    child: Padding(
+                                      padding: const EdgeInsets.only(left: 8),
+                                      child: Text(data.pair),
+                                    ),
+                                    value: data.pair);
+                              }).toList(),
+                              onChanged: (String? value) {
+                                setState(() {
+                                  selectedPair = value!.toString();
+                                });
+                              },
+                            ),
+                          );
+                        })
+                  ],
+                ),
+                const SizedBox(
+                  height: 30,
+                )
+              ],
+            ));
       default:
         return const Text('Tipo de pregunta no encontrado');
     }
@@ -85,5 +129,9 @@ class OptionWidgetState extends State<OptionWidget> {
 
   String getOptionDescription() {
     return widget.option.description;
+  }
+
+  Future<void> getPairs() async {
+    pairs = await OptionRequests().getOptions(int.parse(widget.option.code));
   }
 }
