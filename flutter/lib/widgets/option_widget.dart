@@ -34,7 +34,7 @@ class OptionWidgetState extends State<OptionWidget> {
                   onChanged: (value) {
                     setState(() {});
                     checkboxValue = value!;
-                    widget.callback(widget.option.code);
+                    widget.callback(widget.option.description);
                   },
                 ),
                 const SizedBox(width: 10),
@@ -64,7 +64,7 @@ class OptionWidgetState extends State<OptionWidget> {
     }
   }
 
-  String getOptionCode() {
-    return widget.option.code;
+  String getOptionDescription() {
+    return widget.option.description;
   }
 }

@@ -72,7 +72,10 @@ class QuestionWidgetState extends State<QuestionWidget> {
                         },
                       );
                     });
-              })
+              }),
+          const SizedBox(
+            height: 20,
+          ),
         ],
       ),
     );
@@ -101,10 +104,11 @@ class QuestionWidgetState extends State<QuestionWidget> {
     literalValue = literal;
   }
 
-  void uncheckOptions(String code) {
+  void uncheckOptions(String description) {
     for (var value in optionStates) {
-      if (value.currentState!.getOptionCode() != code) {
+      if (value.currentState!.getOptionDescription() != description) {
         value.currentState!.checkboxValue = false;
+        value.currentState!.setState(() {});
       }
     }
   }
