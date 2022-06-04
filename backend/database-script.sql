@@ -441,6 +441,8 @@ ALTER TABLE IF EXISTS public.presentacion_examen ADD tiempo_presentacion time NU
 ALTER TABLE IF EXISTS public.presentacion_examen ADD ip varchar NULL;
 ALTER TABLE IF EXISTS public.presentacion_examen ALTER COLUMN nota_examen TYPE decimal USING nota_examen::decimal;
 ALTER TABLE IF EXISTS public.examen ALTER COLUMN peso_examen TYPE decimal USING peso_examen::decimal;
+ALTER TABLE IF EXISTS public.opcion ALTER COLUMN orden TYPE char varying USING orden::char varying;
+
 
 
 --reports
@@ -450,32 +452,81 @@ join curso_estudiante ce on ce.codigo_matricula = pe.codigo_matricula
 join estudiante e on e.login_persona = ce.codigo_estudiante 
 join persona p on p.login = e.login_persona);
 
+	
+create or replace view respuestas_incorrectas_pregunta as (SELECT p.enunciado enunciado ,
+            count(pp.respuesta) AS respuestas_incorrectas,
+            p.codigo_pregunta codigo_pregunta
+           FROM pregunta p
+           	 JOIN pregunta_presentacion pp ON pp.codigo_opcion  = p.codigo_pregunta
+           	 JOIN pregunta_examen pe ON pe.codigo_pregunta = p.codigo_pregunta
+             JOIN opcion o ON o.codigo_opcion = pp.codigo_opcion and o.descripcion = pp.descripcion_opcion
+          WHERE pp.respuesta::text <> o.respuesta_correcta::text 
+          		or pp.respuesta <> o.palabra_faltante
+          		or pp.respuesta <> o.orden 
+          		or pp.respuesta <> o.pareja
+          GROUP BY p.enunciado, p.codigo_pregunta);
+          
+          
+          
+create or replace view respuestas_correctas_pregunta as (SELECT p.enunciado enunciado ,
+            count(pp.respuesta) AS respuestas_correctas,
+            p.codigo_pregunta codigo_pregunta
+           FROM pregunta p
+           	 JOIN pregunta_presentacion pp ON pp.codigo_opcion  = p.codigo_pregunta
+           	 JOIN pregunta_examen pe ON pe.codigo_pregunta = p.codigo_pregunta
+             JOIN opcion o ON o.codigo_opcion = pp.codigo_opcion and o.descripcion = pp.descripcion_opcion
+          WHERE pp.respuesta::text = o.respuesta_correcta::text 
+          		or pp.respuesta = o.palabra_faltante
+          		or pp.respuesta = o.orden 
+          		or pp.respuesta = o.pareja
+          GROUP BY p.enunciado, p.codigo_pregunta);
 
-CREATE OR REPLACE VIEW reporte_por_pregunta as (
-    select sq.codigo_pregunta,sq.enunciado, (sq_1.respuestas_correctas*100)/sq_3.respuestas_total || '%' porcentaje_correctas, sq.respuestas_incorrectas, sq_1.respuestas_correctas, sq_3.respuestas_total
-    from 
-        (select p.enunciado enunciado, count(pp.respuesta) respuestas_incorrectas, p.codigo_pregunta codigo_pregunta
-            from pregunta p join opcion o on 
-            o.codigo_opcion = p.codigo_pregunta 
-            join pregunta_examen pe on pe.codigo_pregunta = p.codigo_pregunta
-            join pregunta_presentacion pp on pp.codigo_opcion = p.codigo_pregunta where pp.respuesta != o.respuesta_correcta 
-            group by p.enunciado, p.codigo_pregunta) sq
-            join
-        (select p.enunciado enunciado,count(pp.respuesta) respuestas_correctas 
-            from pregunta p join opcion o on 
-            o.codigo_opcion = p.codigo_pregunta 
-            join pregunta_examen pe on pe.codigo_pregunta = p.codigo_pregunta
-            join pregunta_presentacion pp on pp.codigo_opcion = p.codigo_pregunta where pp.respuesta = o.respuesta_correcta 
-            group by p.enunciado) sq_1
-            on sq.enunciado = sq_1.enunciado
-            join 
-        (select p.enunciado, count(pp.respuesta) respuestas_total 
-            from pregunta p join opcion o on 
-            o.codigo_opcion = p.codigo_pregunta 
-            join pregunta_examen pe on pe.codigo_pregunta = p.codigo_pregunta
-            join pregunta_presentacion pp on pp.codigo_opcion = p.codigo_pregunta
-            group by p.codigo_pregunta) sq_3 
-        on sq_1.enunciado = sq_3.enunciado);
+
+
+create or replace view respuestas_pregunta as (SELECT p.enunciado enunciado ,
+            count(pp.respuesta) AS respuestas,
+            p.codigo_pregunta codigo_pregunta
+           FROM pregunta p
+           	 JOIN pregunta_presentacion pp ON pp.codigo_opcion  = p.codigo_pregunta
+           	 JOIN pregunta_examen pe ON pe.codigo_pregunta = p.codigo_pregunta
+             JOIN opcion o ON o.codigo_opcion = pp.codigo_opcion and o.descripcion = pp.descripcion_opcion
+          GROUP BY p.enunciado, p.codigo_pregunta);
+
+
+
+
+create or replace view reporte_por_pregunta as (select  p.codigo_pregunta codigo_pregunta, p.enunciado enunciado,
+	coalesce(rip.respuestas_incorrectas, 0) respuestas_incorrectas,
+	coalesce (rcp.respuestas_correctas,0) respuestas_correctas,
+	coalesce (rp.respuestas, 0) cantidad_respuestas,
+	(coalesce (rcp.respuestas_correctas,0)*100)/(coalesce (rp.respuestas, 1)) || '%'porcentaje_correctas
+		from pregunta p
+			left join respuestas_incorrectas_pregunta rip on rip.codigo_pregunta = p.codigo_pregunta 
+			left join respuestas_correctas_pregunta rcp on rcp.codigo_pregunta = p.codigo_pregunta 
+			left join respuestas_pregunta rp on rp.codigo_pregunta = p.codigo_pregunta
+			group by p.codigo_pregunta, p.enunciado ,rip.respuestas_incorrectas, rcp.respuestas_correctas, rp.respuestas);
+
+
+
+create or replace view reporte_pregunta as (SELECT p.enunciado enunciado ,
+            count(pp.respuesta) AS respuestas,
+            p.codigo_pregunta codigo_pregunta
+           FROM pregunta p
+           	 JOIN pregunta_presentacion pp ON pp.codigo_opcion  = p.codigo_pregunta
+           	 JOIN pregunta_examen pe ON pe.codigo_pregunta = p.codigo_pregunta
+             JOIN opcion o ON o.codigo_opcion = pp.codigo_opcion and o.descripcion = pp.descripcion_opcion
+          GROUP BY p.enunciado, p.codigo_pregunta);
+          
+
+
+
+
+
+
+
+
+
+
 
 
  CREATE OR REPLACE VIEW reporte_por_estudiante AS (
@@ -524,17 +575,24 @@ CREATE OR REPLACE VIEW reporte_por_pregunta as (
                             from reporte_aprobados ra full join reporte_reprobados rr on ra.nombre_curso = rr.nombre_curso);
 
 
-    create or replace view respuestas_incorrectas_examen as
-(select coalesce(sum(sq.respuestas_incorrectas),0) cantidad_respuestas_incorrectas, sq.codigo_examen from (select count(pp.respuesta) respuestas_incorrectas, ce.codigo_curso_examen codigo_examen
-from curso_examen ce 
-join examen e on e.codigo_examen = ce.codigo_examen 
-join presentacion_examen pe on pe.codigo_examen = e.codigo_examen 
-join pregunta_presentacion pp on pp.codigo_presentacion = pe.codigo_presentacion 
-join pregunta_examen pex on pex.codigo_pregunta_examen = pp.codigo_pregunta_examen 
-join pregunta p on p.codigo_pregunta = pex.codigo_pregunta 
-join opcion o on o.codigo_opcion =p.codigo_pregunta and o.descripcion = pp.descripcion_opcion
-where pp.respuesta != o.respuesta_correcta 
-group by pp.respuesta, ce.codigo_curso_examen) sq group by sq.codigo_examen);
+ CREATE OR REPLACE VIEW public.respuestas_incorrectas_examen
+AS SELECT COALESCE(sum(sq.respuestas_incorrectas), 0::numeric) AS cantidad_respuestas_incorrectas,
+    sq.codigo_examen
+   FROM ( SELECT count(pp.respuesta) AS respuestas_incorrectas,
+            ce.codigo_curso_examen AS codigo_examen
+           FROM curso_examen ce
+             JOIN examen e ON e.codigo_examen = ce.codigo_examen
+             JOIN presentacion_examen pe ON pe.codigo_examen = e.codigo_examen
+             JOIN pregunta_presentacion pp ON pp.codigo_presentacion = pe.codigo_presentacion
+             JOIN pregunta_examen pex ON pex.codigo_pregunta_examen = pp.codigo_pregunta_examen
+             JOIN pregunta p ON p.codigo_pregunta = pex.codigo_pregunta
+             JOIN opcion o ON o.codigo_opcion = p.codigo_pregunta
+          WHERE pp.respuesta::text <> o.respuesta_correcta::text
+                or pp.respuesta <> o.palabra_faltante
+          		or pp.respuesta <> o.orden 
+          		or pp.respuesta <> o.pareja
+          GROUP BY pp.respuesta, ce.codigo_curso_examen) sq
+  GROUP BY sq.codigo_examen;
 
 
 create or replace view promedio_max_min_examen as(select avg(pe.nota_examen) promedio_notas_examen, max(pe.nota_examen) nota_maxima, min(pe.nota_examen) nota_minima, ce.codigo_curso_examen codigo_examen from curso_examen ce 
@@ -552,18 +610,26 @@ join pregunta p on p.codigo_pregunta = pex.codigo_pregunta
 where pp.respuesta != ''
 group by ce.codigo_curso_examen, p.codigo_pregunta, e.nombre) sq group by sq.codigo_curso_examen, sq.nombre_examen);
 
-create or replace view respuestas_correctas_examen as (
-select coalesce (sum(sq.respuestas_correctas),0) cantidad_respuestas_correctas, sq.codigo_examen from (select count(pp.respuesta) respuestas_correctas, ce.codigo_curso_examen codigo_examen
-from curso_examen ce 
-join examen e on e.codigo_examen = ce.codigo_examen 
-join presentacion_examen pe on pe.codigo_examen = e.codigo_examen 
-join pregunta_presentacion pp on pp.codigo_presentacion = pe.codigo_presentacion 
-join pregunta_examen pex on pex.codigo_pregunta_examen = pp.codigo_pregunta_examen 
-join pregunta p on p.codigo_pregunta = pex.codigo_pregunta 
-join opcion o on o.codigo_opcion =p.codigo_pregunta and o.descripcion = pp.descripcion_opcion
-where pp.respuesta = o.respuesta_correcta 
-group by pp.respuesta, ce.codigo_curso_examen) sq group by sq.codigo_examen);
 
+
+CREATE OR REPLACE VIEW public.respuestas_correctas_examen
+AS SELECT COALESCE(sum(sq.respuestas_correctas), 0::numeric) AS cantidad_respuestas_correctas,
+    sq.codigo_examen
+   FROM ( SELECT count(pp.respuesta) AS respuestas_correctas,
+            ce.codigo_curso_examen AS codigo_examen
+           FROM curso_examen ce
+             JOIN examen e ON e.codigo_examen = ce.codigo_examen
+             JOIN presentacion_examen pe ON pe.codigo_examen = e.codigo_examen
+             JOIN pregunta_presentacion pp ON pp.codigo_presentacion = pe.codigo_presentacion
+             JOIN pregunta_examen pex ON pex.codigo_pregunta_examen = pp.codigo_pregunta_examen
+             JOIN pregunta p ON p.codigo_pregunta = pex.codigo_pregunta
+             JOIN opcion o ON o.codigo_opcion = p.codigo_pregunta
+          WHERE pp.respuesta::text = o.respuesta_correcta::text
+                or pp.respuesta <> o.palabra_faltante
+          		or pp.respuesta <> o.orden 
+          		or pp.respuesta <> o.pareja
+          GROUP BY pp.respuesta, ce.codigo_curso_examen) sq
+  GROUP BY sq.codigo_examen;
 
 
 CREATE OR REPLACE VIEW reporte_examenes AS ( select ce.codigo_curso_examen, pre.nombre_examen, pre.cantidad_preguntas_respondidas, coalesce(rce.cantidad_respuestas_correctas,0) cantidad_respuestas_correctas, coalesce (rie.cantidad_respuestas_incorrectas,0) cantidad_respuestas_incorrectas, pmme.promedio_notas_examen promedio_notas_examen, pmme.nota_maxima nota_maxima, pmme.nota_minima nota_minima 
