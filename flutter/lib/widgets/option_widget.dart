@@ -148,6 +148,9 @@ class OptionWidgetState extends State<OptionWidget> {
                 ),
               ],
             ));
+
+      case ('ordenar'):
+        return Text(widget.option.description);
       default:
         return const Text('Tipo de pregunta no encontrado');
     }
