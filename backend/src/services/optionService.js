@@ -6,7 +6,7 @@ const getQuestionOptions = async (req,res) =>
 
     const response = await connectionPool.query(`select codigo_opcion ,descripcion,respuesta_correcta ,
         coalesce (palabra_faltante,'ninguna') palabra_faltante
-        ,coalesce(orden,0) orden ,
+        ,coalesce(orden,'ninguno') orden ,
         coalesce (pareja,'ninguna') pareja  from opcion o where codigo_opcion = $1`,[question_code]);
 
     if(response.rows.length<1)
