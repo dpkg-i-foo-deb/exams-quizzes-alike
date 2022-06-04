@@ -59,6 +59,25 @@ class OptionWidgetState extends State<OptionWidget> {
                 Text(widget.option.description),
               ],
             ));
+
+      case 'completar':
+        return Align(
+            alignment: Alignment.bottomLeft,
+            child: Row(
+              children: [
+                Flexible(
+                    child: TextField(
+                  decoration: InputDecoration(
+                    hintText: widget.option.description,
+                    prefixIcon: const Icon(
+                      Icons.text_fields,
+                    ),
+                    focusColor: Colors.deepPurple,
+                  ),
+                  onChanged: (value) {},
+                )),
+              ],
+            ));
       default:
         return const Text('Tipo de pregunta no encontrado');
     }
