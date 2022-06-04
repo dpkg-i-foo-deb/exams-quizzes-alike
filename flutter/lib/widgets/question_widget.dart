@@ -94,8 +94,17 @@ class QuestionWidgetState extends State<QuestionWidget> {
       case ('multiple-respuesta'):
         return ("Múltiple Respuesta");
 
+      case ('completar'):
+        return ('Completar la Palabra Faltante');
+
+      case ('emparejar'):
+        return ('Emparejar los Conceptos');
+
+      case ('ordenar'):
+        return ('Ordenar la secuencia');
+
       default:
-        return "";
+        return "Tipo de Pregunta no Encontrado";
     }
   }
 
