@@ -16,6 +16,7 @@ class QuestionWidget extends StatefulWidget {
 class QuestionWidgetState extends State<QuestionWidget> {
   List<Option> options = List.empty();
   String literalValue = "";
+  List<GlobalKey<OptionWidgetState>> optionStates = [];
 
   @override
   void initState() {
@@ -60,8 +61,16 @@ class QuestionWidgetState extends State<QuestionWidget> {
                     scrollDirection: Axis.vertical,
                     shrinkWrap: true,
                     itemBuilder: (context, index) {
+                      GlobalKey<OptionWidgetState> key = GlobalKey();
+                      optionStates.add(key);
                       return OptionWidget(
-                          option: options[index], type: widget.question.type);
+                        option: options[index],
+                        type: widget.question.type,
+                        key: key,
+                        callback: (String value) {
+                          uncheckOptions(value);
+                        },
+                      );
                     });
               })
         ],
@@ -79,6 +88,9 @@ class QuestionWidgetState extends State<QuestionWidget> {
       case ('unica-respuesta'):
         return "Única Respuesta";
 
+      case ('multiple-respuesta'):
+        return ("Múltiple Respuesta");
+
       default:
         return "";
     }
@@ -87,5 +99,13 @@ class QuestionWidgetState extends State<QuestionWidget> {
   //This is nothing but a test
   void setNewQuestionLiteral(String literal) {
     literalValue = literal;
+  }
+
+  void uncheckOptions(String code) {
+    for (var value in optionStates) {
+      if (value.currentState!.getOptionCode() != code) {
+        value.currentState!.checkboxValue = false;
+      }
+    }
   }
 }
