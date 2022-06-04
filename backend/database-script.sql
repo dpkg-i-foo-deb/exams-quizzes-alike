@@ -814,7 +814,7 @@ INSERT INTO public.pregunta
 VALUES(true, 'emparejar', false, 20, 'Empareja las opciones de acuerdo a los conceptos', NULL, 'jitrivino@uniquindio.edu.co', 1);
 -- Auto-generated SQL script #202206032343
 INSERT INTO public.pregunta ("isPublic",tipo,"isFather",peso,enunciado,codigo_docente,codigo_tema)
-	VALUES (true,'falso-verdadero',false,20,'Selecciona falso y verdadero de acuerdo a los conceptos','jitrivino@uniquindio.edu.co',1);
+	VALUES (true,'falso-verdadero',false,20,'Marca si es falso o verdadero de acuerdo a los conceptos','jitrivino@uniquindio.edu.co',1);
 
 
 
