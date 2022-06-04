@@ -122,6 +122,32 @@ class OptionWidgetState extends State<OptionWidget> {
                 )
               ],
             ));
+
+      case 'falso-verdadero':
+        return Align(
+            alignment: Alignment.bottomLeft,
+            child: Column(
+              children: [
+                Row(
+                  children: [
+                    Checkbox(
+                      value: checkboxValue,
+                      activeColor: Colors.green,
+                      onChanged: (value) {
+                        setState(() {
+                          checkboxValue = value!;
+                        });
+                      },
+                    ),
+                    const SizedBox(width: 10),
+                    Flexible(child: Text(widget.option.description)),
+                  ],
+                ),
+                const SizedBox(
+                  height: 10,
+                ),
+              ],
+            ));
       default:
         return const Text('Tipo de pregunta no encontrado');
     }
