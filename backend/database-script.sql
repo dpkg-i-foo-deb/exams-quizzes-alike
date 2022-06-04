@@ -812,6 +812,9 @@ VALUES(true, 'completar', false, 20, 'Un dato es un hecho conocido que puede reg
 INSERT INTO public.pregunta
 ("isPublic", tipo, "isFather", peso, enunciado, codigo_subpregunta, codigo_docente, codigo_tema)
 VALUES(true, 'emparejar', false, 20, 'Empareja las opciones de acuerdo a los conceptos', NULL, 'jitrivino@uniquindio.edu.co', 1);
+-- Auto-generated SQL script #202206032343
+INSERT INTO public.pregunta ("isPublic",tipo,"isFather",peso,enunciado,codigo_docente,codigo_tema)
+	VALUES (true,'falso-verdadero',false,20,'Selecciona falso y verdadero de acuerdo a los conceptos','jitrivino@uniquindio.edu.co',1);
 
 
 
@@ -827,6 +830,14 @@ INSERT INTO public.opcion (codigo_opcion,descripcion,respuesta_correcta,palabra_
 	 (3,'Completa de acuerdo a la definición de dato','implícito','implícito',NULL,NULL),
 	 (4,'Recurso valioso en la era moderna','información',NULL,NULL,'informacion'),
 	 (4,'Posee un propósito específico, se dirige a un grupo de usuarios y tiene aplicaciones que interesan a dichos usuarios','base de datos',NULL,NULL,'base de datos');
+     -- Auto-generated SQL script #202206032345
+INSERT INTO public.opcion (codigo_opcion,descripcion,respuesta_correcta)
+	VALUES (5,'La base de datos representa algo del mundo real','verdadero');
+INSERT INTO public.opcion (codigo_opcion,descripcion,respuesta_correcta)
+	VALUES (5,'La base de datos puede tener cualquier complegidad y tamaño','verdadero');
+INSERT INTO public.opcion (codigo_opcion,descripcion,respuesta_correcta)
+	VALUES (5,'La generación y mantenimiento de la base de datos NO puede ser manual','falso');
+
 
 
 -- exam and questions
@@ -843,6 +854,9 @@ VALUES(3, 1);
 INSERT INTO public.pregunta_examen
 (codigo_pregunta, codigo_examen)
 VALUES(4, 1);
+INSERT INTO public.pregunta_examen (codigo_pregunta,codigo_examen)
+	VALUES (5,1);
+
 
 
 
