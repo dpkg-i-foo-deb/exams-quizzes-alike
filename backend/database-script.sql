@@ -639,6 +639,56 @@ full join respuestas_correctas_examen rce on ce.codigo_curso_examen = rce.codigo
 full join respuestas_incorrectas_examen rie on ce.codigo_curso_examen = rie.codigo_examen
 left join promedio_max_min_examen pmme on pmme.codigo_examen = ce.codigo_curso_examen);
 
+
+
+create or replace view cantidad_respuestas_correctas_por_tema as(
+select  count(pp.codigo_pregunta_presentacion) cantidad_respuestas_correctas , t.codigo_tema codigo_tema
+   from tema t
+   join examen_tema et on t.codigo_tema = et.codigo_tema 
+   join examen e on e.codigo_examen = et.codigo_examen 
+   join presentacion_examen pe on e.codigo_examen = pe.codigo_examen 
+   join pregunta_presentacion pp on pe.codigo_presentacion = pp.codigo_presentacion 
+   join opcion o ON o.codigo_opcion = pp.codigo_opcion and o.descripcion = pp.descripcion_opcion
+   join pregunta p on p.codigo_pregunta = o.codigo_opcion and p.codigo_tema = t.codigo_tema 
+   WHERE pp.respuesta = o.respuesta_correcta OR pp.respuesta = o.palabra_faltante OR pp.respuesta = o.orden OR pp.respuesta = o.pareja
+   group by t.codigo_tema);
+  
+create or replace view cantidad_respuestas_incorrectas_por_tema as(
+select  count(pp.codigo_pregunta_presentacion) cantidad_respuestas_incorrectas , t.codigo_tema codigo_tema
+   from tema t
+   join examen_tema et on t.codigo_tema = et.codigo_tema 
+   join examen e on e.codigo_examen = et.codigo_examen 
+   join presentacion_examen pe on e.codigo_examen = pe.codigo_examen 
+   join pregunta_presentacion pp on pe.codigo_presentacion = pp.codigo_presentacion 
+   join opcion o ON o.codigo_opcion = pp.codigo_opcion and o.descripcion = pp.descripcion_opcion
+   join pregunta p on p.codigo_pregunta = o.codigo_opcion 
+   WHERE pp.respuesta != o.respuesta_correcta OR pp.respuesta != o.palabra_faltante OR pp.respuesta != o.orden OR pp.respuesta != o.pareja 
+   group by t.codigo_tema);
+   
+create or replace view cantidad_preguntas_respondidas_por_tema as(
+select count(pp.codigo_pregunta_presentacion) cantidad_preguntas_respondidas , t.codigo_tema codigo_tema
+   from tema t
+   join examen_tema et on t.codigo_tema = et.codigo_tema 
+   join examen e on e.codigo_examen = et.codigo_examen 
+   join presentacion_examen pe on e.codigo_examen = pe.codigo_examen 
+   join pregunta_presentacion pp on pe.codigo_presentacion = pp.codigo_presentacion 
+   where pp.respuesta != '' group by t.codigo_tema);
+   
+CREATE OR REPLACE VIEW public.reporte_por_tema
+AS SELECT t.codigo_tema,
+    t.descripcion ,
+    COALESCE(rct.cantidad_respuestas_correctas, 0) AS respuestas_correctas,
+    COALESCE(rit.cantidad_respuestas_incorrectas, 0) AS respuestas_incorrectas,
+    COALESCE(prt.cantidad_preguntas_respondidas, 0) AS cantidad_respuestas,
+    (COALESCE(rct.cantidad_respuestas_correctas, 0) * 100 / COALESCE(prt.cantidad_preguntas_respondidas, 1)) || '%' AS porcentaje_correctas,
+    (COALESCE(rit.cantidad_respuestas_incorrectas, 0) * 100 / COALESCE(prt.cantidad_preguntas_respondidas, 1)) || '%' AS porcentaje_incorrectas
+   FROM tema t
+     left join cantidad_respuestas_correctas_por_tema rct on rct.codigo_tema = t.codigo_tema 
+     left join cantidad_respuestas_incorrectas_por_tema rit on rit.codigo_tema = t.codigo_tema 
+     left join cantidad_preguntas_respondidas_por_tema prt on prt.codigo_tema = t.codigo_tema 
+  GROUP BY t.codigo_tema , t.descripcion , rct.cantidad_respuestas_correctas,rit.cantidad_respuestas_incorrectas, prt.cantidad_preguntas_respondidas;
+
+
 --Populating database
 
 
@@ -750,18 +800,49 @@ INSERT INTO public.examen (nota_maxima,nota_minima,peso_examen,cantidad_pregunta
 
 
 -- Questions
-INSERT INTO public.pregunta ("isPublic",tipo,"isFather",peso,enunciado,codigo_docente,codigo_tema)
-	VALUES (true,'unica-respuesta',false,20,'¿Qué es una base de datos?','jitrivino@uniquindio.edu.co',1);
+INSERT INTO public.pregunta
+("isPublic", tipo, "isFather", peso, enunciado, codigo_subpregunta, codigo_docente, codigo_tema)
+VALUES(true, 'unica-respuesta', false, 20, '¿Qué es una base de datos?', NULL, 'jitrivino@uniquindio.edu.co', 1);
+INSERT INTO public.pregunta
+("isPublic", tipo, "isFather", peso, enunciado, codigo_subpregunta, codigo_docente, codigo_tema)
+VALUES(true, 'multiple-respuesta', false, 20, 'Seleccione de los siguentes literales, aquellos que sean un tipo de base de datos', NULL, 'jitrivino@uniquindio.edu.co', 1);
+INSERT INTO public.pregunta
+("isPublic", tipo, "isFather", peso, enunciado, codigo_subpregunta, codigo_docente, codigo_tema)
+VALUES(true, 'completar', false, 20, 'Un dato es un hecho conocido que puede registrarse y tiene un significado...', NULL, 'jitrivino@uniquindio.edu.co', 1);
+INSERT INTO public.pregunta
+("isPublic", tipo, "isFather", peso, enunciado, codigo_subpregunta, codigo_docente, codigo_tema)
+VALUES(true, 'emparejar', false, 20, 'Empareja las opciones de acuerdo a los conceptos', NULL, 'jitrivino@uniquindio.edu.co', 1);
 
 
 
 --Choice
-INSERT INTO public.opcion (codigo_opcion,descripcion,respuesta_correcta)
-	VALUES (1,'Una comida','Algo donde puedo almacenar datos');
-INSERT INTO public.opcion (codigo_opcion,descripcion,respuesta_correcta)
-	VALUES (1,'Un animal','Algo donde puedo almacenar datos');
-INSERT INTO public.opcion (codigo_opcion,descripcion,respuesta_correcta)
-	VALUES (1,'Algo donde puedo almacenar datos','Algo donde puedo almacenar datos');
+INSERT INTO public.opcion (codigo_opcion,descripcion,respuesta_correcta,palabra_faltante,orden,pareja) VALUES
+	 (1,'Una comida','Algo donde puedo almacenar datos',NULL,NULL,NULL),
+	 (1,'Un animal','Algo donde puedo almacenar datos',NULL,NULL,NULL),
+	 (2,'Base de datos Orientada a Objetos','Base de datos Orientada a Objetos',NULL,NULL,NULL),
+	 (2,'Base de datos Relacional','Base de datos Relacional',NULL,NULL,NULL),
+	 (2,'Base de datos no Relacional','Base de datos no Relacional',NULL,NULL,NULL),
+	 (2,'Una cubeta de huevos','no aplica',NULL,NULL,NULL),
+	 (1,'Un conjunto de datos relacionados entre sí','Un conjunto de datos relacionados entre sí',NULL,NULL,NULL),
+	 (3,'Completa de acuerdo a la definición de dato','implícito','implícito',NULL,NULL),
+	 (4,'Recurso valioso en la era moderna','información',NULL,NULL,'informacion'),
+	 (4,'Posee un propósito específico, se dirige a un grupo de usuarios y tiene aplicaciones que interesan a dichos usuarios','base de datos',NULL,NULL,'base de datos');
+
+
+-- exam and questions
+
+INSERT INTO public.pregunta_examen
+(codigo_pregunta, codigo_examen)
+VALUES(1, 1);
+INSERT INTO public.pregunta_examen
+(codigo_pregunta, codigo_examen)
+VALUES(2, 1);
+INSERT INTO public.pregunta_examen
+(codigo_pregunta, codigo_examen)
+VALUES(3, 1);
+INSERT INTO public.pregunta_examen
+(codigo_pregunta, codigo_examen)
+VALUES(4, 1);
 
 
 
