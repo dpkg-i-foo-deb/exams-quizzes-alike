@@ -23,6 +23,7 @@ class OptionWidget extends StatefulWidget {
 class OptionWidgetState extends State<OptionWidget> {
   bool checkboxValue = false;
   List<Option> pairs = List.empty();
+
   String selectedPair = " ";
   @override
   Widget build(BuildContext context) {
@@ -150,7 +151,44 @@ class OptionWidgetState extends State<OptionWidget> {
             ));
 
       case ('ordenar'):
-        return Text(widget.option.description);
+        return Align(
+            alignment: Alignment.bottomLeft,
+            child: Column(
+              children: [
+                Row(
+                  children: [
+                    Expanded(flex: 1, child: Text(widget.option.description)),
+                    FutureBuilder(
+                        future: getPairs(),
+                        builder: (context, snapshot) {
+                          return Expanded(
+                            flex: 1,
+                            child: DropdownButtonFormField<String>(
+                              isExpanded: true,
+                              icon: (const Icon(Icons.category)),
+                              items: pairs.map((data) {
+                                return DropdownMenuItem(
+                                    child: Padding(
+                                      padding: const EdgeInsets.only(left: 8),
+                                      child: Text(data.pair),
+                                    ),
+                                    value: data.pair);
+                              }).toList(),
+                              onChanged: (String? value) {
+                                setState(() {
+                                  selectedPair = value!.toString();
+                                });
+                              },
+                            ),
+                          );
+                        })
+                  ],
+                ),
+                const SizedBox(
+                  height: 30,
+                )
+              ],
+            ));
       default:
         return const Text('Tipo de pregunta no encontrado');
     }

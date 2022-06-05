@@ -1,13 +1,18 @@
 import 'package:exams_quizzes_alike/exceptions/exam_exception.dart';
 import 'package:exams_quizzes_alike/models/exam.dart';
+import 'package:exams_quizzes_alike/models/exam_report.dart';
 import 'package:exams_quizzes_alike/models/scheduled_exam.dart';
+import 'package:exams_quizzes_alike/network/exam_report_requests.dart';
 import 'package:exams_quizzes_alike/network/exam_requests.dart';
+import 'package:exams_quizzes_alike/screens/exam/scheduled_exam_page.dart';
 import 'package:exams_quizzes_alike/widgets/grid_item.dart';
 import 'package:flutter/material.dart';
+import 'package:http/http.dart';
 
 class ScheduledExamItem implements GridItem {
   final ScheduledExam scheduledExam;
   Exam? exam;
+  ExamReport? examReport;
   ScheduledExamItem(this.scheduledExam);
 
   @override
@@ -17,12 +22,19 @@ class ScheduledExamItem implements GridItem {
       child: InkWell(
         splashColor: Colors.white,
         //TODO enable this action
-        onTap: null,
+        onTap: () {
+          Navigator.push(
+              context,
+              MaterialPageRoute(
+                  builder: (((context) => ScheduledExamPage(
+                        examReport: examReport!,
+                      )))));
+        },
         child: Center(
             child: Padding(
                 padding: const EdgeInsets.all(5),
                 child: FutureBuilder(
-                  future: getExam(),
+                  future: Future.wait([getExam(), getReport()]),
                   builder: (BuildContext context, AsyncSnapshot snapshot) {
                     if (snapshot.connectionState != ConnectionState.done) {
                       return const CircularProgressIndicator();
@@ -47,6 +59,16 @@ class ScheduledExamItem implements GridItem {
     } on ExamException {
       //TODO something when we cannot get the exam
       rethrow;
+    }
+  }
+
+  Future<void> getReport() async {
+    List<ExamReport> reports = await ExamReportRequests().getExamReports();
+
+    for (var value in reports) {
+      if (value.code == scheduledExam.code) {
+        examReport = value;
+      }
     }
   }
 }
