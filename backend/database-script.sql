@@ -811,6 +811,61 @@ create or replace view reporte_por_presentacion as
 
 
 
+
+
+
+create or replace view cantidad_respuestas_correctas_por_grupo as(select count(pp.codigo_pregunta_presentacion) cantidad_respuestas_correctas, c.codigo_curso codigo_curso
+from curso c 
+join curso_examen ce on c.codigo_curso  = ce.codigo_curso 
+join examen e on e.codigo_examen = ce.codigo_examen 
+join presentacion_examen pe on e.codigo_examen = pe.codigo_examen 
+join pregunta_presentacion pp on pe.codigo_presentacion = pp.codigo_presentacion 
+join opcion o ON o.codigo_opcion = pp.codigo_opcion and o.descripcion = pp.descripcion_opcion
+join pregunta p on p.codigo_pregunta = o.codigo_opcion 
+WHERE pp.respuesta = o.respuesta_correcta OR pp.respuesta = o.palabra_faltante OR pp.respuesta = o.orden OR pp.respuesta = o.pareja
+group by c.codigo_curso);
+
+
+create or replace view cantidad_respuestas_incorrectas_por_grupo as (select count(pp.codigo_pregunta_presentacion) cantidad_respuestas_incorrectas, c.codigo_curso codigo_curso
+from curso c 
+join curso_examen ce on c.codigo_curso  = ce.codigo_curso 
+join examen e on e.codigo_examen = ce.codigo_examen 
+join presentacion_examen pe on e.codigo_examen = pe.codigo_examen 
+join pregunta_presentacion pp on pe.codigo_presentacion = pp.codigo_presentacion 
+join opcion o ON o.codigo_opcion = pp.codigo_opcion and o.descripcion = pp.descripcion_opcion
+join pregunta p on p.codigo_pregunta = o.codigo_opcion 
+WHERE pp.respuesta != o.respuesta_correcta OR pp.respuesta != o.palabra_faltante OR pp.respuesta != o.orden OR pp.respuesta != o.pareja
+group by c.codigo_curso);
+
+create or replace view cantidad_preguntas_respondidas_por_grupo as (select count(pp.codigo_pregunta_presentacion) cantidad_preguntas_respondidas, c.codigo_curso codigo_curso
+from curso c 
+join curso_examen ce on c.codigo_curso  = ce.codigo_curso 
+join examen e on e.codigo_examen = ce.codigo_examen 
+join presentacion_examen pe on e.codigo_examen = pe.codigo_examen 
+join pregunta_presentacion pp on pe.codigo_presentacion = pp.codigo_presentacion 
+join opcion o ON o.codigo_opcion = pp.codigo_opcion and o.descripcion = pp.descripcion_opcion
+join pregunta p on p.codigo_pregunta = o.codigo_opcion 
+group by c.codigo_curso);
+
+
+
+
+create or replace view reporte_por_grupo as (select c.descripcion, 
+c.codigo_curso,
+coalesce (crcg.cantidad_respuestas_correctas,0) cantidad_preguntas_correctas,
+coalesce (cripg.cantidad_respuestas_incorrectas,0)cantidad_preguntas_incorrectas,
+coalesce (cprpg.cantidad_preguntas_respondidas ,0)cantidad_preguntas_respondidas,
+coalesce (crcg.cantidad_respuestas_correctas*100/coalesce(cprpg.cantidad_preguntas_respondidas,1),0)||'%' porcentaje_respuestas_correctas
+from curso c 
+left join cantidad_respuestas_correctas_por_grupo crcg on crcg.codigo_curso = c.codigo_curso 
+left join cantidad_respuestas_incorrectas_por_grupo cripg on cripg.codigo_curso = c.codigo_curso 
+left join cantidad_preguntas_respondidas_por_grupo cprpg on cprpg.codigo_curso = c.codigo_curso 
+group by c.descripcion, c.codigo_curso, crcg.cantidad_respuestas_correctas, cripg.cantidad_respuestas_incorrectas, cprpg.cantidad_preguntas_respondidas);
+
+
+
+
+
 --Populating database
 
 
