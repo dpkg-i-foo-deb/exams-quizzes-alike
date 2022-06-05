@@ -103,6 +103,9 @@ class QuestionWidgetState extends State<QuestionWidget> {
       case ('ordenar'):
         return ('Ordenar la secuencia');
 
+      case ('falso-verdadero'):
+        return ('Falso o Verdadero');
+
       default:
         return "Tipo de Pregunta no Encontrado";
     }
