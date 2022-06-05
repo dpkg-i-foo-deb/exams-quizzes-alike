@@ -1,6 +1,6 @@
 import 'package:exams_quizzes_alike/exceptions/exam_exception.dart';
 import 'package:exams_quizzes_alike/models/exam.dart';
-import 'package:exams_quizzes_alike/models/exam_report.dart';
+import 'package:exams_quizzes_alike/models/reports/exam_report.dart';
 import 'package:exams_quizzes_alike/models/scheduled_exam.dart';
 import 'package:exams_quizzes_alike/network/exam_report_requests.dart';
 import 'package:exams_quizzes_alike/network/exam_requests.dart';

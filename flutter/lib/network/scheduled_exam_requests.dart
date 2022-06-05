@@ -2,7 +2,7 @@ import 'dart:convert';
 
 import 'package:exams_quizzes_alike/exceptions/scheduled_exam_exception.dart';
 import 'package:exams_quizzes_alike/models/scheduled_exam.dart';
-import 'package:exams_quizzes_alike/models/scheduled_exam_utils.dart';
+import 'package:exams_quizzes_alike/models/utils/scheduled_exam_utils.dart';
 import 'package:http/http.dart' as http;
 
 class ScheduledExamRequests {
