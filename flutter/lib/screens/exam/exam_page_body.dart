@@ -1,6 +1,7 @@
 import 'package:exams_quizzes_alike/models/exam.dart';
 import 'package:exams_quizzes_alike/models/question.dart';
 import 'package:exams_quizzes_alike/network/question_requests.dart';
+import 'package:exams_quizzes_alike/screens/exam/components/add_question/add_question_page.dart';
 import 'package:exams_quizzes_alike/widgets/question_widget.dart';
 import 'package:flutter/material.dart';
 
@@ -94,7 +95,10 @@ class _ExamBodyState extends State<ExamPageBody> {
                               size: 40,
                             ),
                             onPressed: () {
-                              debugPrint('oli');
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => AddQuestionPage()));
                             }),
                         const Text(
                           'Add questions',
