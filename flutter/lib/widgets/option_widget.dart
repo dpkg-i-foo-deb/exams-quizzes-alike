@@ -23,7 +23,7 @@ class OptionWidget extends StatefulWidget {
 class OptionWidgetState extends State<OptionWidget> {
   bool checkboxValue = false;
   List<Option> pairs = List.empty();
-
+  List<Option> sequenceOptions = List.empty();
   String selectedPair = " ";
   @override
   Widget build(BuildContext context) {
@@ -159,23 +159,24 @@ class OptionWidgetState extends State<OptionWidget> {
                   children: [
                     Expanded(flex: 1, child: Text(widget.option.description)),
                     FutureBuilder(
-                        future: getPairs(),
+                        future: getSequenceOptions(),
                         builder: (context, snapshot) {
                           return Expanded(
                             flex: 1,
                             child: DropdownButtonFormField<String>(
                               isExpanded: true,
                               icon: (const Icon(Icons.category)),
-                              items: pairs.map((data) {
+                              items: sequenceOptions.map((data) {
                                 return DropdownMenuItem(
                                     child: Padding(
                                       padding: const EdgeInsets.only(left: 8),
-                                      child: Text(data.pair),
+                                      child: Text(data.description),
                                     ),
-                                    value: data.pair);
+                                    value: data.description);
                               }).toList(),
                               onChanged: (String? value) {
                                 setState(() {
+                                  //TODO validate correctly
                                   selectedPair = value!.toString();
                                 });
                               },
@@ -200,5 +201,10 @@ class OptionWidgetState extends State<OptionWidget> {
 
   Future<void> getPairs() async {
     pairs = await OptionRequests().getOptions(int.parse(widget.option.code));
+  }
+
+  Future<void> getSequenceOptions() async {
+    sequenceOptions =
+        await OptionRequests().getOptions(int.parse(widget.option.code));
   }
 }
