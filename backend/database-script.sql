@@ -1052,6 +1052,12 @@ INSERT INTO public.pregunta_examen (codigo_pregunta,codigo_examen)
 INSERT INTO public.pregunta_examen (codigo_pregunta,codigo_examen)
 	VALUES (6,1);
 
+--exam and topics 
+
+INSERT INTO public.examen_tema (codigo_examen,codigo_tema)
+	VALUES (1,1);
+INSERT INTO public.examen_tema (codigo_examen,codigo_tema)
+	VALUES (1,2);
 
 
 
