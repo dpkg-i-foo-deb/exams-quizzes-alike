@@ -94,13 +94,14 @@ class _ExamBodyState extends State<ExamPageBody> {
                               color: Colors.white,
                               size: 40,
                             ),
-                            onPressed: () {
-                              Navigator.push(
+                            onPressed: () async {
+                              await Navigator.push(
                                   context,
                                   MaterialPageRoute(
                                       builder: (context) => AddQuestionPage(
                                             exam: widget.exam,
                                           )));
+                              setState(() {});
                             }),
                         const Text(
                           'Add questions',
@@ -134,6 +135,7 @@ class _ExamBodyState extends State<ExamPageBody> {
   }
 
   Future<void> getQuestions() async {
+    questions = [];
     questions = await QuestionRequests()
         .getExamQuestions(widget.exam.code!, widget.exam.teacherEmail);
   }
