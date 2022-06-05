@@ -3,6 +3,7 @@ import 'package:exams_quizzes_alike/models/course_student.dart';
 import 'package:exams_quizzes_alike/models/student.dart';
 import 'package:exams_quizzes_alike/network/course_requests.dart';
 import 'package:exams_quizzes_alike/network/course_student_requests.dart';
+import 'package:exams_quizzes_alike/screens/student/components/student_course_item.dart';
 import 'package:exams_quizzes_alike/screens/teacher/components/teacher_course_item.dart';
 import 'package:flutter/material.dart';
 
@@ -81,7 +82,7 @@ class _StudentPageBodyState extends State<StudentPageBody> {
                         itemCount: courses.length,
                         padding: const EdgeInsets.all(1),
                         itemBuilder: (BuildContext context, int index) {
-                          return TeacherCourseItem(courses[index])
+                          return StudentCourseItem(courses[index])
                               .buildItem(context);
                         },
                       ));
