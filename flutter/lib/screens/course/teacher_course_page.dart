@@ -86,7 +86,7 @@ class _TeacherCoursePageState extends State<TeacherCoursePage> {
                   SizedBox(
                     height: 20,
                   ),
-                  Text('Coming soon...',
+                  Text('Exams you have created...',
                       textAlign: TextAlign.center,
                       style: TextStyle(
                         fontFamily: 'ZenLoop',
@@ -96,7 +96,7 @@ class _TeacherCoursePageState extends State<TeacherCoursePage> {
                   SizedBox(
                     height: 20,
                   ),
-                  Text('Cannot see anything? Schedule a new one!',
+                  Text('Cannot see anything? Schedule some!',
                       textAlign: TextAlign.center,
                       style: TextStyle(
                         fontFamily: 'ZenLoop',
