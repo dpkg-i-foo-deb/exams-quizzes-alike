@@ -4,7 +4,7 @@ import 'package:exams_quizzes_alike/models/exam_report.dart';
 import 'package:exams_quizzes_alike/models/scheduled_exam.dart';
 import 'package:exams_quizzes_alike/network/exam_report_requests.dart';
 import 'package:exams_quizzes_alike/network/exam_requests.dart';
-import 'package:exams_quizzes_alike/screens/exam/scheduled_exam_page.dart';
+import 'package:exams_quizzes_alike/screens/exam/components/scheduled_exam/scheduled_exam_page.dart';
 import 'package:exams_quizzes_alike/widgets/grid_item.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart';
