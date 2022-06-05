@@ -23,7 +23,7 @@ class _MainAppBarState extends State<MainAppBar> {
               padding: const EdgeInsets.all(10),
               child: ElevatedButton(
                 onPressed: () => Navigator.pop(context),
-                child: const Text("Log out"),
+                child: const Text("Go back"),
                 style: ElevatedButton.styleFrom(
                   primary: const Color.fromARGB(255, 178, 59, 59),
                 ),

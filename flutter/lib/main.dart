@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 
 void main() {
   runApp(MaterialApp(
-    theme: ThemeData(primaryColor: Colors.green),
-    debugShowCheckedModeBanner: false,
+    theme: ThemeData(primaryColor: Colors.deepPurple),
+    debugShowCheckedModeBanner: true,
     home: const LoginPage(),
   ));
 }
