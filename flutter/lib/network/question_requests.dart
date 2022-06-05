@@ -12,7 +12,7 @@ class QuestionRequests {
         QuestionUtils().buildCompatibleQuestionsJson(examCode, teacherLogin);
 
     final response = await http.post(
-        Uri.parse('http://localhost:3000/get-compatible-questions'),
+        Uri.parse('http://localhost:3000/compatible-questions'),
         body: jsonObject);
 
     if (response.statusCode == 204) {
