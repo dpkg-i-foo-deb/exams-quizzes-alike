@@ -326,8 +326,8 @@ class _ExamFormState extends State<ExamForm> {
                   primary: const Color.fromARGB(255, 73, 89, 154),
                   shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(10))),
-              onPressed: () {
-                validateAndSend();
+              onPressed: () async {
+                await validateAndSend();
                 if (validForm) {
                   ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
                     content: Text('Please wait...'),

@@ -25,22 +25,6 @@ class _TeacherPageState extends State<TeacherPage> {
   List<Exam> exams = List.empty();
 
   @override
-  void initState() {
-    super.initState();
-
-    getCoursesFuture();
-    getExamsFuture();
-  }
-
-  getCoursesFuture() async {
-    courses = await getCourses();
-  }
-
-  getExamsFuture() async {
-    exams = await getExams();
-  }
-
-  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: const MainAppBar(),
@@ -155,25 +139,26 @@ class _TeacherPageState extends State<TeacherPage> {
                               child: Row(
                                 children: [
                                   ElevatedButton(
-                                    style: ElevatedButton.styleFrom(
-                                        maximumSize: const Size(225, 700),
-                                        shape: const CircleBorder(),
-                                        primary: const Color.fromARGB(
-                                            255, 73, 89, 154)),
-                                    child: const Icon(
-                                      Icons.add,
-                                      color: Colors.white,
-                                      size: 40,
-                                    ),
-                                    onPressed: () => Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                          builder: (context) => CreateExamPage(
-                                              teacher: widget.teacher),
-                                        )).then((value) {
-                                      setState(() {});
-                                    }),
-                                  ),
+                                      style: ElevatedButton.styleFrom(
+                                          maximumSize: const Size(225, 700),
+                                          shape: const CircleBorder(),
+                                          primary: const Color.fromARGB(
+                                              255, 73, 89, 154)),
+                                      child: const Icon(
+                                        Icons.add,
+                                        color: Colors.white,
+                                        size: 40,
+                                      ),
+                                      onPressed: () async {
+                                        await Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                              builder: (context) =>
+                                                  CreateExamPage(
+                                                      teacher: widget.teacher),
+                                            ));
+                                        setState(() {});
+                                      }),
                                   const Text(
                                     'Create New Exam',
                                     style:
@@ -211,18 +196,18 @@ class _TeacherPageState extends State<TeacherPage> {
     );
   }
 
-  Future<List<Course>> getCourses() async {
+  Future<void> getCourses() async {
     try {
-      return CourseRequests().getCoursesByTeacher(widget.teacher);
+      courses = await CourseRequests().getCoursesByTeacher(widget.teacher);
     } on CourseException {
       //TODO do something if the teacher has no courses
       rethrow;
     }
   }
 
-  Future<List<Exam>> getExams() async {
+  Future<void> getExams() async {
     try {
-      return ExamRequests().getExams(widget.teacher.login);
+      exams = await ExamRequests().getExams(widget.teacher.login);
     } on ExamException {
       //TODO something if the teacher has no exams
       rethrow;
