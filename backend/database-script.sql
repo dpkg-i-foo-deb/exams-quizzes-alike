@@ -529,7 +529,7 @@ create or replace view reporte_pregunta as (SELECT p.enunciado enunciado ,
 
 
 
- CREATE OR REPLACE VIEW reporte_por_estudiante AS (
+ CREATE OR REPLACE VIEW reporte_notas AS (
     select sq.nombre_curso, sq.nombre_estudiante, sq.nota_definitiva, case when nota_definitiva < 2.98 then 'Reprobado' else 'Aprobado' end as estado 
     from
         (select c.descripcion nombre_curso ,p.nombre nombre_estudiante, sum(pe.nota_examen * (ex.peso_examen/100)) nota_definitiva
@@ -687,6 +687,128 @@ AS SELECT t.codigo_tema,
      left join cantidad_respuestas_incorrectas_por_tema rit on rit.codigo_tema = t.codigo_tema 
      left join cantidad_preguntas_respondidas_por_tema prt on prt.codigo_tema = t.codigo_tema 
   GROUP BY t.codigo_tema , t.descripcion , rct.cantidad_respuestas_correctas,rit.cantidad_respuestas_incorrectas, prt.cantidad_preguntas_respondidas;
+
+
+
+
+create or replace view cantidad_respuestas_correctas_por_estudiante as(
+select p.login , p.nombre, count(pp.codigo_pregunta_presentacion) cantidad_respuestas_correctas 
+from persona p
+join estudiante e on p.login = e.login_persona 
+join curso_estudiante ce on e.login_persona = ce.codigo_estudiante 
+join presentacion_examen pe on ce.codigo_matricula = pe.codigo_matricula 
+join pregunta_presentacion pp on pe.codigo_presentacion = pp.codigo_presentacion 
+join opcion o ON o.codigo_opcion = pp.codigo_opcion and o.descripcion = pp.descripcion_opcion
+join pregunta pr on pr.codigo_pregunta = o.codigo_opcion 
+WHERE pp.respuesta = o.respuesta_correcta OR pp.respuesta = o.palabra_faltante OR pp.respuesta = o.orden OR pp.respuesta = o.pareja
+group by p.login);
+
+create or replace view cantidad_respuestas_incorrectas_por_estudiante as(
+select p.login, p.nombre, count(pp.codigo_pregunta_presentacion) cantidad_respuestas_incorrectas 
+from persona p
+join estudiante e on p.login = e.login_persona 
+join curso_estudiante ce on e.login_persona = ce.codigo_estudiante 
+join presentacion_examen pe on ce.codigo_matricula = pe.codigo_matricula 
+join pregunta_presentacion pp on pe.codigo_presentacion = pp.codigo_presentacion 
+join opcion o ON o.codigo_opcion = pp.codigo_opcion and o.descripcion = pp.descripcion_opcion
+join pregunta pr on pr.codigo_pregunta = o.codigo_opcion 
+WHERE pp.respuesta != o.respuesta_correcta OR pp.respuesta != o.palabra_faltante OR pp.respuesta != o.orden OR pp.respuesta = o.pareja
+group by p.login);
+
+
+create or replace view cantidad_preguntas_respondidas_por_estudiante as(
+select p.login, p.nombre, count(pp.codigo_pregunta_presentacion) cantidad_preguntas_respondidas
+from persona p
+join estudiante e on p.login = e.login_persona 
+join curso_estudiante ce on e.login_persona = ce.codigo_estudiante 
+join presentacion_examen pe on ce.codigo_matricula = pe.codigo_matricula 
+join pregunta_presentacion pp on pe.codigo_presentacion = pp.codigo_presentacion 
+where pp.respuesta != '' group by p.login) ;
+
+
+CREATE OR REPLACE VIEW public.reporte_por_estudiante
+AS (select e.login_persona , p.nombre,
+    COALESCE(rce.cantidad_respuestas_correctas, 0) AS respuestas_correctas,
+    COALESCE(rie.cantidad_respuestas_incorrectas, 0) AS respuestas_incorrectas,
+    COALESCE(pre.cantidad_preguntas_respondidas, 0) AS cantidad_respuestas,
+    (COALESCE(rce.cantidad_respuestas_correctas, 0) * 100 / COALESCE(pre.cantidad_preguntas_respondidas, 1)) || '%' AS porcentaje_correctas,
+    (COALESCE(rie.cantidad_respuestas_incorrectas, 0) * 100 / COALESCE(pre.cantidad_preguntas_respondidas, 1)) || '%' AS porcentaje_incorrectas
+   FROM persona p
+   	 join estudiante e on e.login_persona = p.login
+     left join cantidad_respuestas_correctas_por_estudiante rce on rce.login = e.login_persona
+     left join cantidad_respuestas_incorrectas_por_estudiante rie on rie.login = e.login_persona
+     left join cantidad_preguntas_respondidas_por_estudiante pre on pre.login = e.login_persona
+  GROUP BY e.login_persona  , p.nombre , rce.cantidad_respuestas_correctas,rie.cantidad_respuestas_incorrectas, pre.cantidad_preguntas_respondidas);
+  
+
+
+
+  --preguntas incorrectas
+
+create or replace view preguntas_incorrectas_presentacion as 
+(select pe.codigo_presentacion codigo_presentacion ,  count (pp.respuesta) cantidad_respuestas_incorrectas, pe.codigo_matricula codigo_matricula 
+	from presentacion_examen pe 
+		join pregunta_presentacion pp on pp.codigo_presentacion =pe.codigo_presentacion 
+		join opcion o on o.codigo_opcion = pp.codigo_opcion and o.descripcion = pp.descripcion_opcion 
+		join pregunta p on p.codigo_pregunta = o.codigo_opcion 
+		where pp.respuesta::text <> o.respuesta_correcta::text 
+			OR pp.respuesta::text <> o.palabra_faltante::text 
+			OR pp.respuesta::text <> o.orden::text 
+			OR pp.respuesta::text = o.pareja::text
+		group by pe.codigo_presentacion, pe.codigo_matricula  );
+		
+		
+		
+-- preguntas correctas
+		
+create or replace view preguntas_correctas_presentacion as
+(select pe.codigo_presentacion codigo_presentacion ,  count (pp.respuesta) cantidad_respuestas_correctas, pe.codigo_matricula codigo_matricula 
+	from presentacion_examen pe 
+		join pregunta_presentacion pp on pp.codigo_presentacion =pe.codigo_presentacion 
+		join opcion o on o.codigo_opcion = pp.codigo_opcion and o.descripcion = pp.descripcion_opcion 
+		join pregunta p on p.codigo_pregunta = o.codigo_opcion 
+		where pp.respuesta::text = o.respuesta_correcta::text 
+			OR pp.respuesta::text = o.palabra_faltante::text 
+			OR pp.respuesta::text = o.orden::text  
+			OR pp.respuesta::text = o.pareja::text 
+		group by pe.codigo_presentacion, pe.codigo_matricula  );
+		
+		
+		
+-- preguntas respondidas
+		
+create or replace view preguntas_respondidas_presentacion as 
+(select pe.codigo_presentacion codigo_presentacion ,  count (pp.respuesta) preguntas_respondidas, pe.codigo_matricula codigo_matricula 
+	from presentacion_examen pe 
+		join pregunta_presentacion pp on pp.codigo_presentacion =pe.codigo_presentacion
+		join opcion o on o.codigo_opcion = pp.codigo_opcion and o.descripcion = pp.descripcion_opcion 
+		join pregunta p on p.codigo_pregunta = o.codigo_opcion 
+		group by pe.codigo_presentacion, pe.codigo_matricula  );
+		
+		
+		
+-- todos los estudiantes con presentaciones
+		
+create or replace view reporte_por_presentacion as 
+(select 
+	e.login_persona login, 
+	p.nombre nombre,
+	pe.codigo_presentacion , 
+	coalesce (prp.preguntas_respondidas,0) preguntas_respondidas,
+	coalesce (pcp.cantidad_respuestas_correctas,0 )respuestas_correctas,
+	coalesce (pip.cantidad_respuestas_incorrectas,0) respuestas_incorrectas,
+	coalesce (pcp.cantidad_respuestas_correctas,0)*100/coalesce (prp.preguntas_respondidas,1) || '%' porcentaje_correctas ,
+	coalesce (pip.cantidad_respuestas_incorrectas,0)*100/coalesce (prp.preguntas_respondidas,1) || '%' porcentaje_incorrectas 
+		from curso_estudiante ce 
+				join estudiante e ON e.login_persona = ce.codigo_estudiante 
+				join persona p on p.login = e.login_persona 
+				join presentacion_examen pe on pe.codigo_matricula = ce.codigo_matricula 
+				left join preguntas_respondidas_presentacion prp on prp.codigo_matricula = ce.codigo_matricula
+				left join preguntas_correctas_presentacion pcp on pcp.codigo_matricula  = ce.codigo_matricula 
+				left join preguntas_incorrectas_presentacion pip on pip.codigo_matricula = ce.codigo_matricula 
+				group by e.login_persona , p.nombre,prp.preguntas_respondidas, pe.codigo_presentacion, pcp.cantidad_respuestas_correctas ,pip.cantidad_respuestas_incorrectas 
+			);
+
 
 
 --Populating database
