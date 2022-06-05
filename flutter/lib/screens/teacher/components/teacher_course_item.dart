@@ -1,12 +1,12 @@
 import 'package:exams_quizzes_alike/models/course.dart';
-import 'package:exams_quizzes_alike/screens/course/course_page.dart';
+import 'package:exams_quizzes_alike/screens/course/teacher_course_page.dart';
 import 'package:exams_quizzes_alike/widgets/grid_item.dart';
 import 'package:flutter/material.dart';
 
-class CourseItem implements GridItem {
+class TeacherCourseItem implements GridItem {
   final Course course;
 
-  CourseItem(this.course);
+  TeacherCourseItem(this.course);
 
   @override
   Widget buildItem(BuildContext context) {
@@ -17,7 +17,7 @@ class CourseItem implements GridItem {
         onTap: () => Navigator.push(
             context,
             MaterialPageRoute(
-                builder: ((context) => CoursePage(
+                builder: ((context) => TeacherCoursePage(
                       course: course,
                     )))),
         child: Center(

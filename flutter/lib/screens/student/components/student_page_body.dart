@@ -3,7 +3,7 @@ import 'package:exams_quizzes_alike/models/course_student.dart';
 import 'package:exams_quizzes_alike/models/student.dart';
 import 'package:exams_quizzes_alike/network/course_requests.dart';
 import 'package:exams_quizzes_alike/network/course_student_requests.dart';
-import 'package:exams_quizzes_alike/screens/teacher/components/course_item.dart';
+import 'package:exams_quizzes_alike/screens/teacher/components/teacher_course_item.dart';
 import 'package:flutter/material.dart';
 
 class StudentPageBody extends StatefulWidget {
@@ -81,7 +81,8 @@ class _StudentPageBodyState extends State<StudentPageBody> {
                         itemCount: courses.length,
                         padding: const EdgeInsets.all(1),
                         itemBuilder: (BuildContext context, int index) {
-                          return CourseItem(courses[index]).buildItem(context);
+                          return TeacherCourseItem(courses[index])
+                              .buildItem(context);
                         },
                       ));
                 })
