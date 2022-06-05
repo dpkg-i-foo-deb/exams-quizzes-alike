@@ -19,6 +19,7 @@ app.use(require('./routes/topicRoutes'))
 app.use(require('./routes/scheduledExamRoutes'));
 app.use(require('./routes/questionRoutes'));
 app.use(require('./routes/optionRoutes'));
+app.use(require('./routes/reportRoutes'));
 
 app.listen(3000);
 console.log('Server is running on port 3000');
