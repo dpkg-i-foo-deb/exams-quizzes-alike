@@ -60,9 +60,20 @@ const getExamQuestions = async (req,res) =>
     res.status(200).json(response.rows);
 }
 
+
+const setExamQuestion = async (req, res) =>
+{
+    var {exam_code, question_code} = req.body;
+
+    const response = await connectionPool.query('INSERT INTO pregunta_examen (codigo_pregunta,codigo_examen) VALUES ($1,$2)',[question_code,exam_code]);
+
+    res.status(200).send('Question set successfully');
+}
+
 module.exports=
 {
     getCompatibleQuestions,
     getQuestion,
-    getExamQuestions
+    getExamQuestions,
+    setExamQuestion
 }
