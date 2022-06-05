@@ -48,7 +48,7 @@ const getExamQuestions = async (req,res) =>
 
     const response = await connectionPool.query(`select distinct p.codigo_pregunta, p."isPublic" , p."isFather" , p.peso, p.enunciado, p.codigo_subpregunta , p.codigo_docente, p.codigo_tema , p.tipo from pregunta p
 	join (select d.login_persona from docente d where login_persona = $1) d on p.codigo_docente = d.login_persona
-	join (select e.codigo_examen , e.codigo_docente  from examen e where $2) e on e.codigo_docente = d.login_persona
+	join (select e.codigo_examen , e.codigo_docente  from examen e where e.codigo_examen = $2) e on e.codigo_docente = d.login_persona
 	join pregunta_examen pe on pe.codigo_pregunta = p.codigo_pregunta and pe.codigo_examen = e.codigo_examen`,[teacher_login,exam_code]);
 
     if(response.rows.length<1)
