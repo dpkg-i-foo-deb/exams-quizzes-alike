@@ -6,7 +6,7 @@ const getCompatibleQuestions = async (req,res) =>
 
     exam_code = parseInt(exam_code);
 
-    const response = await connectionPool.query(`select p.codigo_pregunta , p.enunciado  from pregunta p 
+    const response = await connectionPool.query(`select p.codigo_pregunta, "isPublic", p.tipo, "isFather", p.peso, p.enunciado, p.codigo_subpregunta, p.codigo_docente, p.codigo_tema FROM pregunta p
     join tema t on t.codigo_tema = p.codigo_tema 
     join (select codigo_docente, codigo_examen from examen e where e.codigo_docente = $1 and e.codigo_examen=$2) e on e.codigo_docente  = p.codigo_docente
     join examen_tema et on et.codigo_examen = e.codigo_examen and et.codigo_tema = t.codigo_tema
