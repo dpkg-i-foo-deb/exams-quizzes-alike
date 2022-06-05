@@ -1,5 +1,6 @@
 import 'package:exams_quizzes_alike/models/exam.dart';
 import 'package:exams_quizzes_alike/models/question.dart';
+import 'package:exams_quizzes_alike/network/exam_requests.dart';
 import 'package:exams_quizzes_alike/network/question_requests.dart';
 import 'package:exams_quizzes_alike/widgets/question_widget.dart';
 import 'package:flutter/material.dart';
@@ -18,6 +19,7 @@ class _AddQuestionBodyState extends State<AddQuestionBody> {
   final _formKey = GlobalKey<FormState>();
   List<Question> compatibleQuestions = [];
   var selectedQuestions = [];
+  var validForm = false;
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -124,6 +126,25 @@ class _AddQuestionBodyState extends State<AddQuestionBody> {
         const SizedBox(
           height: 20,
         ),
+        ElevatedButton(
+            style: ElevatedButton.styleFrom(
+                primary: const Color.fromARGB(255, 73, 89, 154),
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10))),
+            onPressed: () async {
+              await validateAndSend();
+              if (validForm) {
+                ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                  content: Text('Question added Successfully'),
+                  duration: Duration(seconds: 1),
+                ));
+                Navigator.pop(context);
+              }
+            },
+            child: const Text('Submit')),
+        const SizedBox(
+          height: 20,
+        ),
         Padding(
           padding: const EdgeInsets.all(20),
           child: Container(
@@ -174,5 +195,20 @@ class _AddQuestionBodyState extends State<AddQuestionBody> {
   Future<void> getCompatibleQuestions() async {
     compatibleQuestions = await QuestionRequests()
         .getCompatibleQuestions(widget.exam.teacherEmail, widget.exam.code!);
+  }
+
+  Future<void> validateAndSend() async {
+    final form = _formKey.currentState;
+
+    if (form!.validate()) {
+      validForm = true;
+      form.save();
+
+      for (var value in selectedQuestions) {
+        ExamRequests().setQuestion(widget.exam.code!, int.parse(value));
+      }
+    } else {
+      validForm = false;
+    }
   }
 }
