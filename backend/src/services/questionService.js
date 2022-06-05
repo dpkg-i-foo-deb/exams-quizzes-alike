@@ -65,6 +65,9 @@ const setExamQuestion = async (req, res) =>
 {
     var {exam_code, question_code} = req.body;
 
+    exam_code = parseInt(exam_code);
+    question_code = parseInt(question_code);
+
     const response = await connectionPool.query('INSERT INTO pregunta_examen (codigo_pregunta,codigo_examen) VALUES ($1,$2)',[question_code,exam_code]);
 
     res.status(200).send('Question set successfully');
