@@ -98,7 +98,9 @@ class _ExamBodyState extends State<ExamPageBody> {
                               Navigator.push(
                                   context,
                                   MaterialPageRoute(
-                                      builder: (context) => AddQuestionPage()));
+                                      builder: (context) => AddQuestionPage(
+                                            exam: widget.exam,
+                                          )));
                             }),
                         const Text(
                           'Add questions',
