@@ -14,7 +14,21 @@ const getExamReport = async (req, res) =>
     res.status(200).json(response.rows);
 }
 
+const getStudentExamReport = async (req, res) =>
+{
+    const response = await connectionPool.query('SELECT login, nombre, codigo_presentacion, preguntas_respondidas, respuestas_correctas, respuestas_incorrectas, porcentaje_correctas, porcentaje_correctas FROM reporte_por_presentacion');
+
+    if(response.rows.length<1)
+    {
+        res.status(204)
+        return res.send('No available reports');
+    }
+
+    res.status(200).json(response.rows);
+}
+
 module.exports = 
 {
     getExamReport,
+    getStudentExamReport,
 }
