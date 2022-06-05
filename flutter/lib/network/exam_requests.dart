@@ -76,4 +76,17 @@ class ExamRequests {
       throw ExamException('Something went wrong');
     }
   }
+
+  Future<void> setQuestion(int examCode, int questionCode) async {
+    Map<String, dynamic> jsonObject =
+        ExamUtils().buildSetQuestionJson(examCode, questionCode);
+
+    final response = await http.post(
+        Uri.parse('http://localhost:3000/set-exam-question'),
+        body: jsonObject);
+
+    if (response.statusCode != 200) {
+      throw ExamException('Something went wrong');
+    }
+  }
 }

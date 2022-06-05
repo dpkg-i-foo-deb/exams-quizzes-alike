@@ -23,4 +23,13 @@ class ExamUtils {
     };
     return json;
   }
+
+  Map<String, dynamic> buildSetQuestionJson(int examCode, int questionCode) {
+    Map<String, dynamic> json = {
+      'exam_code': examCode.toString(),
+      'question_code': questionCode.toString(),
+    };
+
+    return json;
+  }
 }
