@@ -4,6 +4,8 @@ const createPresentation = async (req,res)=>
 {
     var{course_student_code, code, grade, date,time, ip} = req.body;
 
+    const response = await connectionPool.query('NSERT INTO public.presentacion_examen (codigo_matricula,codigo_examen,nota_examen,fecha_presentacion,tiempo_presentacion,ip) VALUES ($1,$2,$3,$4,$5,$6)',);
+    
     //INSERT INTO public.presentacion_examen (codigo_matricula,codigo_examen,nota_examen,fecha_presentacion,tiempo_presentacion,ip)
 	//VALUES (1,1,0,'2022-02-23','00:00:00','192.168.1.1');
 
