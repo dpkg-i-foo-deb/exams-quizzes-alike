@@ -91,7 +91,7 @@ class _StudentCoursePageBodyState extends State<StudentCoursePageBody> {
                               .buildItem(context);
                         },
                       ));
-                })
+                }),
           ])),
     );
   }

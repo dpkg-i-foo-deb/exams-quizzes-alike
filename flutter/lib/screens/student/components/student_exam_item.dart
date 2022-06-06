@@ -1,6 +1,7 @@
 import 'package:exams_quizzes_alike/models/available_exam.dart';
 import 'package:exams_quizzes_alike/models/exam.dart';
 import 'package:exams_quizzes_alike/screens/login/login_page.dart';
+import 'package:exams_quizzes_alike/screens/student/exam/student_solve_exam_page.dart';
 import 'package:exams_quizzes_alike/screens/student/grade_exam/grade_exam_body.dart';
 import 'package:exams_quizzes_alike/widgets/grid_item.dart';
 import 'package:flutter/material.dart';
@@ -20,7 +21,7 @@ class StudentExamItem implements GridItem {
         onTap: () => Navigator.push(
             //TODO PRESENT EXAM PAGE
             context,
-            MaterialPageRoute(builder: ((context) => LoginPage()))),
+            MaterialPageRoute(builder: ((context) => StudentSolveExamPage()))),
         child: Center(
             child: Padding(
           padding: const EdgeInsets.all(5),
