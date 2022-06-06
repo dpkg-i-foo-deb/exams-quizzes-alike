@@ -22,10 +22,26 @@ class _MainAppBarState extends State<MainAppBar> {
           Padding(
               padding: const EdgeInsets.all(10),
               child: ElevatedButton(
-                onPressed: () => Navigator.pop(context),
-                child: const Text("Go back"),
+                onPressed: () => Navigator.popUntil(
+                    context, ModalRoute.withName(Navigator.defaultRouteName)),
+                child: const Text(
+                  "Log Out",
+                  style: TextStyle(fontWeight: FontWeight.bold),
+                ),
                 style: ElevatedButton.styleFrom(
                   primary: const Color.fromARGB(255, 178, 59, 59),
+                ),
+              )),
+          Padding(
+              padding: const EdgeInsets.all(10),
+              child: ElevatedButton(
+                onPressed: () => Navigator.pop(context),
+                child: const Text(
+                  "Go back",
+                  style: TextStyle(fontWeight: FontWeight.bold),
+                ),
+                style: ElevatedButton.styleFrom(
+                  primary: const Color.fromARGB(255, 170, 182, 254),
                 ),
               )),
         ]);
