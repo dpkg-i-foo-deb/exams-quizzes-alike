@@ -14,11 +14,10 @@ const getAvailableExams = async (req,res) =>
 
     course_code = parseInt(course_code);
 
-    const response = await connectionPool.query(`select  e.codigo_examen, ce.codigo_curso, fm.tiempo_limite  from curso_examen ce 
-	join (select e.codigo_examen codigo_examen ,e.tiempo_limite tiempo_limite  from examen e) e on e.codigo_examen = ce.codigo_examen
-	join fechas_maximas fm on fm.codigo_curso_examen = ce.codigo_curso_examen 
-	where now() > ce.fecha_presentacion  
-	group by e.codigo_examen ,ce.codigo_curso, fm.tiempo_limite `);
+    const response = await connectionPool.query(`SELECT  e.codigo_examen, ce.codigo_curso FROM curso_examen ce 
+    JOIN (select e.codigo_examen codigo_examen ,e.tiempo_limite tiempo_limite  from examen e) e ON e.codigo_examen = ce.codigo_examen
+                         WHERE NOW() > ce.fecha_presentacion and NOW() < (ce.fecha_presentacion + e.tiempo_limite)at TIME zone 'America/Bogota' AND ce.codigo_curso = $1
+    GROUP BY e.codigo_examen ,ce.codigo_curso`,[course_code]);
 
     if(response.rows.length<1)
     {
