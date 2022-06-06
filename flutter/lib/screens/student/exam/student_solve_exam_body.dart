@@ -27,11 +27,6 @@ class StudentSolveExamBody extends StatefulWidget {
 class _StudentSolveExamBodyState extends State<StudentSolveExamBody> {
   List<Question> examQuestions = [];
   List<Question> displayQuestions = [];
-  @override
-  void initState() {
-    // TODO: implement initState
-    super.initState();
-  }
 
   @override
   Widget build(BuildContext context) {
