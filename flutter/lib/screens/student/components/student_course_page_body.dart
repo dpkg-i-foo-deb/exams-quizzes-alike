@@ -96,13 +96,13 @@ class _StudentCoursePageBodyState extends State<StudentCoursePageBody> {
   }
 
   Future<void> getAvailableExams() async {
-    availableExams.clear();
+    availableExams = [];
     availableExams = await AvailableExamRequests()
         .getAvailableExams(widget.course.courseCode!);
   }
 
   Future<void> getExams() async {
-    exams.clear();
+    exams = [];
     for (var value in availableExams) {
       exams.add(await ExamRequests().getExam(int.parse(value.examCode)));
     }

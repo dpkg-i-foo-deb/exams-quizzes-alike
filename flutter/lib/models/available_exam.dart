@@ -11,8 +11,8 @@ class AvailableExam {
 
   factory AvailableExam.fromJson(Map<String, dynamic> json) {
     return AvailableExam(
-      examCode: json['codigo_examen'],
-      courseCode: json['codigo_curso'],
+      examCode: json['codigo_examen'].toString(),
+      courseCode: json['codigo_curso'].toString(),
       maxDate: json['fecha_maxima'],
     );
   }
