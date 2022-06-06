@@ -105,7 +105,9 @@ class _StudentSolveExamBodyState extends State<StudentSolveExamBody> {
       switch (value.currentState?.widget.question.type ?? '') {
         case 'unica-respuesta':
           isCorrect = value.currentState?.solve() ?? false;
-
+          break;
+        case 'multiple-respuesta':
+          isCorrect = value.currentState?.solve() ?? false;
           break;
 
         default:

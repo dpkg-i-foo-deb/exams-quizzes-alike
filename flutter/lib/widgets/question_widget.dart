@@ -127,7 +127,7 @@ class QuestionWidgetState extends State<QuestionWidget> {
     //As every question is different, we need to solve according to its type
     switch (widget.question.type) {
       case 'unica-respuesta':
-        //If the question if marked, check if it is the correct answer
+        //If the question is marked, check if it is the correct answer
         for (var value in optionStates) {
           if (value.currentState?.isMarked() ?? false) {
             if (value.currentState?.getAnswer() ==
@@ -139,6 +139,25 @@ class QuestionWidgetState extends State<QuestionWidget> {
           }
         }
         break;
+
+      case 'multiple-respuesta':
+        //Check every single question wether or not it is marked
+        for (var value in optionStates) {
+          if (value.currentState?.widget.option.description !=
+              value.currentState?.widget.option.correctAnswer) {
+            if (value.currentState?.isMarked() ?? false) {
+              return false;
+            }
+          }
+
+          if (value.currentState?.widget.option.description ==
+              value.currentState?.widget.option.correctAnswer) {
+            if (!(value.currentState?.isMarked() ?? false)) {
+              return false;
+            }
+          }
+        }
+        return true;
 
       default:
         return false;
