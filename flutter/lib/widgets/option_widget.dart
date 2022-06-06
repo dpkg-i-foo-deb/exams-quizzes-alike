@@ -224,6 +224,7 @@ class OptionWidgetState extends State<OptionWidget> {
 
       case 'emparejar':
         return pairController.currentState?.value;
+
       default:
         return '';
     }

@@ -178,6 +178,25 @@ class QuestionWidgetState extends State<QuestionWidget> {
           }
         }
         return true;
+
+      case 'falso-verdadero':
+        //Check if all selected options match the expected value
+        for (var value in optionStates) {
+          if (value.currentState?.widget.option.correctAnswer == 'falso') {
+            if (value.currentState?.isMarked() ?? false) {
+              return false;
+            }
+          }
+
+          if (value.currentState?.widget.option.correctAnswer == 'verdadero') {
+            if (!(value.currentState?.isMarked() ?? false)) {
+              return false;
+            }
+          }
+        }
+
+        return true;
+
       default:
         return false;
     }
