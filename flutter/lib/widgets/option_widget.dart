@@ -195,6 +195,45 @@ class OptionWidgetState extends State<OptionWidget> {
     }
   }
 
+  bool isMarked() {
+    switch (widget.type) {
+      case 'unica-respuesta':
+        return checkboxValue;
+
+      case 'multiple-respuesta':
+        return checkboxValue;
+
+      case 'falso-verdadero':
+        return checkboxValue;
+      default:
+        return false;
+    }
+  }
+
+  String getAnswer() {
+    switch (widget.type) {
+      case 'unica-respuesta':
+        return widget.option.description;
+
+      default:
+        return '';
+    }
+  }
+
+  String getCorrectAnswer() {
+    switch (widget.type) {
+      case 'unica-respuesta':
+        return widget.option.correctAnswer;
+
+      default:
+        return '';
+    }
+  }
+
+  void setCheckboxValue(bool value) {
+    checkboxValue = value;
+  }
+
   String getOptionDescription() {
     return widget.option.description;
   }

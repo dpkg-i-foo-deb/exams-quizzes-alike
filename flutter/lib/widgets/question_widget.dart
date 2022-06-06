@@ -116,7 +116,33 @@ class QuestionWidgetState extends State<QuestionWidget> {
       if (value.currentState!.getOptionDescription() != description) {
         value.currentState!.checkboxValue = false;
         value.currentState!.setState(() {});
+        value.currentState!.setCheckboxValue(false);
       }
     }
+  }
+
+  //Used to solve this question and get if it was correct or not
+  bool solve() {
+    bool isCorrect;
+    //As every question is different, we need to solve according to its type
+    switch (widget.question.type) {
+      case 'unica-respuesta':
+        //If the question if marked, check if it is the correct answer
+        for (var value in optionStates) {
+          if (value.currentState?.isMarked() ?? false) {
+            if (value.currentState?.getAnswer() ==
+                value.currentState?.getCorrectAnswer()) {
+              return true;
+            } else {
+              return false;
+            }
+          }
+        }
+        break;
+
+      default:
+        return false;
+    }
+    return false;
   }
 }

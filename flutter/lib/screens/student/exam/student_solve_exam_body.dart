@@ -27,6 +27,7 @@ class StudentSolveExamBody extends StatefulWidget {
 class _StudentSolveExamBodyState extends State<StudentSolveExamBody> {
   List<Question> examQuestions = [];
   List<Question> displayQuestions = [];
+  List<GlobalKey<QuestionWidgetState>> questionWidgetStates = [];
 
   @override
   Widget build(BuildContext context) {
@@ -49,10 +50,21 @@ class _StudentSolveExamBodyState extends State<StudentSolveExamBody> {
                       scrollDirection: Axis.vertical,
                       shrinkWrap: true,
                       itemBuilder: (context, index) {
+                        GlobalKey<QuestionWidgetState> key = GlobalKey();
+                        questionWidgetStates.add(key);
                         return QuestionWidget(
-                            question: displayQuestions[index]);
+                            key: key, question: displayQuestions[index]);
                       });
                 }),
+            ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                    primary: const Color.fromARGB(255, 178, 59, 59),
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10))),
+                onPressed: () async {
+                  await gradeExam();
+                },
+                child: const Text('Submit'))
           ]),
         ));
   }
@@ -76,6 +88,15 @@ class _StudentSolveExamBodyState extends State<StudentSolveExamBody> {
             examQuestions.length >= widget.exam.numbQuestions;
         index++) {
       displayQuestions.add(examQuestions[index]);
+    }
+  }
+
+  Future<void> gradeExam() async {
+    bool isCorrect = false;
+    //Step 1, cycle through every displayed question state
+    for (var value in questionWidgetStates) {
+      //Set 2, grade this question
+      isCorrect = value.currentState?.solve() ?? false;
     }
   }
 }
