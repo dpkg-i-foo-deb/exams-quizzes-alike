@@ -82,7 +82,8 @@ class _StudentPageBodyState extends State<StudentPageBody> {
                         itemCount: courses.length,
                         padding: const EdgeInsets.all(1),
                         itemBuilder: (BuildContext context, int index) {
-                          return StudentCourseItem(courses[index])
+                          return StudentCourseItem(
+                                  courses[index], coursesStudent[index])
                               .buildItem(context);
                         },
                       ));

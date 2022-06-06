@@ -1,12 +1,14 @@
 import 'package:exams_quizzes_alike/models/course.dart';
+import 'package:exams_quizzes_alike/models/course_student.dart';
 import 'package:exams_quizzes_alike/screens/student/course/student_course_page.dart';
 import 'package:exams_quizzes_alike/widgets/grid_item.dart';
 import 'package:flutter/material.dart';
 
 class StudentCourseItem implements GridItem {
   final Course course;
+  final CourseStudent courseStudent;
 
-  StudentCourseItem(this.course);
+  StudentCourseItem(this.course, this.courseStudent);
 
   @override
   Widget buildItem(BuildContext context) {
@@ -19,6 +21,7 @@ class StudentCourseItem implements GridItem {
             MaterialPageRoute(
                 builder: ((context) => StudentCoursePage(
                       course: course,
+                      courseStudent: courseStudent,
                     )))),
         child: Center(
             child: Padding(

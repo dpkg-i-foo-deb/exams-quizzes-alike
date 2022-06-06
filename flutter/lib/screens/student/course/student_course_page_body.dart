@@ -1,17 +1,19 @@
 import 'package:exams_quizzes_alike/models/available_exam.dart';
 import 'package:exams_quizzes_alike/models/course.dart';
+import 'package:exams_quizzes_alike/models/course_student.dart';
 import 'package:exams_quizzes_alike/models/exam.dart';
 import 'package:exams_quizzes_alike/network/available_exam_requests.dart';
 import 'package:exams_quizzes_alike/network/exam_requests.dart';
 import 'package:exams_quizzes_alike/screens/student/components/student_exam_item.dart';
-import 'package:exams_quizzes_alike/screens/teacher/components/teacher_exam_item.dart';
 import 'package:flutter/material.dart';
 
 class StudentCoursePageBody extends StatefulWidget {
-  const StudentCoursePageBody({Key? key, required this.course})
+  const StudentCoursePageBody(
+      {Key? key, required this.course, required this.courseStudent})
       : super(key: key);
 
   final Course course;
+  final CourseStudent courseStudent;
 
   @override
   State<StudentCoursePageBody> createState() => _StudentCoursePageBodyState();
@@ -86,8 +88,8 @@ class _StudentCoursePageBodyState extends State<StudentCoursePageBody> {
                         itemCount: exams.length,
                         padding: const EdgeInsets.all(1),
                         itemBuilder: (BuildContext context, int index) {
-                          return StudentExamItem(
-                                  exams[index], availableExams[index])
+                          return StudentExamItem(exams[index],
+                                  availableExams[index], widget.courseStudent)
                               .buildItem(context);
                         },
                       ));
