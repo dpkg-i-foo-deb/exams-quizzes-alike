@@ -76,7 +76,10 @@ class _StudentSolveExamBodyState extends State<StudentSolveExamBody> {
 
     //Step 3, build a subset of questions according to the ammount the teacher
     // wants the student to see
-    for (int index = 0; index < widget.exam.numbQuestions; index++) {
+    for (int index = 0;
+        index < widget.exam.numbQuestions &&
+            examQuestions.length >= widget.exam.numbQuestions;
+        index++) {
       displayQuestions.add(examQuestions[index]);
     }
   }
