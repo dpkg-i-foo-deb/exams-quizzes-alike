@@ -17,8 +17,8 @@ class StudentPageBody extends StatefulWidget {
 }
 
 class _StudentPageBodyState extends State<StudentPageBody> {
-  List<Course> courses = [];
-  List<CourseStudent> coursesStudent = [];
+  List<Course> courses = List.empty();
+  List<CourseStudent> coursesStudent = List.empty();
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -97,11 +97,13 @@ class _StudentPageBodyState extends State<StudentPageBody> {
   }
 
   Future<void> getCoursesByStudent() async {
+    coursesStudent.clear();
     coursesStudent =
         await CourseStudentRequests().getCoursesByStudent(widget.student.login);
   }
 
   Future<void> getCourses() async {
+    courses.clear();
     for (var value in coursesStudent) {
       courses
           .add(await CourseRequests().getCourse(int.parse(value.courseCode)));
