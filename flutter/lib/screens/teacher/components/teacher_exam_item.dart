@@ -3,10 +3,10 @@ import 'package:exams_quizzes_alike/screens/exam/exam_page.dart';
 import 'package:exams_quizzes_alike/widgets/grid_item.dart';
 import 'package:flutter/material.dart';
 
-class ExamItem implements GridItem {
+class TeacherExamItem implements GridItem {
   final Exam exam;
 
-  ExamItem(this.exam);
+  TeacherExamItem(this.exam);
 
   @override
   Widget buildItem(BuildContext context) {

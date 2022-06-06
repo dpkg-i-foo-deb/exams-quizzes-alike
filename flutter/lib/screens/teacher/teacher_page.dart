@@ -5,7 +5,8 @@ import 'package:exams_quizzes_alike/network/course_requests.dart';
 import 'package:exams_quizzes_alike/network/exam_requests.dart';
 import 'package:exams_quizzes_alike/screens/exam/components/create/create_exam_page.dart';
 import 'package:exams_quizzes_alike/screens/teacher/components/teacher_course_item.dart';
-import 'package:exams_quizzes_alike/screens/teacher/components/exam_item.dart';
+import 'package:exams_quizzes_alike/screens/teacher/components/teacher_exam_item.dart';
+import 'package:exams_quizzes_alike/screens/teacher/components/teacher_exam_item.dart';
 import 'package:exams_quizzes_alike/widgets/main_app_bar.dart';
 import 'package:flutter/material.dart';
 
@@ -183,7 +184,7 @@ class _TeacherPageState extends State<TeacherPage> {
                                 itemCount: exams.length,
                                 padding: const EdgeInsets.all(1),
                                 itemBuilder: (BuildContext context, int index) {
-                                  return ExamItem(exams[index])
+                                  return TeacherExamItem(exams[index])
                                       .buildItem(context);
                                 },
                               )),
