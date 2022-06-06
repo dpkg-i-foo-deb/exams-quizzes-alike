@@ -1,5 +1,5 @@
 import 'package:exams_quizzes_alike/models/teacher.dart';
-import 'package:exams_quizzes_alike/screens/exam/components/create/exam_form.dart';
+import 'package:exams_quizzes_alike/screens/teacher/exam/components/create/exam_form.dart';
 import 'package:flutter/material.dart';
 
 class CreateExamBody extends StatefulWidget {

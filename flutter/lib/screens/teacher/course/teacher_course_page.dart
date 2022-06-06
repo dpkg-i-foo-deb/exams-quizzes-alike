@@ -2,8 +2,8 @@ import 'package:exams_quizzes_alike/exceptions/exam_exception.dart';
 import 'package:exams_quizzes_alike/models/course.dart';
 import 'package:exams_quizzes_alike/models/scheduled_exam.dart';
 import 'package:exams_quizzes_alike/network/scheduled_exam_requests.dart';
-import 'package:exams_quizzes_alike/screens/course/components/scheduled_exam_item.dart';
-import 'package:exams_quizzes_alike/screens/exam/components/schedule/schedule_exam_page.dart';
+import 'package:exams_quizzes_alike/screens/teacher/exam/components/scheduled_exam/scheduled_exam_item.dart';
+import 'package:exams_quizzes_alike/screens/teacher/exam/components/schedule/schedule_exam_page.dart';
 import 'package:exams_quizzes_alike/widgets/main_app_bar.dart';
 import 'package:flutter/material.dart';
 

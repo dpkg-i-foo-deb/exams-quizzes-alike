@@ -1,5 +1,5 @@
 import 'package:exams_quizzes_alike/models/exam.dart';
-import 'package:exams_quizzes_alike/screens/exam/exam_page.dart';
+import 'package:exams_quizzes_alike/screens/teacher/exam/exam_page.dart';
 import 'package:exams_quizzes_alike/widgets/grid_item.dart';
 import 'package:flutter/material.dart';
 

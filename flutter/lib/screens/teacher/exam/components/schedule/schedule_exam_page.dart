@@ -1,5 +1,5 @@
 import 'package:exams_quizzes_alike/models/course.dart';
-import 'package:exams_quizzes_alike/screens/exam/components/schedule/schedule_exam_body.dart';
+import 'package:exams_quizzes_alike/screens/teacher/exam/components/schedule/schedule_exam_body.dart';
 import 'package:exams_quizzes_alike/widgets/main_app_bar.dart';
 import 'package:flutter/material.dart';
 

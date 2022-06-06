@@ -3,7 +3,7 @@ import 'package:exams_quizzes_alike/models/course_student.dart';
 import 'package:exams_quizzes_alike/models/student.dart';
 import 'package:exams_quizzes_alike/network/course_requests.dart';
 import 'package:exams_quizzes_alike/network/course_student_requests.dart';
-import 'package:exams_quizzes_alike/screens/student/course/student_course_item.dart';
+import 'package:exams_quizzes_alike/screens/student/components/student_course_item.dart';
 import 'package:exams_quizzes_alike/screens/teacher/components/teacher_course_item.dart';
 import 'package:flutter/material.dart';
 

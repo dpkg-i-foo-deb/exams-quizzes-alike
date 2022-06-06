@@ -1,6 +1,6 @@
 import 'package:d_chart/d_chart.dart';
 import 'package:exams_quizzes_alike/models/reports/exam_report.dart';
-import 'package:exams_quizzes_alike/screens/exam/components/scheduled_exam/scheduled_exam_body.dart';
+import 'package:exams_quizzes_alike/screens/teacher/exam/components/scheduled_exam/scheduled_exam_body.dart';
 import 'package:exams_quizzes_alike/widgets/main_app_bar.dart';
 import 'package:flutter/material.dart';
 
