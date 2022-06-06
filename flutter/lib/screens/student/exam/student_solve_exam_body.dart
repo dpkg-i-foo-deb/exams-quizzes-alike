@@ -74,6 +74,7 @@ class _StudentSolveExamBodyState extends State<StudentSolveExamBody> {
 
     examQuestions = [];
     displayQuestions = [];
+    questionWidgetStates.clear();
     //Step 1, get the exam questions
     examQuestions = await QuestionRequests()
         .getExamQuestions(widget.exam.code!, widget.exam.teacherEmail);
@@ -93,10 +94,27 @@ class _StudentSolveExamBodyState extends State<StudentSolveExamBody> {
 
   Future<void> gradeExam() async {
     bool isCorrect = false;
+
+    //Step 0 get the max  and min grade according to the exam
+    double maxGrade = widget.exam.maxGrade.toDouble();
+    double grade = widget.exam.minGrade.toDouble();
+
     //Step 1, cycle through every displayed question state
     for (var value in questionWidgetStates) {
-      //Set 2, grade this question
-      isCorrect = value.currentState?.solve() ?? false;
+      //Set 2, grade this question according to its type
+      switch (value.currentState?.widget.question.type ?? '') {
+        case 'unica-respuesta':
+          isCorrect = value.currentState?.solve() ?? false;
+
+          break;
+
+        default:
+          isCorrect = false;
+      }
+      if (isCorrect) {
+        grade +=
+            double.parse(value.currentState?.widget.question.weight ?? '0');
+      }
     }
   }
 }
