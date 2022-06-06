@@ -111,11 +111,6 @@ class QuestionWidgetState extends State<QuestionWidget> {
     }
   }
 
-  //This is nothing but a test
-  void setNewQuestionLiteral(String literal) {
-    literalValue = literal;
-  }
-
   void uncheckOptions(String description) {
     for (var value in optionStates) {
       if (value.currentState!.getOptionDescription() != description) {
