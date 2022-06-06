@@ -35,6 +35,7 @@ class _ExamFormState extends State<ExamForm> {
   int maxGrade = 0;
   int minGrade = 0;
   double examWeight = 0;
+  int questionsNumber = 0;
 
   bool validForm = false;
 
@@ -292,6 +293,27 @@ class _ExamFormState extends State<ExamForm> {
                 prefixIcon: Icon(Icons.dashboard_customize_outlined)),
             keyboardType: TextInputType.number,
           ),
+          TextFormField(
+            validator: (value) {
+              if (value!.isEmpty) {
+                return 'This field is mandatory';
+              }
+              return null;
+            },
+            onSaved: (value) {
+              questionsNumber = int.parse(value!);
+            },
+            inputFormatters: <TextInputFormatter>[
+              FilteringTextInputFormatter.allow(
+                  RegExp(r'[0-9]+[,.]{0,1}[0-9]*'))
+            ],
+            decoration: const InputDecoration(
+                labelText: "Number of Questions",
+                hintText:
+                    "The number of questions your students will see in the exam",
+                prefixIcon: Icon(Icons.dashboard_customize_outlined)),
+            keyboardType: TextInputType.number,
+          ),
           MultiSelectFormField(
             title: const Text('Exam Topics'),
             validator: (value) {
@@ -389,7 +411,7 @@ class _ExamFormState extends State<ExamForm> {
           maxGrade: maxGrade,
           minGrade: minGrade,
           weight: examWeight,
-          numbQuestions: 0,
+          numbQuestions: questionsNumber,
           name: examName,
           description: examDescription,
           limitTime: formattedTime,
