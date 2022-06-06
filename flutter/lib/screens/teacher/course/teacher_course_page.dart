@@ -59,12 +59,15 @@ class _TeacherCoursePageState extends State<TeacherCoursePage> {
                           color: Colors.white,
                           size: 40,
                         ),
-                        onPressed: () => Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) =>
-                                  ScheduleExamPage(course: widget.course),
-                            ))),
+                        onPressed: () async {
+                          await Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) =>
+                                    ScheduleExamPage(course: widget.course),
+                              ));
+                          setState(() {});
+                        }),
                     const Text(
                       'Schedule an Exam for This Course',
                       style: TextStyle(fontWeight: FontWeight.bold),

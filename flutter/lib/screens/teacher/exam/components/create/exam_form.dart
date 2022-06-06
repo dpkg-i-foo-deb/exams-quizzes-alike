@@ -364,7 +364,7 @@ class _ExamFormState extends State<ExamForm> {
                 await validateAndSend();
                 if (validForm) {
                   ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-                    content: Text('Please wait...'),
+                    content: Text('Done'),
                     duration: Duration(seconds: 1),
                   ));
                   Navigator.pop(context);
