@@ -35,7 +35,22 @@ class _StudentCoursePageBodyState extends State<StudentCoursePageBody> {
           ),
           const SizedBox(
             height: 20,
-          )
+          ),
+          Container(
+            constraints:
+                const BoxConstraints(maxHeight: 60, maxWidth: double.infinity),
+            decoration: BoxDecoration(
+                color: const Color.fromARGB(255, 237, 231, 246),
+                borderRadius: BorderRadius.circular(20)),
+            child: const Align(
+              child: Text('Available Exams',
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    fontSize: 25,
+                    color: Colors.black,
+                  )),
+            ),
+          ),
         ]));
   }
 }

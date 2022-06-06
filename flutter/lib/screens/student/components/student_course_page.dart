@@ -16,7 +16,7 @@ class _StudentCoursePageState extends State<StudentCoursePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: MainAppBar(),
+        appBar: const MainAppBar(),
         body: SingleChildScrollView(
           child: StudentCoursePageBody(course: widget.course),
         ));

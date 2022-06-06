@@ -64,6 +64,8 @@ class ScheduledExamItem implements GridItem {
   Future<void> getReport() async {
     List<ExamReport> reports = await ExamReportRequests().getExamReports();
 
+    //TODO fix error when there are no reports available
+
     for (var value in reports) {
       if (value.code == scheduledExam.code) {
         examReport = value;
