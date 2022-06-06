@@ -159,6 +159,15 @@ class QuestionWidgetState extends State<QuestionWidget> {
         }
         return true;
 
+      case 'completar':
+        //Check if the completed word is correct
+        for (var value in optionStates) {
+          if (value.currentState?.getAnswer() !=
+              value.currentState?.getCorrectAnswer()) {
+            return false;
+          }
+        }
+        return true;
       default:
         return false;
     }

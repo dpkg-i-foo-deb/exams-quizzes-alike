@@ -110,6 +110,10 @@ class _StudentSolveExamBodyState extends State<StudentSolveExamBody> {
           isCorrect = value.currentState?.solve() ?? false;
           break;
 
+        case 'completar':
+          isCorrect = value.currentState?.solve() ?? false;
+          break;
+
         default:
           isCorrect = false;
       }

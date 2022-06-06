@@ -25,6 +25,7 @@ class OptionWidgetState extends State<OptionWidget> {
   List<Option> pairs = List.empty();
   List<Option> sequenceOptions = List.empty();
   String selectedPair = " ";
+  var fillController = TextEditingController();
   @override
   Widget build(BuildContext context) {
     switch (widget.type) {
@@ -72,6 +73,7 @@ class OptionWidgetState extends State<OptionWidget> {
               children: [
                 Flexible(
                     child: TextField(
+                  controller: fillController,
                   decoration: InputDecoration(
                     hintText: widget.option.description,
                     prefixIcon: const Icon(
@@ -215,6 +217,8 @@ class OptionWidgetState extends State<OptionWidget> {
       case 'unica-respuesta':
         return widget.option.description;
 
+      case 'completar':
+        return fillController.text;
       default:
         return '';
     }
@@ -224,6 +228,9 @@ class OptionWidgetState extends State<OptionWidget> {
     switch (widget.type) {
       case 'unica-respuesta':
         return widget.option.correctAnswer;
+
+      case 'completar':
+        return widget.option.missingWord;
 
       default:
         return '';
