@@ -1059,6 +1059,11 @@ INSERT INTO public.examen_tema (codigo_examen,codigo_tema)
 INSERT INTO public.examen_tema (codigo_examen,codigo_tema)
 	VALUES (1,2);
 
+--aux views
+
+create or replace view fechas_maximas as (select ce.fecha_presentacion + e.tiempo_limite tiempo_limite, ce.codigo_curso_examen codigo_curso_examen  from curso_examen ce 
+join examen e on e.codigo_examen = ce.codigo_examen
+group by ce.codigo_curso_examen, e.tiempo_limite);
 
 
 
