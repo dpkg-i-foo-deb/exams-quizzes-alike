@@ -168,6 +168,16 @@ class QuestionWidgetState extends State<QuestionWidget> {
           }
         }
         return true;
+
+      case 'emparejar':
+        //Check if the selected option matches the description
+        for (var value in optionStates) {
+          if (value.currentState?.getAnswer() !=
+              value.currentState?.getCorrectAnswer()) {
+            return false;
+          }
+        }
+        return true;
       default:
         return false;
     }

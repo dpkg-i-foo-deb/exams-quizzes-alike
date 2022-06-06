@@ -114,6 +114,11 @@ class _StudentSolveExamBodyState extends State<StudentSolveExamBody> {
           isCorrect = value.currentState?.solve() ?? false;
           break;
 
+        case 'emparejar':
+          isCorrect = value.currentState?.solve() ?? false;
+          print(isCorrect);
+          break;
+
         default:
           isCorrect = false;
       }

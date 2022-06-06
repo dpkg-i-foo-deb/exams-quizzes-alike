@@ -26,6 +26,7 @@ class OptionWidgetState extends State<OptionWidget> {
   List<Option> sequenceOptions = List.empty();
   String selectedPair = " ";
   var fillController = TextEditingController();
+  var pairController = GlobalKey<FormFieldState>();
   @override
   Widget build(BuildContext context) {
     switch (widget.type) {
@@ -100,6 +101,7 @@ class OptionWidgetState extends State<OptionWidget> {
                           return Expanded(
                             flex: 1,
                             child: DropdownButtonFormField<String>(
+                              key: pairController,
                               isExpanded: true,
                               icon: (const Icon(Icons.category)),
                               items: pairs.map((data) {
@@ -219,6 +221,9 @@ class OptionWidgetState extends State<OptionWidget> {
 
       case 'completar':
         return fillController.text;
+
+      case 'emparejar':
+        return pairController.currentState?.value;
       default:
         return '';
     }
@@ -231,6 +236,9 @@ class OptionWidgetState extends State<OptionWidget> {
 
       case 'completar':
         return widget.option.missingWord;
+
+      case 'emparejar':
+        return widget.option.pair;
 
       default:
         return '';
