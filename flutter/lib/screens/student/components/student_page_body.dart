@@ -97,13 +97,13 @@ class _StudentPageBodyState extends State<StudentPageBody> {
   }
 
   Future<void> getCoursesByStudent() async {
-    coursesStudent.clear();
+    coursesStudent = [];
     coursesStudent =
         await CourseStudentRequests().getCoursesByStudent(widget.student.login);
   }
 
   Future<void> getCourses() async {
-    courses.clear();
+    courses = [];
     for (var value in coursesStudent) {
       courses
           .add(await CourseRequests().getCourse(int.parse(value.courseCode)));
