@@ -124,6 +124,8 @@ class QuestionWidgetState extends State<QuestionWidget> {
   //Used to solve this question and get if it was correct or not
   bool solve() {
     bool isCorrect;
+    String sort = '';
+    String expectedSort = '';
     //As every question is different, we need to solve according to its type
     switch (widget.question.type) {
       case 'unica-respuesta':
@@ -195,6 +197,25 @@ class QuestionWidgetState extends State<QuestionWidget> {
           }
         }
 
+        return true;
+
+      case 'ordenar':
+        //Check get every single value, if no text is detected, the question is wrong
+        for (var value in optionStates) {
+          //save expected sort value
+          expectedSort = value.currentState?.getCorrectAnswer() ?? 'invalid';
+
+          if (value.currentState?.getAnswer() == '') {
+            return false;
+          }
+          //Build the sort according to each value
+          sort += value.currentState?.getAnswer()[0] ?? '';
+        }
+
+        //If the sequence is not the same as the expected one, the answer is wrong
+        if (sort != expectedSort) {
+          return false;
+        }
         return true;
 
       default:

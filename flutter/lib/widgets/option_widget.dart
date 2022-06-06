@@ -27,6 +27,7 @@ class OptionWidgetState extends State<OptionWidget> {
   String selectedPair = " ";
   var fillController = TextEditingController();
   var pairController = GlobalKey<FormFieldState>();
+  var sortController = GlobalKey<FormFieldState>();
   @override
   Widget build(BuildContext context) {
     switch (widget.type) {
@@ -169,6 +170,7 @@ class OptionWidgetState extends State<OptionWidget> {
                             flex: 1,
                             child: DropdownButtonFormField<String>(
                               isExpanded: true,
+                              key: sortController,
                               icon: (const Icon(Icons.category)),
                               items: sequenceOptions.map((data) {
                                 return DropdownMenuItem(
@@ -225,6 +227,9 @@ class OptionWidgetState extends State<OptionWidget> {
       case 'emparejar':
         return pairController.currentState?.value;
 
+      case 'ordenar':
+        return sortController.currentState?.value ?? '';
+
       default:
         return '';
     }
@@ -241,6 +246,8 @@ class OptionWidgetState extends State<OptionWidget> {
       case 'emparejar':
         return widget.option.pair;
 
+      case 'ordenar':
+        return widget.option.sortOrder;
       default:
         return '';
     }

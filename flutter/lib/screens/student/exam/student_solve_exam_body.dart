@@ -120,7 +120,11 @@ class _StudentSolveExamBodyState extends State<StudentSolveExamBody> {
 
         case 'falso-verdadero':
           isCorrect = value.currentState?.solve() ?? false;
-          print(isCorrect);
+          break;
+
+        case 'ordenar':
+          isCorrect = value.currentState?.solve() ?? false;
+
           break;
 
         default:
