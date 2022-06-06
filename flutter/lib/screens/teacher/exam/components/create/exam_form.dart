@@ -239,6 +239,10 @@ class _ExamFormState extends State<ExamForm> {
               }
               return null;
             },
+            inputFormatters: <TextInputFormatter>[
+              FilteringTextInputFormatter.allow(
+                  RegExp(r'[0-9]+[,.]{0,1}[0-9]*'))
+            ],
             onSaved: (value) {
               maxGrade = int.parse(value!);
             },
@@ -258,6 +262,10 @@ class _ExamFormState extends State<ExamForm> {
             onSaved: (value) {
               maxGrade = int.parse(value!);
             },
+            inputFormatters: <TextInputFormatter>[
+              FilteringTextInputFormatter.allow(
+                  RegExp(r'[0-9]+[,.]{0,1}[0-9]*'))
+            ],
             decoration: const InputDecoration(
                 labelText: "Min Grade",
                 hintText: "They Cannot Score Less Than...",
@@ -274,6 +282,10 @@ class _ExamFormState extends State<ExamForm> {
             onSaved: (value) {
               minGrade = int.parse(value!);
             },
+            inputFormatters: <TextInputFormatter>[
+              FilteringTextInputFormatter.allow(
+                  RegExp(r'[0-9]+[,.]{0,1}[0-9]*'))
+            ],
             decoration: const InputDecoration(
                 labelText: "Exam Weight",
                 hintText: "Its Weight on the Course is...",
