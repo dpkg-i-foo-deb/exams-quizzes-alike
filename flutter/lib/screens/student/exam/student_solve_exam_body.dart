@@ -83,9 +83,10 @@ class _StudentSolveExamBodyState extends State<StudentSolveExamBody> {
                     shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(10))),
                 onPressed: () async {
+                  ExamPresentation presentation;
                   stopwatch.stop();
-                  await gradeExam();
-                  await getReports();
+                  presentation = await gradeExam();
+                  await getReports(presentation);
                 },
                 child: const Text('Submit'))
           ]),
@@ -116,7 +117,7 @@ class _StudentSolveExamBodyState extends State<StudentSolveExamBody> {
     }
   }
 
-  Future<void> gradeExam() async {
+  Future<ExamPresentation> gradeExam() async {
     bool isCorrect = false;
 
     //Step 0 get the max  and min grade according to the exam
@@ -200,15 +201,17 @@ class _StudentSolveExamBodyState extends State<StudentSolveExamBody> {
             .createPresentationQuestion(presentationQuestion);
       }
     }
+    return presentation;
   }
 
-  Future<void> getReports() async {
+  Future<void> getReports(ExamPresentation presentation) async {
     reports = [];
 
     reports = await StudentExamReportRequests().getStudentExamReports();
 
     for (var value in reports) {
-      if (value.login == widget.courseStudent.studentLogin) {
+      if (value.login == widget.courseStudent.studentLogin &&
+          value.code == presentation.code) {
         Navigator.push(
             context,
             MaterialPageRoute(

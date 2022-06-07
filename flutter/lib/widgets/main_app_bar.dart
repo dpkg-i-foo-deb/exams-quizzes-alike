@@ -1,3 +1,4 @@
+import 'package:exams_quizzes_alike/screens/login/login_page.dart';
 import 'package:flutter/material.dart';
 
 class MainAppBar extends StatefulWidget implements PreferredSizeWidget {
@@ -22,8 +23,9 @@ class _MainAppBarState extends State<MainAppBar> {
           Padding(
               padding: const EdgeInsets.all(10),
               child: ElevatedButton(
-                onPressed: () => Navigator.popUntil(
-                    context, ModalRoute.withName(Navigator.defaultRouteName)),
+                onPressed: () => Navigator.of(context, rootNavigator: true)
+                    .pushReplacement(MaterialPageRoute(
+                        builder: (context) => const LoginPage())),
                 child: const Text(
                   "Log Out",
                   style: TextStyle(fontWeight: FontWeight.bold),
