@@ -25,8 +25,6 @@ class _StudentSolveExamPageState extends State<StudentSolveExamPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      //TODO disable main app bar in this screen
-      appBar: const MainAppBar(),
       body: SingleChildScrollView(
           child: Container(
         constraints: BoxConstraints(
