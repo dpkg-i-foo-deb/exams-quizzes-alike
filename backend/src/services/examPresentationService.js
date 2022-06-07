@@ -30,8 +30,43 @@ const getPresentation = async (req,res)=>
     res.status(200).json(response.rows);
 }
 
+
+const setPresentationQuestion=async(req,res)=>
+{
+    var {presentation_code, exam_question_code,option_code,answer,option_description } = req.body;
+
+    const response = await connectionPool.query(`INSERT INTO pregunta_presentacion
+    (codigo_presentacion, codigo_pregunta_examen, codigo_opcion, respuesta, descripcion_opcion)
+    VALUES($1,$2,$3,$4,$5) RETURNING codigo_pregunta_presentacion`,[presentation_code,exam_question_code,option_code,answer,option_description]);
+
+    if(response.rows.length<1){
+        res.status(204);
+        return res.send();
+    }
+
+    res.status(200).json(response.rows);
+}
+
+const getPresentationQuestion = async (req,res)=>
+{
+    var{code} = req.body;
+
+    const response = await connectionPool.query(`SELECT 
+    codigo_presentacion, codigo_pregunta_examen, codigo_pregunta_presentacion, codigo_opcion, respuesta, descripcion_opcion 
+    FROM pregunta_presentacion p WHERE p.codigo_pregunta_presentacion = $1`,[code]);
+
+    if(response.rows.length<1){
+        res.status(204);
+        return res.send();
+    }
+
+    res.status(200).json(response.rows);
+}
+
 module.exports=
 {
     getPresentation,
-    createPresentation
+    createPresentation,
+    setPresentationQuestion,
+    getPresentationQuestion,
 }
