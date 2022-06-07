@@ -1,9 +1,11 @@
 import 'package:exams_quizzes_alike/exceptions/login_excepcion.dart';
 import 'package:exams_quizzes_alike/exceptions/teacher_exception.dart';
+import 'package:exams_quizzes_alike/models/student.dart';
 import 'package:exams_quizzes_alike/models/teacher.dart';
 import 'package:exams_quizzes_alike/models/user.dart';
 import 'package:exams_quizzes_alike/network/teacher_requests.dart';
 import 'package:exams_quizzes_alike/network/user_requests.dart';
+import 'package:exams_quizzes_alike/screens/student/student_page.dart';
 import 'package:exams_quizzes_alike/screens/teacher/teacher_page.dart';
 import 'package:flutter/material.dart';
 
@@ -26,6 +28,8 @@ class _LoginFormState extends State<LoginForm> {
   User? user;
 
   Teacher? teacher;
+
+  Student? student;
 
   bool isTeacher = true;
 
@@ -91,7 +95,16 @@ class _LoginFormState extends State<LoginForm> {
                           MaterialPageRoute(
                               builder: ((context) =>
                                   TeacherPage(teacher: teacher!))));
+                    } else {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: ((context) =>
+                                  StudentPage(student: student!))));
                     }
+                    userValue = '';
+                    passwordValue = '';
+                    _formKey.currentState!.reset();
 
                     isTeacher = true;
                   } on LoginException catch (e) {
@@ -143,6 +156,7 @@ class _LoginFormState extends State<LoginForm> {
         teacher = await TeacherRequests().isTeacher(teacher!);
       } on TeacherException {
         isTeacher = !isTeacher;
+        student = Student(login: user!.login);
       }
 
       return user;

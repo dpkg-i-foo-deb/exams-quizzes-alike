@@ -111,17 +111,116 @@ class QuestionWidgetState extends State<QuestionWidget> {
     }
   }
 
-  //This is nothing but a test
-  void setNewQuestionLiteral(String literal) {
-    literalValue = literal;
-  }
-
   void uncheckOptions(String description) {
     for (var value in optionStates) {
       if (value.currentState!.getOptionDescription() != description) {
         value.currentState!.checkboxValue = false;
         value.currentState!.setState(() {});
+        value.currentState!.setCheckboxValue(false);
       }
     }
+  }
+
+  //Used to solve this question and get if it was correct or not
+  bool solve() {
+    bool isCorrect;
+    String sort = '';
+    String expectedSort = '';
+    //As every question is different, we need to solve according to its type
+    switch (widget.question.type) {
+      case 'unica-respuesta':
+        //If the question is marked, check if it is the correct answer
+        for (var value in optionStates) {
+          if (value.currentState?.isMarked() ?? false) {
+            if (value.currentState?.getAnswer() ==
+                value.currentState?.getCorrectAnswer()) {
+              return true;
+            } else {
+              return false;
+            }
+          }
+        }
+        break;
+
+      case 'multiple-respuesta':
+        //Check every single question wether or not it is marked
+        for (var value in optionStates) {
+          if (value.currentState?.widget.option.description !=
+              value.currentState?.widget.option.correctAnswer) {
+            if (value.currentState?.isMarked() ?? false) {
+              return false;
+            }
+          }
+
+          if (value.currentState?.widget.option.description ==
+              value.currentState?.widget.option.correctAnswer) {
+            if (!(value.currentState?.isMarked() ?? false)) {
+              return false;
+            }
+          }
+        }
+        return true;
+
+      case 'completar':
+        //Check if the completed word is correct
+        for (var value in optionStates) {
+          if (value.currentState?.getAnswer() !=
+              value.currentState?.getCorrectAnswer()) {
+            return false;
+          }
+        }
+        return true;
+
+      case 'emparejar':
+        //Check if the selected option matches the description
+        for (var value in optionStates) {
+          if (value.currentState?.getAnswer() !=
+              value.currentState?.getCorrectAnswer()) {
+            return false;
+          }
+        }
+        return true;
+
+      case 'falso-verdadero':
+        //Check if all selected options match the expected value
+        for (var value in optionStates) {
+          if (value.currentState?.widget.option.correctAnswer == 'falso') {
+            if (value.currentState?.isMarked() ?? false) {
+              return false;
+            }
+          }
+
+          if (value.currentState?.widget.option.correctAnswer == 'verdadero') {
+            if (!(value.currentState?.isMarked() ?? false)) {
+              return false;
+            }
+          }
+        }
+
+        return true;
+
+      case 'ordenar':
+        //Check get every single value, if no text is detected, the question is wrong
+        for (var value in optionStates) {
+          //save expected sort value
+          expectedSort = value.currentState?.getCorrectAnswer() ?? 'invalid';
+
+          if (value.currentState?.getAnswer() == '') {
+            return false;
+          }
+          //Build the sort according to each value
+          sort += value.currentState?.getAnswer()[0] ?? '';
+        }
+
+        //If the sequence is not the same as the expected one, the answer is wrong
+        if (sort != expectedSort) {
+          return false;
+        }
+        return true;
+
+      default:
+        return false;
+    }
+    return false;
   }
 }

@@ -2,8 +2,8 @@ import 'dart:convert';
 
 import 'package:exams_quizzes_alike/exceptions/exam_exception.dart';
 import 'package:exams_quizzes_alike/models/exam.dart';
-import 'package:exams_quizzes_alike/models/exam_utils.dart';
-import 'package:exams_quizzes_alike/models/teacher_utils.dart';
+import 'package:exams_quizzes_alike/models/utils/exam_utils.dart';
+import 'package:exams_quizzes_alike/models/utils/teacher_utils.dart';
 
 import 'package:http/http.dart' as http;
 

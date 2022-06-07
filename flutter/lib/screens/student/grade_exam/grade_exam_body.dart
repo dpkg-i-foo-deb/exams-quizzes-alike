@@ -1,6 +1,6 @@
 import 'package:d_chart/d_chart.dart';
-import 'package:exams_quizzes_alike/models/exam_report.dart';
-import 'package:exams_quizzes_alike/models/student_exam_report.dart';
+import 'package:exams_quizzes_alike/models/reports/exam_report.dart';
+import 'package:exams_quizzes_alike/models/reports/student_exam_report.dart';
 import 'package:flutter/material.dart';
 
 class GradeExamBody extends StatefulWidget {

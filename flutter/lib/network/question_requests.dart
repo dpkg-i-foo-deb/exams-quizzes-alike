@@ -2,7 +2,7 @@ import 'dart:convert';
 
 import 'package:exams_quizzes_alike/exceptions/question_exception.dart';
 import 'package:exams_quizzes_alike/models/question.dart';
-import 'package:exams_quizzes_alike/models/question_utils.dart';
+import 'package:exams_quizzes_alike/models/utils/question_utils.dart';
 import 'package:http/http.dart' as http;
 
 class QuestionRequests {

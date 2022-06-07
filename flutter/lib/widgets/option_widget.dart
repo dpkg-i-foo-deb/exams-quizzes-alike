@@ -25,6 +25,9 @@ class OptionWidgetState extends State<OptionWidget> {
   List<Option> pairs = List.empty();
   List<Option> sequenceOptions = List.empty();
   String selectedPair = " ";
+  var fillController = TextEditingController();
+  var pairController = GlobalKey<FormFieldState>();
+  var sortController = GlobalKey<FormFieldState>();
   @override
   Widget build(BuildContext context) {
     switch (widget.type) {
@@ -72,6 +75,7 @@ class OptionWidgetState extends State<OptionWidget> {
               children: [
                 Flexible(
                     child: TextField(
+                  controller: fillController,
                   decoration: InputDecoration(
                     hintText: widget.option.description,
                     prefixIcon: const Icon(
@@ -98,6 +102,7 @@ class OptionWidgetState extends State<OptionWidget> {
                           return Expanded(
                             flex: 1,
                             child: DropdownButtonFormField<String>(
+                              key: pairController,
                               isExpanded: true,
                               icon: (const Icon(Icons.category)),
                               items: pairs.map((data) {
@@ -165,6 +170,7 @@ class OptionWidgetState extends State<OptionWidget> {
                             flex: 1,
                             child: DropdownButtonFormField<String>(
                               isExpanded: true,
+                              key: sortController,
                               icon: (const Icon(Icons.category)),
                               items: sequenceOptions.map((data) {
                                 return DropdownMenuItem(
@@ -193,6 +199,62 @@ class OptionWidgetState extends State<OptionWidget> {
       default:
         return const Text('Tipo de pregunta no encontrado');
     }
+  }
+
+  bool isMarked() {
+    switch (widget.type) {
+      case 'unica-respuesta':
+        return checkboxValue;
+
+      case 'multiple-respuesta':
+        return checkboxValue;
+
+      case 'falso-verdadero':
+        return checkboxValue;
+      default:
+        return false;
+    }
+  }
+
+  String getAnswer() {
+    switch (widget.type) {
+      case 'unica-respuesta':
+        return widget.option.description;
+
+      case 'completar':
+        return fillController.text;
+
+      case 'emparejar':
+        return pairController.currentState?.value ?? '';
+
+      case 'ordenar':
+        return sortController.currentState?.value ?? '';
+
+      default:
+        return '';
+    }
+  }
+
+  String getCorrectAnswer() {
+    switch (widget.type) {
+      case 'unica-respuesta':
+        return widget.option.correctAnswer;
+
+      case 'completar':
+        return widget.option.missingWord;
+
+      case 'emparejar':
+        return widget.option.pair;
+
+      case 'ordenar':
+        return widget.option.sortOrder;
+      default:
+        return '';
+    }
+  }
+
+  void setCheckboxValue(bool value) {
+    checkboxValue = value;
   }
 
   String getOptionDescription() {

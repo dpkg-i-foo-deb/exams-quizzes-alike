@@ -49,6 +49,7 @@ dependencies:
   cupertino_icons: ^1.0.2
   multiselect_formfield: ^0.1.7
   d_chart: ^0.0.4
+  intl: ^0.17.0
   #test: ^1.21.1
 
 dev_dependencies:

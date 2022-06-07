@@ -1,5 +1,5 @@
 import 'package:exams_quizzes_alike/exceptions/student_exam_report_exception.dart';
-import 'package:exams_quizzes_alike/models/student_exam_report.dart';
+import 'package:exams_quizzes_alike/models/reports/student_exam_report.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 

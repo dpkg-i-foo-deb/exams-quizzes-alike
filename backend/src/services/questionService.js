@@ -7,11 +7,11 @@ const getCompatibleQuestions = async (req,res) =>
     exam_code = parseInt(exam_code);
 
     const response = await connectionPool.query(`select p.codigo_pregunta, "isPublic", p.tipo, "isFather", p.peso, p.enunciado, p.codigo_subpregunta, p.codigo_docente, p.codigo_tema FROM pregunta p
-    join tema t on t.codigo_tema = p.codigo_tema 
-    join (select codigo_docente, codigo_examen from examen e where e.codigo_docente = $1 and e.codigo_examen=$2) e on e.codigo_docente  = p.codigo_docente
-    join examen_tema et on et.codigo_examen = e.codigo_examen and et.codigo_tema = t.codigo_tema
+    left join tema t on t.codigo_tema = p.codigo_tema 
+    left join (select codigo_docente, codigo_examen from examen e where e.codigo_docente = $1 and e.codigo_examen=$2) e on e.codigo_docente  = p.codigo_docente
+    left join examen_tema et on et.codigo_examen = e.codigo_examen and et.codigo_tema = t.codigo_tema
     full join pregunta_examen pe on pe.codigo_examen = e.codigo_examen and pe.codigo_pregunta = p.codigo_pregunta
-    where pe.codigo_pregunta is null and pe.codigo_examen is null
+    where pe.codigo_pregunta is null and pe.codigo_examen is null and (p."isPublic"=true or p.codigo_docente=$1)
     group by p.codigo_pregunta`,[teacher_login,exam_code]);
 
     if(response.rows.length < 1)
