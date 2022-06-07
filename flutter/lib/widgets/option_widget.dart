@@ -221,6 +221,9 @@ class OptionWidgetState extends State<OptionWidget> {
       case 'unica-respuesta':
         return widget.option.description;
 
+      case 'multiple-respuesta':
+        return widget.option.description;
+
       case 'completar':
         return fillController.text;
 
@@ -229,6 +232,19 @@ class OptionWidgetState extends State<OptionWidget> {
 
       case 'ordenar':
         return sortController.currentState?.value ?? '';
+
+      case 'falso-verdadero':
+        switch (checkboxValue) {
+          case true:
+            return 'verdadero';
+          case false:
+            return 'falso';
+
+          default:
+            return 'no aplica';
+        }
+
+        break;
 
       default:
         return '';

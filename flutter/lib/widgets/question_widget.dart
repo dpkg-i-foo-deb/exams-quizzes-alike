@@ -1,5 +1,6 @@
 import 'package:exams_quizzes_alike/models/option.dart';
 import 'package:exams_quizzes_alike/models/question.dart';
+import 'package:exams_quizzes_alike/models/solved_option.dart';
 import 'package:exams_quizzes_alike/network/option_requests.dart';
 import 'package:exams_quizzes_alike/widgets/option_widget.dart';
 import 'package:flutter/material.dart';
@@ -17,6 +18,7 @@ class QuestionWidgetState extends State<QuestionWidget> {
   List<Option> options = List.empty();
   String literalValue = "";
   List<GlobalKey<OptionWidgetState>> optionStates = [];
+  List<SolvedOption> solvedOptions = [];
 
   @override
   void initState() {
@@ -121,9 +123,12 @@ class QuestionWidgetState extends State<QuestionWidget> {
     }
   }
 
+  List<SolvedOption> getSolvedOptions() {
+    return solvedOptions;
+  }
+
   //Used to solve this question and get if it was correct or not
   bool solve() {
-    bool isCorrect;
     String sort = '';
     String expectedSort = '';
     //As every question is different, we need to solve according to its type
@@ -134,13 +139,26 @@ class QuestionWidgetState extends State<QuestionWidget> {
           if (value.currentState?.isMarked() ?? false) {
             if (value.currentState?.getAnswer() ==
                 value.currentState?.getCorrectAnswer()) {
+              solvedOptions.add(SolvedOption(
+                  answer: value.currentState!.getAnswer(),
+                  optionCode: value.currentState!.widget.option.code.toString(),
+                  optionDescription:
+                      value.currentState!.widget.option.description.toString(),
+                  question: widget.question));
               return true;
             } else {
+              solvedOptions.add(SolvedOption(
+                  answer: value.currentState!.getAnswer(),
+                  optionCode: value.currentState!.widget.option.code.toString(),
+                  optionDescription:
+                      value.currentState!.widget.option.description.toString(),
+                  question: widget.question));
               return false;
             }
           }
         }
-        break;
+
+        return false;
 
       case 'multiple-respuesta':
         //Check every single question wether or not it is marked
@@ -148,6 +166,13 @@ class QuestionWidgetState extends State<QuestionWidget> {
           if (value.currentState?.widget.option.description !=
               value.currentState?.widget.option.correctAnswer) {
             if (value.currentState?.isMarked() ?? false) {
+              solvedOptions = [];
+              solvedOptions.add(SolvedOption(
+                  answer: value.currentState!.getAnswer(),
+                  optionCode: value.currentState!.widget.option.code.toString(),
+                  optionDescription:
+                      value.currentState!.widget.option.description.toString(),
+                  question: widget.question));
               return false;
             }
           }
@@ -155,7 +180,25 @@ class QuestionWidgetState extends State<QuestionWidget> {
           if (value.currentState?.widget.option.description ==
               value.currentState?.widget.option.correctAnswer) {
             if (!(value.currentState?.isMarked() ?? false)) {
+              solvedOptions.add(SolvedOption(
+                  answer: ' ',
+                  optionCode: value.currentState!.widget.option.code.toString(),
+                  optionDescription:
+                      value.currentState!.widget.option.description.toString(),
+                  question: widget.question));
               return false;
+            }
+          }
+
+          if (value.currentState?.widget.option.description ==
+              value.currentState?.widget.option.correctAnswer) {
+            if ((value.currentState?.isMarked() ?? false)) {
+              solvedOptions.add(SolvedOption(
+                  answer: value.currentState!.getAnswer(),
+                  optionCode: value.currentState!.widget.option.code.toString(),
+                  optionDescription:
+                      value.currentState!.widget.option.description.toString(),
+                  question: widget.question));
             }
           }
         }
@@ -166,7 +209,21 @@ class QuestionWidgetState extends State<QuestionWidget> {
         for (var value in optionStates) {
           if (value.currentState?.getAnswer() !=
               value.currentState?.getCorrectAnswer()) {
+            solvedOptions = [];
+            solvedOptions.add(SolvedOption(
+                answer: value.currentState!.getAnswer(),
+                optionCode: value.currentState!.widget.option.code.toString(),
+                optionDescription:
+                    value.currentState!.widget.option.description.toString(),
+                question: widget.question));
             return false;
+          } else {
+            solvedOptions.add(SolvedOption(
+                answer: value.currentState!.getAnswer(),
+                optionCode: value.currentState!.widget.option.code.toString(),
+                optionDescription:
+                    value.currentState!.widget.option.description.toString(),
+                question: widget.question));
           }
         }
         return true;
@@ -176,7 +233,21 @@ class QuestionWidgetState extends State<QuestionWidget> {
         for (var value in optionStates) {
           if (value.currentState?.getAnswer() !=
               value.currentState?.getCorrectAnswer()) {
+            solvedOptions = [];
+            solvedOptions.add(SolvedOption(
+                answer: value.currentState!.getAnswer(),
+                optionCode: value.currentState!.widget.option.code.toString(),
+                optionDescription:
+                    value.currentState!.widget.option.description.toString(),
+                question: widget.question));
             return false;
+          } else {
+            solvedOptions.add(SolvedOption(
+                answer: value.currentState!.getAnswer(),
+                optionCode: value.currentState!.widget.option.code.toString(),
+                optionDescription:
+                    value.currentState!.widget.option.description.toString(),
+                question: widget.question));
           }
         }
         return true;
@@ -186,14 +257,35 @@ class QuestionWidgetState extends State<QuestionWidget> {
         for (var value in optionStates) {
           if (value.currentState?.widget.option.correctAnswer == 'falso') {
             if (value.currentState?.isMarked() ?? false) {
+              solvedOptions = [];
+              solvedOptions.add(SolvedOption(
+                  answer: 'verdadero',
+                  optionCode: value.currentState!.widget.option.code.toString(),
+                  optionDescription:
+                      value.currentState!.widget.option.description.toString(),
+                  question: widget.question));
               return false;
             }
           }
 
           if (value.currentState?.widget.option.correctAnswer == 'verdadero') {
             if (!(value.currentState?.isMarked() ?? false)) {
+              solvedOptions = [];
+              solvedOptions.add(SolvedOption(
+                  answer: 'falso',
+                  optionCode: value.currentState!.widget.option.code.toString(),
+                  optionDescription:
+                      value.currentState!.widget.option.description.toString(),
+                  question: widget.question));
+
               return false;
             }
+            solvedOptions.add(SolvedOption(
+                answer: value.currentState!.getAnswer(),
+                optionCode: value.currentState!.widget.option.code.toString(),
+                optionDescription:
+                    value.currentState!.widget.option.description.toString(),
+                question: widget.question));
           }
         }
 
@@ -206,6 +298,12 @@ class QuestionWidgetState extends State<QuestionWidget> {
           expectedSort = value.currentState?.getCorrectAnswer() ?? 'invalid';
 
           if (value.currentState?.getAnswer() == '') {
+            solvedOptions.add(SolvedOption(
+                answer: sort,
+                optionCode: value.currentState!.widget.option.code.toString(),
+                optionDescription:
+                    value.currentState!.widget.option.description.toString(),
+                question: widget.question));
             return false;
           }
           //Build the sort according to each value
@@ -214,13 +312,28 @@ class QuestionWidgetState extends State<QuestionWidget> {
 
         //If the sequence is not the same as the expected one, the answer is wrong
         if (sort != expectedSort) {
+          for (var value in optionStates) {
+            solvedOptions.add(SolvedOption(
+                answer: sort,
+                optionCode: value.currentState!.widget.option.code.toString(),
+                optionDescription:
+                    value.currentState!.widget.option.description.toString(),
+                question: widget.question));
+          }
           return false;
+        }
+        for (var value in optionStates) {
+          solvedOptions.add(SolvedOption(
+              answer: sort,
+              optionCode: value.currentState!.widget.option.code.toString(),
+              optionDescription:
+                  value.currentState!.widget.option.description.toString(),
+              question: widget.question));
         }
         return true;
 
       default:
         return false;
     }
-    return false;
   }
 }

@@ -1,5 +1,3 @@
-import 'dart:html';
-
 class PresentationQuestion {
   final String presentationCode;
   final String examQuestionCode;

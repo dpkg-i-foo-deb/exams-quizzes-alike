@@ -20,7 +20,8 @@ class PresentationRequests {
       var data = json.decode(response.body)[0];
       var code = data['codigo_presentacion'];
 
-      ExamPresentation returnedPresentation = await getPresentation(code);
+      ExamPresentation returnedPresentation =
+          await getPresentation(code.toString());
       return returnedPresentation;
     }
 

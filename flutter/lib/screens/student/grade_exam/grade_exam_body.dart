@@ -10,10 +10,10 @@ class GradeExamBody extends StatefulWidget {
   final StudentExamReport studentExamReport;
 
   @override
-  State<GradeExamBody> createState() => _SolveExamBody();
+  State<GradeExamBody> createState() => _GradeExamBody();
 }
 
-class _SolveExamBody extends State<GradeExamBody> {
+class _GradeExamBody extends State<GradeExamBody> {
   @override
   Widget build(BuildContext context) {
     return Column(
