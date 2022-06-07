@@ -21,6 +21,7 @@ app.use(require('./routes/questionRoutes'));
 app.use(require('./routes/optionRoutes'));
 app.use(require('./routes/reportRoutes'));
 app.use(require('./routes/examPresentationRoutes'));
+app.set('trust proxy', true);
 
 app.listen(3000);
 console.log('Server is running on port 3000');
