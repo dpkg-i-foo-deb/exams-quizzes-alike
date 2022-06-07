@@ -4,12 +4,17 @@ import 'package:exams_quizzes_alike/models/available_exam.dart';
 import 'package:exams_quizzes_alike/models/course_student.dart';
 import 'package:exams_quizzes_alike/models/exam.dart';
 import 'package:exams_quizzes_alike/models/exam_presentation.dart';
+import 'package:exams_quizzes_alike/models/exam_question.dart';
+import 'package:exams_quizzes_alike/models/option.dart';
+import 'package:exams_quizzes_alike/models/presentation_question.dart';
 import 'package:exams_quizzes_alike/models/question.dart';
+import 'package:exams_quizzes_alike/models/solved_option.dart';
+import 'package:exams_quizzes_alike/network/exam_question_requests.dart';
+import 'package:exams_quizzes_alike/network/presentation_question_requests.dart';
 import 'package:exams_quizzes_alike/network/presentation_requests.dart';
 import 'package:exams_quizzes_alike/network/question_requests.dart';
 import 'package:exams_quizzes_alike/widgets/question_widget.dart';
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 
 class StudentSolveExamBody extends StatefulWidget {
   const StudentSolveExamBody({
@@ -32,7 +37,7 @@ class _StudentSolveExamBodyState extends State<StudentSolveExamBody> {
   List<Question> displayQuestions = [];
   List<GlobalKey<QuestionWidgetState>> questionWidgetStates = [];
   Stopwatch stopwatch = Stopwatch();
-  final DateFormat formatter = DateFormat('yyyy-MM-dd');
+  List<SolvedOption> solvedOptions = [];
 
   @override
   void initState() {
@@ -87,6 +92,7 @@ class _StudentSolveExamBodyState extends State<StudentSolveExamBody> {
 
     examQuestions = [];
     displayQuestions = [];
+    solvedOptions = [];
     questionWidgetStates.clear();
     //Step 1, get the exam questions
     examQuestions = await QuestionRequests()
@@ -113,8 +119,32 @@ class _StudentSolveExamBodyState extends State<StudentSolveExamBody> {
     double grade = widget.exam.minGrade.toDouble();
     String formattedDate = '';
 
+    //Format date
+    formattedDate += DateTime.now().year.toString();
+    formattedDate += '-';
+    formattedDate += DateTime.now().month.toString();
+    formattedDate += '-';
+    formattedDate += DateTime.now().day.toString();
+
+    var presentation = ExamPresentation(
+      courseStudentCode: widget.courseStudent.code,
+      examCode: widget.exam.code.toString(),
+      grade: grade.toString(),
+      time: stopwatch.elapsed.toString(),
+      date: formattedDate,
+    );
+
+    presentation =
+        await PresentationRequests().createPresentation(presentation);
+
     //Step 1, cycle through every displayed question state
     for (var value in questionWidgetStates) {
+      var examQuestion = ExamQuestion(
+          code: '',
+          examCode: widget.exam.code.toString(),
+          questionCode: value.currentState?.widget.question.code ?? '');
+
+      examQuestion = await ExamQuestionRequests().getExamQuestion(examQuestion);
       //Set 2, grade this question according to its type
       switch (value.currentState?.widget.question.type ?? '') {
         case 'unica-respuesta':
@@ -148,27 +178,22 @@ class _StudentSolveExamBodyState extends State<StudentSolveExamBody> {
         grade +=
             double.parse(value.currentState?.widget.question.weight ?? '0');
       }
+
+      List<SolvedOption> selectedOptions =
+          value.currentState?.getSolvedOptions() ?? [];
+
+      for (var solvedOption in selectedOptions) {
+        var presentationQuestion = PresentationQuestion(
+            code: ' ',
+            presentationCode: presentation.code!,
+            examQuestionCode: examQuestion.code!,
+            optionCode: solvedOption.optionCode,
+            answer: solvedOption.answer,
+            optionDescription: solvedOption.optionDescription);
+
+        presentationQuestion = await PresentationQuestionRequests()
+            .createPresentationQuestion(presentationQuestion);
+      }
     }
-
-    //Format date
-    formattedDate += DateTime.now().year.toString();
-    formattedDate += '-';
-    formattedDate += DateTime.now().month.toString();
-    formattedDate += '-';
-    formattedDate += DateTime.now().day.toString();
-
-    //Step 2, build a new exam presentation object
-    var presentation = ExamPresentation(
-      courseStudentCode: widget.courseStudent.code,
-      examCode: widget.exam.code.toString(),
-      grade: grade.toString(),
-      time: stopwatch.elapsed.toString(),
-      date: formattedDate,
-    );
-
-    //Step 3, send this presentation to the backend
-
-    presentation =
-        await PresentationRequests().createPresentation(presentation);
   }
 }

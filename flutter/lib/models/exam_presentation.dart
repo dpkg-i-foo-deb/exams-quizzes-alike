@@ -21,13 +21,13 @@ class ExamPresentation {
 
   factory ExamPresentation.fromJson(Map<String, dynamic> json) {
     return ExamPresentation(
-      code: json['codigo_matricula'].toString(),
+      code: json['codigo_presentacion'].toString(),
       examCode: json['codigo_examen'].toString(),
       grade: json['nota_examen'],
       date: json['fecha_presentacion'],
       time: json['tiempo_presentacion'],
       ipAddr: json['ip'],
-      courseStudentCode: json['codigo_matricula'],
+      courseStudentCode: json['codigo_matricula'].toString(),
     );
   }
 
