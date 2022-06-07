@@ -2,19 +2,21 @@ class ExamPresentation {
   final String courseStudentCode;
   final String examCode;
   final String grade;
-  final String code;
+  String? code;
   final String date;
   final String time;
-  final String ipAddr;
+  String? ipAddr;
 
   ExamPresentation({
     required this.courseStudentCode,
-    required this.code,
+    this.code,
+    this.ipAddr,
+    //required this.code,
     required this.grade,
     required this.date,
     required this.time,
     required this.examCode,
-    required this.ipAddr,
+    //required this.ipAddr,
   });
 
   factory ExamPresentation.fromJson(Map<String, dynamic> json) {
@@ -28,4 +30,12 @@ class ExamPresentation {
       courseStudentCode: json['codigo_matricula'],
     );
   }
+
+  Map<String, dynamic> toJson() => {
+        'course_student_code': courseStudentCode,
+        'exam_code': examCode,
+        'grade': grade,
+        'date': date,
+        'time': time,
+      };
 }

@@ -3,10 +3,12 @@ import 'dart:math';
 import 'package:exams_quizzes_alike/models/available_exam.dart';
 import 'package:exams_quizzes_alike/models/course_student.dart';
 import 'package:exams_quizzes_alike/models/exam.dart';
+import 'package:exams_quizzes_alike/models/exam_presentation.dart';
 import 'package:exams_quizzes_alike/models/question.dart';
 import 'package:exams_quizzes_alike/network/question_requests.dart';
 import 'package:exams_quizzes_alike/widgets/question_widget.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 class StudentSolveExamBody extends StatefulWidget {
   const StudentSolveExamBody({
@@ -28,6 +30,15 @@ class _StudentSolveExamBodyState extends State<StudentSolveExamBody> {
   List<Question> examQuestions = [];
   List<Question> displayQuestions = [];
   List<GlobalKey<QuestionWidgetState>> questionWidgetStates = [];
+  Stopwatch stopwatch = Stopwatch();
+  final DateFormat formatter = DateFormat('yyyy-mm-dd');
+
+  @override
+  void initState() {
+    stopwatch.start();
+    // TODO: implement initState
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -62,6 +73,7 @@ class _StudentSolveExamBodyState extends State<StudentSolveExamBody> {
                     shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(10))),
                 onPressed: () async {
+                  stopwatch.stop();
                   await gradeExam();
                 },
                 child: const Text('Submit'))
@@ -70,7 +82,7 @@ class _StudentSolveExamBodyState extends State<StudentSolveExamBody> {
   }
 
   Future<void> buildExam() async {
-    //Step 0, clear the questions list in case of a reload
+    //Step 0, clear the questions list in case of a reload and start the stopwatch
 
     examQuestions = [];
     displayQuestions = [];
@@ -135,5 +147,14 @@ class _StudentSolveExamBodyState extends State<StudentSolveExamBody> {
             double.parse(value.currentState?.widget.question.weight ?? '0');
       }
     }
+
+    //Step 2, build a new exam presentation object
+    ExamPresentation(
+      courseStudentCode: widget.courseStudent.code,
+      examCode: widget.exam.code.toString(),
+      grade: grade.toString(),
+      time: stopwatch.elapsed.toString(),
+      date: formatter.format(DateTime.now()),
+    );
   }
 }
