@@ -8,11 +8,14 @@ import 'package:exams_quizzes_alike/models/exam_question.dart';
 import 'package:exams_quizzes_alike/models/option.dart';
 import 'package:exams_quizzes_alike/models/presentation_question.dart';
 import 'package:exams_quizzes_alike/models/question.dart';
+import 'package:exams_quizzes_alike/models/reports/student_exam_report.dart';
 import 'package:exams_quizzes_alike/models/solved_option.dart';
 import 'package:exams_quizzes_alike/network/exam_question_requests.dart';
 import 'package:exams_quizzes_alike/network/presentation_question_requests.dart';
 import 'package:exams_quizzes_alike/network/presentation_requests.dart';
 import 'package:exams_quizzes_alike/network/question_requests.dart';
+import 'package:exams_quizzes_alike/network/student_exam_report_requests.dart';
+import 'package:exams_quizzes_alike/screens/student/grade_exam/grade_exam_body.dart';
 import 'package:exams_quizzes_alike/widgets/question_widget.dart';
 import 'package:flutter/material.dart';
 
@@ -38,6 +41,7 @@ class _StudentSolveExamBodyState extends State<StudentSolveExamBody> {
   List<GlobalKey<QuestionWidgetState>> questionWidgetStates = [];
   Stopwatch stopwatch = Stopwatch();
   List<SolvedOption> solvedOptions = [];
+  List<StudentExamReport> reports = [];
 
   @override
   void initState() {
@@ -81,6 +85,7 @@ class _StudentSolveExamBodyState extends State<StudentSolveExamBody> {
                 onPressed: () async {
                   stopwatch.stop();
                   await gradeExam();
+                  await getReports();
                 },
                 child: const Text('Submit'))
           ]),
@@ -193,6 +198,22 @@ class _StudentSolveExamBodyState extends State<StudentSolveExamBody> {
 
         presentationQuestion = await PresentationQuestionRequests()
             .createPresentationQuestion(presentationQuestion);
+      }
+    }
+  }
+
+  Future<void> getReports() async {
+    reports = [];
+
+    reports = await StudentExamReportRequests().getStudentExamReports();
+
+    for (var value in reports) {
+      if (value.login == widget.courseStudent.studentLogin) {
+        Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: ((context) =>
+                    GradeExamBody(studentExamReport: value))));
       }
     }
   }
