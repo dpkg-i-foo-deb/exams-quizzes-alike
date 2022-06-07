@@ -5,6 +5,7 @@ import 'package:exams_quizzes_alike/models/course_student.dart';
 import 'package:exams_quizzes_alike/models/exam.dart';
 import 'package:exams_quizzes_alike/models/exam_presentation.dart';
 import 'package:exams_quizzes_alike/models/question.dart';
+import 'package:exams_quizzes_alike/network/presentation_requests.dart';
 import 'package:exams_quizzes_alike/network/question_requests.dart';
 import 'package:exams_quizzes_alike/widgets/question_widget.dart';
 import 'package:flutter/material.dart';
@@ -31,7 +32,7 @@ class _StudentSolveExamBodyState extends State<StudentSolveExamBody> {
   List<Question> displayQuestions = [];
   List<GlobalKey<QuestionWidgetState>> questionWidgetStates = [];
   Stopwatch stopwatch = Stopwatch();
-  final DateFormat formatter = DateFormat('yyyy-mm-dd');
+  final DateFormat formatter = DateFormat('yyyy-MM-dd');
 
   @override
   void initState() {
@@ -110,6 +111,7 @@ class _StudentSolveExamBodyState extends State<StudentSolveExamBody> {
     //Step 0 get the max  and min grade according to the exam
     double maxGrade = widget.exam.maxGrade.toDouble();
     double grade = widget.exam.minGrade.toDouble();
+    String formattedDate = '';
 
     //Step 1, cycle through every displayed question state
     for (var value in questionWidgetStates) {
@@ -148,13 +150,25 @@ class _StudentSolveExamBodyState extends State<StudentSolveExamBody> {
       }
     }
 
+    //Format date
+    formattedDate += DateTime.now().year.toString();
+    formattedDate += '-';
+    formattedDate += DateTime.now().month.toString();
+    formattedDate += '-';
+    formattedDate += DateTime.now().day.toString();
+
     //Step 2, build a new exam presentation object
-    ExamPresentation(
+    var presentation = ExamPresentation(
       courseStudentCode: widget.courseStudent.code,
       examCode: widget.exam.code.toString(),
       grade: grade.toString(),
       time: stopwatch.elapsed.toString(),
-      date: formatter.format(DateTime.now()),
+      date: formattedDate,
     );
+
+    //Step 3, send this presentation to the backend
+
+    presentation =
+        await PresentationRequests().createPresentation(presentation);
   }
 }

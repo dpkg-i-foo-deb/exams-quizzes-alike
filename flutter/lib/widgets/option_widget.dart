@@ -225,7 +225,7 @@ class OptionWidgetState extends State<OptionWidget> {
         return fillController.text;
 
       case 'emparejar':
-        return pairController.currentState?.value;
+        return pairController.currentState?.value ?? '';
 
       case 'ordenar':
         return sortController.currentState?.value ?? '';
